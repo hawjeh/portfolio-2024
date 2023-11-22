@@ -1,10 +1,10 @@
-import { Oleo_Script } from 'next/font/google'
-import Favicon from './assets/favicon.png'
-import Profile from './assets/portrait.png'
+import { Space_Grotesk } from 'next/font/google'
+import Favicon from './assets/imgs/favicon.png'
+import Profile from './assets/imgs/cartoon.jpg'
 import './assets/bootstrap.scss'
 import './assets/main.scss'
 
-const inter = Oleo_Script({ weight: ['400', '700'], subsets: ['latin'] })
+const inter = Space_Grotesk({ weight: ['300', '400', '500', '600', '700'], subsets: ['latin'] })
 
 export const metadata = {
   title: 'Haw Jeh',
