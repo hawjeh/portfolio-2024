@@ -1,31 +1,35 @@
 $hj-light: #FFFFF7;
+$hj-lightgrey: #dcdce1;
 $hj-beige: #ece6ce;
 $hj-orange: #f9ac67;
 $hj-red: #ed6b5b;
 $hj-blue: #3a3e59;
+$hj-lightblue: #77798d;
 
 $hj-colors: (
   'primary': $hj-blue,
   'secondary': $hj-red,
   'light': $hj-light,
+  'lightgrey': $hj-lightgrey,
   'orange': $hj-orange,
-  'beige': $hj-beige
+  'beige': $hj-beige,
+  'lightblue': $hj-lightblue
 );
 
 @function getColor($colorName) {
-    @return var(--#{$prefix}#{$colorName}, map-get($hj-colors, $colorName));
+  @return var(--#{$prefix}#{$colorName}, map-get($hj-colors, $colorName));
 }
 
 @mixin text-color($colorName) {
-    color: var(--#{$prefix}#{$colorName}, map-get($hj-colors, $colorName));
+  color: var(--#{$prefix}#{$colorName}, map-get($hj-colors, $colorName));
 }
 
 @mixin bg-color($colorName) {
-    background-color: var(--#{$prefix}#{$colorName}, map-get($hj-colors, $colorName));
+  background-color: var(--#{$prefix}#{$colorName}, map-get($hj-colors, $colorName));
 }
 
 @mixin border-color($colorName) {
-    border-color: var(--#{$prefix}#{$colorName}, map-get($hj-colors, $colorName));
+  border-color: var(--#{$prefix}#{$colorName}, map-get($hj-colors, $colorName));
 }
 
 $prefix: hj-;

@@ -1,0 +1,67 @@
+[
+  {
+    "year": "Apr 2018 - Present",
+    "company": "Websparks Pte Ltd · Full Time",
+    "title": ".NET Team Lead / Solution Architect",
+    "description": [
+      "Develop and maintain .Net web applications using full SDLC and Agile Scrum methodologies",
+      "Manage web applications interfacing with third-party integrations, ensuring high traffic functionality",
+      "Provide consultation to business application, web architecture and cloud solution",
+      "Produce detail technical and functional documentation for solution architecture",
+      "Collaborate with project and design team to deliver high quality solution",
+      "Work closely with 3rd-party vendors to optimize and ensure up time for applications",
+      "Partner with business teams to deliver accurate proposed solution and scoping",
+      "Contribute to software enhancement, deployment, maintenance, and support",
+      "Conduct source code reviews, maintained Git CI/CD pipelines, and repositories",
+      "Mentor and assist junior developers", 
+      "Involved in resource screening, evaluation, interviews, and hiring decisions",
+      "Established standard Git flow processes and CI/CD pipeline templates using Azure DevOps",
+      "Setup and implemented Apify with Puppeteer API for web application health monitoring",
+      "Created mini apps with Postman API for simulating HTTP request flow and running test cases",
+      "Developed a Google Lighthouse desktop app for bulk web page quality measurement",
+      "Created Teams/Telegram chatbots integrated with ChatGPT",
+      "Develop web applications using .Net, Linq / Lambda, Restful API, ReactJS, Html5, CSS3 and Javascript",
+      "Deployed and hosted applications on AWS/Azure, ensuring scalable and efficient cloud infrastructure for optimal performance and reliability",
+      "Progressed from .Net Developer to Solution Architect, with promotions to Senior .Net Developer, Assistant Team Lead, and Team Lead along the way."
+    ]
+  },
+  {
+    "year": "May 2016 - Mar 2018",
+    "company": "First HR Pte Ltd · Full Time",
+    "title": "Software Developer Consultant",
+    "description": [
+      "Develop Web based HR application",
+      "Design, Develop and Test Enterprise Web Application for HR",
+      "Prepare user guide and conduct user training",
+      "Work closely with the Product and Technical Manager",
+      "Coordinate and liaise with third party outsource team",
+      "Responsible to maintain, support, research and enhance HR web application",
+      "Develop application with DevExpress Tools (Xaf, Xpo, XtraReport), Asp.Net, V#, Html5, Javascript and Linq / Lambda, DevExtreme"
+    ]
+  },
+  {
+    "year": "Jan 2015 - May 2016",
+    "company": "Interactive Intelligence Inc · Full Time",
+    "title": "Application Developer, PSO Application Development",
+    "description": [
+      "Develop in-house solutions and customized applications",
+      "Develop and deploy in-house desktop and web application with C#, Javascript, Html5, Css",
+      "Develop and deploy .net middleware for 3rd party integration",
+      "Create technical specification and design solution",
+      "Business requirement gathering and design solution",
+      "Collaborate with project teams to ensure successful delivery of applications",
+      "Promoted to Application Developer since January 2015"
+    ]
+  },
+  {
+    "year": "Jan 2013 - Dec 2014",
+    "company": "Asia Pacific University of Technology and Innovation · Part Time",
+    "title": "Senior Student Ambassador",
+    "description": [
+      "Representing the university in various education roadshows and exhibition",
+      "Assist and direct the potential students to choose the right study path in the university",
+      "Guide and resolve existing students' feedback and inquiries",
+      "Promoted to Senior Student Ambassador by January 2013."
+    ]
+  }
+]

@@ -1,6 +1,6 @@
 import Cartoon from '../../assets/imgs/cartoon.webp'
 
-export default function IntroPic({ style }) {
+export default function HomePic({ style }) {
     return (
         <img
             src={Cartoon.src}

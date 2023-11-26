@@ -1,11 +1,9 @@
-import IntroBanner from './components/IntroBanner'
-import LinkParticles from './components/LinkParticles'
+import HomePage from './components/HomePage'
 
 export default function Home() {
   return (
     <main>
-      <LinkParticles />
-      <IntroBanner />
+      <HomePage />
     </main>
   )
 }

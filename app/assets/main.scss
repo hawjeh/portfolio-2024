@@ -4,67 +4,209 @@
 
 html,
 body {
-    height: 100vh;
-    background-color: getColor('light');
+  height: 100vh;
+  background-color: getColor('light');
 }
 
 main {
-    height: 100%;
+  height: 100%;
+  padding-top: 3rem;
 
-    .text-h1 {
-        color: getColor('primary')
-    }
+  .text-h1 {
+    color: getColor('primary')
+  }
 
-    .text-h2 {
-        color: getColor('secondary')
-    }
+  .text-h2 {
+    color: getColor('secondary')
+  }
 
-    .text-blue {
-        color: getColor('blue')
-    }
+  .text-blue {
+    color: getColor('blue')
+  }
 
-    .text-beige {
-        color: getColor('beige')
-    }
+  .text-beige {
+    color: getColor('beige')
+  }
 
-    .text-orange {
-        color: getColor('orange')
-    }
+  .text-orange {
+    color: getColor('orange')
+  }
 
-    .text-red {
-        color: getColor('red')
-    }
+  .text-red {
+    color: getColor('red')
+  }
+
+  .text-lightblue {
+    color: getColor('lightblue')
+  }
+
+  .text-lightgrey {
+    color: getColor('lightgrey')
+  }
 }
 
-.intro-banner {
-    .intro-profile-pic {
-        max-height: 500px;
+.home-banner {
+  min-height: 80vh;
+
+  .home-profile-pic {
+    max-height: 500px;
+  }
+
+  .home-profile-pic-small {
+    max-height: 100px;
+  }
+}
+
+.home-link {
+  margin-top: 1rem;
+
+  a {
+    color: getColor('primary');
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.3s;
+    transition: background-color 0.3s linear;
+    transition: color 0.3s linear;
+    padding: 0.6rem;
+    border: 1px solid getColor('primary');
+    border-radius: 0.2rem;
+
+    &:hover {
+      opacity: 1;
+      transition: background-color 0.3s linear;
+      transition: color 0.3s linear;
+      background-color: getColor('primary');
+      color: getColor('orange');
+
+      span {
+        display: none
+      }
+
+      &::before {
+        content: "Home Page";
+      }
     }
 
-    .intro-profile-pic-small {
-        max-height: 100px;
+    span {
+      font-size: 1rem;
     }
+  }
+}
+
+.resume-link {
+  margin-top: 1rem;
+
+  a {
+    color: getColor('primary');
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.3s;
+    transition: background-color 0.3s linear;
+    transition: color 0.3s linear;
+    padding: 0.6rem;
+    border: 1px solid getColor('primary');
+    border-radius: 0.2rem;
+
+    &:hover {
+      opacity: 1;
+      transition: background-color 0.3s linear;
+      transition: color 0.3s linear;
+      background-color: getColor('primary');
+      color: getColor('orange');
+
+      span {
+        display: none
+      }
+
+      &::before {
+        content: "About My Resume";
+      }
+    }
+
+    span {
+      font-size: 1rem;
+    }
+  }
 }
 
 .social-link {
+  .icon-group {
+    font-size: 1.8rem;
+    color: getColor('primary');
+
+    a {
+      color: getColor('primary');
+      opacity: 0.8;
+      transition: opacity 0.3s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  @include media-breakpoint-down(md) {
     .icon-group {
-        font-size: 1.8rem;
-        color: getColor('primary');
+      font-size: 1.2rem;
+    }
+  }
+}
 
-        a {
-            color: getColor('primary');
-            opacity: 0.8;
-            transition: opacity 0.3s;
+.resume {
+  padding: 2rem;
 
-            &:hover {
-                opacity: 1;
-            }
-        }
+  .row {
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    display: inline-block;
+    padding-bottom: 5px;
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 50%;
+      height: 1px;
+      bottom: 0;
+      left: 25%;
+      border-bottom: 2px solid getColor('red');
+    }
+  }
+
+  .intro {
+    max-height: 500px;
+
+    .intro-img {
+      border: 1px solid getColor('primary');
+      border-radius: 50%;
+      max-height: 268px;
+    }
+  }
+
+  // @import "timeline";
+
+  .experience, .education {
+    span {
+      font-size: 0.8rem;
+    }
+    li {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.footer {
+  .social-link {
+    .icon-group {
+      font-size: 1.4rem;
     }
 
     @include media-breakpoint-down(md) {
-        .icon-group {
-            font-size: 1.2rem;
-        }
+      .icon-group {
+        font-size: 0.9rem;
+      }
     }
+  }
 }
