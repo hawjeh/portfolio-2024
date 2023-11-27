@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from 'fs';
+import dataEdu from "../educations.json";
+import dataExp from "../experiences.json";
 
 export async function GET(request) {
   try {
     const url = new URL(request.url);
     const searchParams = url.searchParams
     const typeParam = searchParams.get('type');
-    const file = await fs.readFile(process.cwd() + `/app/api/${typeParam}.json`, 'utf8');
-    const experiences = JSON.parse(file);
-
-    return NextResponse.json(experiences)
+    switch(typeParam) {
+      case 'educations': return NextResponse.json(dataEdu);
+      case 'experiences': return NextResponse.json(dataExp);
+    }
+    return NextResponse.json([])
   } catch {
     return NextResponse.json({ })
   }

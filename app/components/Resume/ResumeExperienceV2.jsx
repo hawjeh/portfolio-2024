@@ -1,14 +1,18 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function ResumeExperienceV2() {
+  const initialized = useRef(false)
   const [experiences, setExperiences] = useState();
   useEffect(() => {
-    fetch('/api/data?type=experiences')
-      .then((res) => res.json())
-      .then((data) => {
-        setExperiences(data)
-      });
+    if (!initialized.current) {
+      initialized.current = true
+      fetch('/api/data?type=experiences')
+        .then((res) => res.json())
+        .then((data) => {
+          setExperiences(data)
+        });
+    }
   }, []);
 
   return (
