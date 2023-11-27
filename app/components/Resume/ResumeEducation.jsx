@@ -1,19 +1,9 @@
 "use client";
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
+import data from "../../data/educations.json";
 
 export default function ResumeExperienceV2() {
-  const initialized = useRef(false)
-  const [education, setEducation] = useState();
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true
-      fetch('/api/data?type=educations')
-        .then((res) => res.json())
-        .then((data) => {
-          setEducation(data)
-        });
-    }
-  }, []);
+  const [education] = useState(data);
 
   return (
     <div className="education mt-3">
