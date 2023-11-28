@@ -6,6 +6,7 @@ export default function HomePic({ style }) {
             src={Cartoon.src}
             className={style}
             alt="Haw Jeh Picture"
+            loading="lazy"
         />
     )
 }

@@ -10,9 +10,9 @@ export default function ResumeExperience() {
       <div className="row mb-0">
         <div className="col-12 col-lg-9 offset-lg-1">
           <div className="h-100 text-center">
-            <h5 className="section-title">
+            <h3 className="section-title">
               Experience
-            </h5>
+            </h3>
           </div>
         </div>
       </div>
@@ -24,9 +24,9 @@ export default function ResumeExperience() {
                 <span className="text-lightblue">
                   {exp.year}
                 </span>
-                <h6 className="my-1">
+                <h4 className="my-1">
                   {exp.title}
-                </h6>
+                </h4>
                 <span>
                   {exp.company}
                 </span>

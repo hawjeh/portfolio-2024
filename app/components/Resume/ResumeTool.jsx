@@ -7,10 +7,10 @@ export default function ResumeTool() {
 
   return (
     <div className="tools col-12 col-lg-5 mt-3" id="tools">
-      <div className="text-center">
-        <h5 className="section-title">
+      <div className="text-center mb-3">
+        <h3 className="section-title">
           Technology & Tools
-        </h5>
+        </h3>
       </div>
       {
         tools && tools.map((tool, index) => {
@@ -21,7 +21,7 @@ export default function ResumeTool() {
                   tool.tool && (
                     <div className="progress">
                       <div className={"progress-bar text-start progress-bar-" + tool.percentage}>
-                        <h6 className="my-1">{tool.tool}</h6>
+                        <h4 className="my-1">{tool.tool}</h4>
                       </div>
                     </div>
                   )

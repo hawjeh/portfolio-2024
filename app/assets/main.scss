@@ -175,6 +175,7 @@ main {
   }
 
   .section-title {
+    font-size: 1.25rem !important;
     display: inline-block;
     padding-bottom: 5px;
     position: relative;
@@ -198,6 +199,10 @@ main {
       border-radius: 50%;
       max-height: 268px;
     }
+
+    h2 {
+      font-size: 1.75rem;
+    }
   }
 
   .experience,
@@ -205,6 +210,10 @@ main {
   .achievements,
   .projects,
   .tools {
+    h4 {
+      font-size: 1rem !important;
+    }
+
     span {
       font-size: 0.8rem;
     }
@@ -217,7 +226,7 @@ main {
   .achievements,
   .projects {
     @include media-breakpoint-down(md) {
-      h6 {
+      h4 {
         font-size: 0.9rem;
       }
     }

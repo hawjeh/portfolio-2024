@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+import Loading from "./components/Loading";
+
 import { Space_Grotesk } from 'next/font/google'
 import Favicon from './assets/imgs/favicon.png'
 import Profile from './assets/imgs/cartoon.jpg'
@@ -34,7 +37,9 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="shortcut icon" href={Favicon.src} />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Suspense fallback={<Loading />}>{children}</Suspense>
+      </body>
     </html>
   )
 }

@@ -8,9 +8,9 @@ export default function ResumeEducation() {
   return (
     <div className="education col-12 col-lg-5 offset-lg-1 mt-3" id="education">
       <div className="text-center">
-        <h5 className="section-title">
+        <h3 className="section-title">
           Education
-        </h5>
+        </h3>
       </div>
       {
         education && education.map((edu, idx) => (
@@ -19,7 +19,7 @@ export default function ResumeEducation() {
               <span className="text-lightblue">
                 {edu.year}
               </span>
-              <h6 className="my-1">{edu.certificate}</h6>
+              <h4 className="my-1">{edu.certificate}</h4>
               <span>
                 {edu.school}
               </span>
