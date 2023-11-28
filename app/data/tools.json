@@ -1,0 +1,42 @@
+[
+  {
+    "tool": "C# / ASP.NET / .NET",
+    "percentage": 90
+  },
+  {
+    "tool": "Entity Framework Core / LINQ / SQL",
+    "percentage": 90
+  },
+  {
+    "tool": "CMS Development (Sitefinity)",
+    "percentage": 90
+  },
+  {
+    "tool": "Integration / Web API / REST API",
+    "percentage": 80
+  },
+  {
+    "tool": "JS Framework (ReactJS / NodeJS / VueJS)",
+    "percentage": 70
+  },
+  {
+    "tool": "HTML / CSS / JS / JQuery",
+    "percentage": 70
+  },
+  {
+    "tool": "QA Tool (Postman / Cypress / Apify)",
+    "percentage": 70
+  },
+  {
+    "tool": "DevOps / IIS / Git / CI/CD Pipeline",
+    "percentage": 70
+  },
+  {
+    "tool": "Agile Scrum / Collaboration / Modular",
+    "percentage": 70
+  },
+  {
+    "tool": "Team Building / Coaching / Review",
+    "percentage": 70
+  }
+]

@@ -1,5 +1,6 @@
 import HawJeh from '../../assets/imgs/profile.png'
 import { Oleo_Script } from 'next/font/google';
+import ResumeNav from './ResumeNav';
 
 const inter = Oleo_Script({ weight: ['400'], subsets: ['latin'] })
 const nameClass = inter.className + " text-h4 text-orange"
@@ -24,6 +25,7 @@ export default function ResumeIntro() {
             Haw Jeh has unrelenting passion for all things tech. <br />
             He leaves no stone unturned to deliver the best services and solutions.
           </p>
+          <ResumeNav />
         </div>
       </div>
     </div>

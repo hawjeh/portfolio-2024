@@ -1,0 +1,83 @@
+[
+  {
+    "year": "Issued Jul 2023 · Expires Jul 2026",
+    "certificate": "AWS Certified Solutions Architect - Associate",
+    "org": "Amazon Web Services (AWS)",
+    "credId": "9V8B9TX2VJQ11ECG",
+    "credUrl": "https://aws.amazon.com/verification",
+    "credlyUrl": "https://www.credly.com/badges/495f1bbf-ece5-484c-8faf-a20539ad8fc4",
+    "badge": "https://images.credly.com/size/340x340/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png"
+  },
+  {
+    "year": "Issued May 2023 · Expires May 2025",
+    "certificate": "Certified Sitefinity Developer: Sitefinity ASP.NET Core Foundations (14)",
+    "org": "Progress",
+    "credId": "",
+    "credUrl": "",
+    "credlyUrl": "",
+    "badge": "https://media.licdn.com/dms/image/D4E0BAQElpcV7cjfjQg/company-logo_200_200/0/1688157526148/progress_software_logo?e=1709164800&v=beta&t=k1RGd6om9-xCajfKqYuOByszk6Gxej7ay_h6RK_76cU"
+  },
+  {
+    "year": "Issued Aug 2022 · Expires Apr 2025",
+    "certificate": "Technical Assessment for Solution Architect",
+    "org": "GovTech Digital Academy / NUS-ISS",
+    "credId": "5450951",
+    "credUrl": "",
+    "credlyUrl": "https://dashboard.accredify.io/verify?id=05906ec2-5a7b-4cf4-93f8-2c4299b9cf30",
+    "badge": ""
+  },
+  {
+    "year": "Issued Jun 2022",
+    "certificate": "Professional Scrum Developer™ I",
+    "org": "Scrum.org",
+    "credId": "",
+    "credUrl": "",
+    "credlyUrl": "https://www.credly.com/badges/5b557ed4-6ea2-4af8-a6cc-e0ebd0a237f6",
+    "badge": "https://images.credly.com/size/340x340/images/d2298e82-b671-434a-876b-21a0ebc3af0e/image.png"
+  },
+  {
+    "year": "Issued May 2022 · Expires May 2024",
+    "certificate": "Certified Sitefinity Developer: Sitefinity Foundations (14)",
+    "org": "Progress",
+    "credId": "",
+    "credUrl": "",
+    "credlyUrl": "",
+    "badge": "https://media.licdn.com/dms/image/D4E0BAQElpcV7cjfjQg/company-logo_200_200/0/1688157526148/progress_software_logo?e=1709164800&v=beta&t=k1RGd6om9-xCajfKqYuOByszk6Gxej7ay_h6RK_76cU"
+  },
+  {
+    "year": "Issued Dec 2021 · Expires Dec 2024",
+    "certificate": "Microsoft Certified: Azure Developer Associate",
+    "org": "Microsoft",
+    "credId": "B89ADA3CFACD1EBC",
+    "credUrl": "https://learn.microsoft.com/api/credentials/share/en-us/hawjeh/B89ADA3CFACD1EBC?sharingId=96129F19A7FB32AD",
+    "credlyUrl": "https://www.credly.com/badges/35bb5099-49af-4dd0-a766-39e1954f2dd9",
+    "badge": "https://images.credly.com/size/340x340/images/63316b60-f62d-4e51-aacc-c23cb850089c/azure-developer-associate-600x600.png"
+  },
+  {
+    "year": "Issued Mar 2021 · Expires Mar 2024",
+    "certificate": "AWS Certified Developer - Associate",
+    "org": "Amazon Web Services (AWS)",
+    "credId": "8E3ZRYLJCFRQQ05R",
+    "credUrl": "https://aws.amazon.com/verification",
+    "credlyUrl": "https://www.credly.com/badges/a1983214-c5b1-4e6b-94bd-7fabccf8f42b",
+    "badge": "https://images.credly.com/size/340x340/images/b9feab85-1a43-4f6c-99a5-631b88d5461b/image.png"
+  },
+  {
+    "year": "Issued Aug 2020",
+    "certificate": "Microsoft Certified: Azure Fundamentals",
+    "org": "Microsoft",
+    "credId": "FCDAE33A7E6CA1D9",
+    "credUrl": "https://learn.microsoft.com/api/credentials/share/en-us/hawjeh/FCDAE33A7E6CA1D9?sharingId=96129F19A7FB32AD",
+    "credlyUrl": "https://www.credly.com/badges/f7f4e0f0-0a7f-4873-aa06-8f34568fd29a",
+    "badge": "https://images.credly.com/size/340x340/images/be8fcaeb-c769-4858-b567-ffaaa73ce8cf/image.png"
+  },
+  {
+    "year": "Issued Jun 2020",
+    "certificate": "Professional Scrum Master™ I",
+    "org": "Scrum.org",
+    "credId": "",
+    "credUrl": "",
+    "credlyUrl": "https://www.credly.com/badges/16eed7fb-330b-4152-8d18-91ac8d7f7740",
+    "badge": "https://images.credly.com/size/340x340/images/a2790314-008a-4c3d-9553-f5e84eb359ba/image.png"
+  }
+]

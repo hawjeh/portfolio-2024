@@ -12,6 +12,27 @@ main {
   height: 100%;
   padding-top: 3rem;
 
+  .scroll-to-top {
+    font-size: 2.5rem;
+
+    div {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+    }
+
+    i {
+      color: getColor('primary');
+      cursor: pointer;
+      transition: opacity 1s ease-out;
+      opacity: 0;
+
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+
   .text-h1 {
     color: getColor('primary')
   }
@@ -43,6 +64,40 @@ main {
   .text-lightgrey {
     color: getColor('lightgrey')
   }
+
+  .text-link {
+    color: getColor('primary');
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.3s;
+    transition: color 0.3s linear;
+
+    &:hover {
+      opacity: 1;
+      transition: color 0.3s linear;
+    }
+
+    span {
+      font-size: 1rem;
+    }
+
+    &.opacity-100 {
+      opacity: 1 !important;
+    }
+  }
+
+  .text-link-button-orange {
+    padding: 0.6rem;
+    border: 1px solid getColor('primary');
+    border-radius: 0.2rem;
+    transition: background-color 0.3s linear;
+
+    &:hover {
+      transition: background-color 0.3s linear;
+      background-color: getColor('primary');
+      color: getColor('orange');
+    }
+  }
 }
 
 .home-banner {
@@ -61,23 +116,7 @@ main {
   margin-top: 1rem;
 
   a {
-    color: getColor('primary');
-    opacity: 0.8;
-    text-decoration: none;
-    transition: opacity 0.3s;
-    transition: background-color 0.3s linear;
-    transition: color 0.3s linear;
-    padding: 0.6rem;
-    border: 1px solid getColor('primary');
-    border-radius: 0.2rem;
-
     &:hover {
-      opacity: 1;
-      transition: background-color 0.3s linear;
-      transition: color 0.3s linear;
-      background-color: getColor('primary');
-      color: getColor('orange');
-
       span {
         display: none
       }
@@ -86,10 +125,6 @@ main {
         content: "Home Page";
       }
     }
-
-    span {
-      font-size: 1rem;
-    }
   }
 }
 
@@ -97,23 +132,7 @@ main {
   margin-top: 1rem;
 
   a {
-    color: getColor('primary');
-    opacity: 0.8;
-    text-decoration: none;
-    transition: opacity 0.3s;
-    transition: background-color 0.3s linear;
-    transition: color 0.3s linear;
-    padding: 0.6rem;
-    border: 1px solid getColor('primary');
-    border-radius: 0.2rem;
-
     &:hover {
-      opacity: 1;
-      transition: background-color 0.3s linear;
-      transition: color 0.3s linear;
-      background-color: getColor('primary');
-      color: getColor('orange');
-
       span {
         display: none
       }
@@ -121,10 +140,6 @@ main {
       &::before {
         content: "About My Resume";
       }
-    }
-
-    span {
-      font-size: 1rem;
     }
   }
 }
@@ -185,12 +200,50 @@ main {
     }
   }
 
-  .experience, .education {
+  .experience,
+  .education,
+  .achievements,
+  .projects,
+  .tools {
     span {
       font-size: 0.8rem;
     }
+
     li {
       font-size: 0.9rem;
+    }
+  }
+
+  .achievements,
+  .projects {
+    @include media-breakpoint-down(md) {
+      h6 {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .tools {
+    .progress {
+      height: 2rem;
+      font-family: inherit;
+    }
+
+    .progress-bar {
+      padding-left: 1rem;
+      background-color: getColor('lightblue');
+
+      &-90 {
+        width: 90%;
+      }
+
+      &-80 {
+        width: 80%;
+      }
+
+      &-70 {
+        width: 70%;
+      }
     }
   }
 }
