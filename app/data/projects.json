@@ -3,66 +3,66 @@
     "short": "NEA",
     "project": "National Environmental Agency",
     "website": "https://www.nea.gov.sg/",
-    "thumbnail": "/assets/nea.jpg"
+    "thumbnail": "/assets/projects/nea.jpg"
   },
   {
     "short": "HAZE",
     "project": "National Environmental Agency - HAZE",
     "website": "https://www.haze.gov.sg/",
-    "thumbnail": "/assets/haze.jpg"
+    "thumbnail": "/assets/projects/haze.jpg"
   },
   {
     "short": "VFSP-WAS",
     "project": "Meteorological Service Singapore - VFSP-WAS",
     "website": "https://www.mss-int.sg/vfsp-was",
-    "thumbnail": "/assets/vfsp.jpg"
+    "thumbnail": "/assets/projects/vfsp.jpg"
   },
   {
     "short": "RCC",
     "project": "Meteorological Service Singapore - RCC",
     "website": "https://www.mss-int.sg/sea-rcc-network",
-    "thumbnail": "/assets/rcc.jpg"
+    "thumbnail": "/assets/projects/rcc.jpg"
   },
   {
     "short": "LLI",
     "project": "Lifelong Learning Institute",
     "website": "https://www.lli.sg/",
-    "thumbnail": "/assets/lli.jpg"
+    "thumbnail": "/assets/projects/lli.jpg"
   },
   {
     "short": "WSS",
     "project": "WoldSkills Singapore",
     "website": "https://www.worldskills.sg/",
-    "thumbnail": "/assets/wss.jpg"
+    "thumbnail": "/assets/projects/wss.jpg"
   },
   {
     "short": "SingStat",
     "project": "Statistics Singapore - Table Builder",
     "website": "https://tablebuilder.singstat.gov.sg/",
-    "thumbnail": "/assets/singstat.jpg"
+    "thumbnail": "/assets/projects/singstat.jpg"
   },
   {
     "short": "IRGS",
     "project": "MUIS - IRGS",
     "website": "",
-    "thumbnail": "/assets/irgs.jpg"
+    "thumbnail": "/assets/projects/irgs.jpg"
   },
   {
     "short": "LouHei SG",
     "project": "LouHei SG",
     "website": "https://www.louhei.sg/",
-    "thumbnail": "/assets/louhei.jpg"
+    "thumbnail": "/assets/projects/louhei.jpg"
   },
   {
     "short": "SGEnable",
     "project": "MSF - SGEnable",
     "website": "https://www.sgenable.sg/",
-    "thumbnail": "/assets/sge.jpg"
+    "thumbnail": "/assets/projects/sge.jpg"
   },
   {
     "short": "MSF",
     "project": "Ministry of Social and Family Development",
     "website": "https://www.msf.gov.sg/",
-    "thumbnail": "/assets/msf.jpg"
+    "thumbnail": "/assets/projects/msf.jpg"
   }
 ]

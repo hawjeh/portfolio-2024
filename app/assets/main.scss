@@ -91,6 +91,9 @@ main {
     border: 1px solid getColor('primary');
     border-radius: 0.2rem;
     transition: background-color 0.3s linear;
+    min-width: 180px;
+    text-align: center;
+    display: inline-block;
 
     &:hover {
       transition: background-color 0.3s linear;
@@ -139,6 +142,22 @@ main {
 
       &::before {
         content: "About My Resume";
+      }
+    }
+  }
+}
+
+.blog-link {
+  margin-top: 1rem;
+
+  a {
+    &:hover {
+      span {
+        display: none
+      }
+
+      &::before {
+        content: "My Blog";
       }
     }
   }
@@ -252,6 +271,80 @@ main {
 
       &-70 {
         width: 70%;
+      }
+    }
+  }
+}
+
+.blogs {
+  .card-img-top {
+    height: 280px;
+  }
+
+  .card-body {
+    min-height: 80px;
+  }
+
+  @media (min-width: 992px) {
+    .col-lg-3 {
+      flex: 0 0 auto;
+      width: 33%;
+    }
+  }
+
+  @media (min-width: 1380px) {
+    .col-lg-3 {
+      flex: 0 0 auto;
+      width: 25%;
+    }
+  }
+}
+
+.blog-post {
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+  }
+
+  h3 {
+    font-size: 1.45rem;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+  }
+
+  h5 {
+    font-size: 0.95rem;
+  }
+
+  p,
+  li,
+  span {
+    font-size: 0.9rem;
+  }
+
+  .wrapper {
+    width: 100%;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      padding-left: 2rem;
+    }
+
+    pre,
+    code {
+      padding-left: 2rem;
+      color: getColor('red') !important;
+    }
+
+    pre {
+      code {
+        padding-left: 0;
       }
     }
   }

@@ -1,3 +1,4 @@
+import Header from "../Header";
 import Footer from "../Footer";
 import ResumeAchievement from "./ResumeAchievement";
 import ResumeEducation from "./ResumeEducation";
@@ -23,6 +24,7 @@ export default function Resume() {
         </div>
       </section>
       <ScrollToTop />
+      <Header />
       <Footer showSocialLink={true} />
     </>
   )

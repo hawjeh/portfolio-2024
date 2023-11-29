@@ -5,7 +5,7 @@ export const metadata = {
   title: 'Haw Jeh | Resume',
   description: 'Haw Jeh - Solution Whiz - Resume',
   openGraph: {
-    title: 'Haw Jeh | Page Not Found',
+    title: 'Haw Jeh | Resume',
     description: 'Haw Jeh - Solution Whiz - Resume',
     images: [
       {

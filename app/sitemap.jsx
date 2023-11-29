@@ -1,19 +1,19 @@
-// import { getSortedPostsData } from "../lib/posts";
+import { GetBlogList } from './components/Blog/BlogHelper';
 
-const URL = "https://hawjeh.com";
+const URL = "https://www.hawjeh.com";
 
 export default async function sitemap() {
-  // const posts = getSortedPostsData.map(({ id, date }) => ({
-  //   url: `${URL}/blog/${id}`,
-  //   lastModified: date,
-  // }));
+  const blogPosts = GetBlogList({}).blogPosts.map(({ slug, date }) => ({
+    url: `${URL}/blogs/${slug}`,
+    lastModified: new Date(date).toISOString(),
+    priority: 0.7
+  }));
 
-  const routes = ["", "/resume"].map((route) => ({
+  const routes = ["", "/resume", "/blogs"].map((route) => ({
     url: `${URL}${route}`,
     lastModified: new Date().toISOString(),
     priority: 1.0
   }));
 
-  // return [...routes, ...posts];
-  return [...routes];
+  return [...routes, ...blogPosts];
 }
