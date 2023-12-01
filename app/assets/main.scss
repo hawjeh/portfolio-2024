@@ -279,6 +279,7 @@ main {
 .blogs {
   .card-img-top {
     height: 280px;
+    object-fit: contain;
   }
 
   .card-body {
@@ -321,6 +322,10 @@ main {
     font-size: 0.95rem;
   }
 
+  h1, h2, h3, h4, h5 {
+    padding-top: 0.8rem;
+  }
+
   p,
   li,
   span {
@@ -328,7 +333,7 @@ main {
   }
 
   .wrapper {
-    width: 100%;
+    // width: 100%;
 
     img {
       max-width: 100%;
@@ -345,6 +350,18 @@ main {
     pre {
       code {
         padding-left: 0;
+      }
+    }
+
+    a {
+      color: getColor('primary');
+      opacity: 0.8;
+      transition: opacity 0.3s;
+      transition: color 0.3s linear;
+
+      &:hover {
+        opacity: 1;
+        transition: color 0.3s linear;
       }
     }
   }

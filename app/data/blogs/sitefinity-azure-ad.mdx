@@ -1,0 +1,130 @@
+---
+title: "Sitefinity AzureAD Integration"
+slug: "sitefinity-azure-ad"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity – My experience with Azure Active Directory Integration"
+keyword: "NET, CMS, Sitefinity, AzureAD, OpenId"
+category: "sitefinity"
+date: "2021-01-20"
+---
+
+## Azure AD Setup
+
+1. Go to you Azure Active Directory → App Registrations → New Registration
+
+2. Give a name to the application, you can leave the Redirect URI as blank now. Then click Register.
+
+3. Go to Authentication Tab → Add a platform → Web
+
+4. Redirect URIs: http:/Sitefinity Instance/Sitefinity/Authenticate/OpenID/signin-custom
+
+5. Select the tokens you would like to be issued by the authorization endpoint: Check ID Tokens
+
+## Sitefinity Setup
+
+1. Spin up (If you haven’t) and run the Sitefinity Instance
+
+2. Login to Sitefinity backend → Go to Administration → Advanced → Authentication → SecurityTokenService → AuthenticationProviders → OpenIDConnect
+
+3. Do the following settings:
+
+
+<table className="table table-bordered">
+    <thead>
+        <tr>
+            <th>Setting</th>
+            <th>Key</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>ClientID</td>
+            <td>Azure AD App – Application (client) ID</td>
+        </tr>
+        <tr>
+            <td>Response type</td>
+            <td>id_token</td>
+        </tr>
+        <tr>
+            <td>Allowed scopes</td>
+            <td>openid profile email</td>
+        </tr>
+        <tr>
+            <td>Authority</td>
+            <td>{"https://login.microsoftonline.com/[Azure AD App Directory (tenant) ID]/v2.0/authorize"}</td>
+        </tr>
+        <tr>
+            <td>Metadata address</td>
+            <td>{"https://login.microsoftonline.com/[Azure AD App Directory (tenant) ID]/v2.0/.well-known/openid-configuration"}</td>
+        </tr>
+        <tr>
+            <td>Redirect URI</td>
+            <td>{"https://[Sitefinity Instance]/Sitefinity/Authenticate/OpenID/signin-custom"}</td>
+        </tr>
+        <tr>
+            <td>Post logout redirect URI</td>
+            <td>{"https://[Sitefinity Instance]"}</td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td>Azure AD Login</td>
+        </tr>
+        <tr>
+            <td>Enabled</td>
+            <td>True</td>
+        </tr>
+        <tr>
+            <td>Auto assigned roles</td>
+            <td>Administrators</td>
+        </tr>
+        <tr>
+            <td>Require email claim from this provider</td>
+            <td>True (We can check the metadata address to understand what to map)</td>
+        </tr>
+        <tr>
+            <td>Claims to fields mappings</td>
+            <td>Email: email, SitefinityProfile.FirstName: name, SitefinityProfile.Nickname: nickname</td>
+        </tr>
+    </tbody>
+</table>
+
+<br/><br/>
+
+4. Restart Sitefinity
+
+5. Verification
+    a. Visit http://Sitefinity Instance/Sitefinity → Click Azure Login
+    <br/>
+        ![screen1](/assets/blogs/sitefinity-azure-ad/screen-1.png)
+
+    b. It will prompt you a permission request for first time login, simply press Accept.
+    <br/>
+        ![screen2](/assets/blogs/sitefinity-azure-ad/screen-2.png)
+
+    c. It will prompt for your username + password. Fulfill it and it will route you back to Sitefinity dashboard
+    <br/>
+        ![screen3](/assets/blogs/sitefinity-azure-ad/screen-3.png)
+        ![screen4](/assets/blogs/sitefinity-azure-ad/screen-4.png)
+
+    d. Then go to Administration → Users, you will see an unknown user and a default user while both having same email address.
+    <br/>
+        ![screen5](/assets/blogs/sitefinity-azure-ad/screen-5.png)
+
+    e. It is working!
+
+
+## Further Enhancement
+- Intercept AzureAD callback response, and create necessary users with proper profile
+- Hide the default login method completely
+    1. Create a file under /Content/Pages/login.html
+    2. Comment unnecessary blocks: login.html (github.com)
+    3. Restart Sitefinity, and you will see only Azure Login button
+    4. Consider to write a script to redirect on page load
+
+![screen6](/assets/blogs/sitefinity-azure-ad/screen-6.png)
+
+## References
+
+- [Sitefinity KB - Configure Sitefinity with Azure AD B2C Authentication](https://knowledgebase.progress.com/articles/Knowledge/Configure-Sitefinity-with-Azure-AD-B2C-Authentication?r=203&ui-knowledge-components-aura-actions.KnowledgeArticleVersionCreateDraftFromOnlineAction.createDraftFromOnlineArticle=1)
+- [Sitefinity - Administration configure the OpenId connect provider](https://www.progress.com/documentation/sitefinity-cms/administration-configure-the-openid-connect-provider)
+- [Sitefinity KB - How to hide the external identity providers buttons](https://knowledgebase.progress.com/articles/Article/How-to-hide-the-external-Identity-providers-buttons-from-the-backend-login-page)

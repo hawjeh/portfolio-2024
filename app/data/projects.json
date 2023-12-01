@@ -2,66 +2,77 @@
   {
     "short": "NEA",
     "project": "National Environmental Agency",
+    "type": "Sitefinity, Web, Data Integration, JQuery",
     "website": "https://www.nea.gov.sg/",
     "thumbnail": "/assets/projects/nea.jpg"
   },
   {
     "short": "HAZE",
     "project": "National Environmental Agency - HAZE",
+    "type": "Sitefinity, Web, Data Integration, JQuery",
     "website": "https://www.haze.gov.sg/",
     "thumbnail": "/assets/projects/haze.jpg"
   },
   {
     "short": "VFSP-WAS",
     "project": "Meteorological Service Singapore - VFSP-WAS",
+    "type": "Sitefinity, Web, Data Integration, VueJS",
     "website": "https://www.mss-int.sg/vfsp-was",
     "thumbnail": "/assets/projects/vfsp.jpg"
   },
   {
     "short": "RCC",
     "project": "Meteorological Service Singapore - RCC",
+    "type": "Sitefinity, Web, Data Integration, VueJS",
     "website": "https://www.mss-int.sg/sea-rcc-network",
     "thumbnail": "/assets/projects/rcc.jpg"
   },
   {
     "short": "LLI",
     "project": "Lifelong Learning Institute",
+    "type": "AWS, Sitefinity, Web, Data Integration, VueJS",
     "website": "https://www.lli.sg/",
     "thumbnail": "/assets/projects/lli.jpg"
   },
   {
     "short": "WSS",
     "project": "WoldSkills Singapore",
+    "type": "AWS, Sitefinity, Web",
     "website": "https://www.worldskills.sg/",
     "thumbnail": "/assets/projects/wss.jpg"
   },
   {
     "short": "SingStat",
     "project": "Statistics Singapore - Table Builder",
+    "type": "Azure, Net, ReactJS",
     "website": "https://tablebuilder.singstat.gov.sg/",
     "thumbnail": "/assets/projects/singstat.jpg"
   },
   {
     "short": "IRGS",
     "project": "MUIS - IRGS",
+    "type": "Intranet, NetCore, VueJs",
     "website": "",
     "thumbnail": "/assets/projects/irgs.jpg"
   },
   {
     "short": "LouHei SG",
     "project": "LouHei SG",
+    "type": "Azure, Web",
     "website": "https://www.louhei.sg/",
     "thumbnail": "/assets/projects/louhei.jpg"
   },
   {
     "short": "SGEnable",
     "project": "MSF - SGEnable",
+    "type": "Sitefinity, Web, JQuery",
     "website": "https://www.sgenable.sg/",
     "thumbnail": "/assets/projects/sge.jpg"
   },
   {
     "short": "MSF",
     "project": "Ministry of Social and Family Development",
+    "type": "Sitefinity, Web, JQuery",
     "website": "https://www.msf.gov.sg/",
     "thumbnail": "/assets/projects/msf.jpg"
   }

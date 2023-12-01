@@ -31,6 +31,7 @@ export default function ResumeProject() {
                   {
                     !pro.website && (<h4 className="my-1">{pro.project}</h4>)
                   }
+                  <span className="d-none d-md-block">{pro.type}</span>
                 </div>
               </div>
             </div>

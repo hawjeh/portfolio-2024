@@ -1,0 +1,400 @@
+---
+title: "Storing Sitefinity Access Logs to Azure Storage"
+slug: "sitefinity-store-logs-to-azure-storage"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity - My custom implementation to store access logs to Azure storage"
+keyword: ".NET, CMS, Sitefinity"
+category: "sitefinity"
+date: "2023-05-20"
+---
+
+
+The setup consists of 2 parts: Azure and Sitefinity.
+
+Azure Storage configuration and custom code implementation in Sitefinity.
+
+
+## Pre-Requisite
+
+1. Sitefinity 14.4+ (Tested)
+2. Running hybrid .NET Core and MVC mode (Net Core Renderer and Progress.Sitefinity)
+3. Azure Subscription with right permission to manage Azure Storage
+
+
+## Azure
+
+1. Go to Azure portal and navigate to Storage
+2. Create a storage account under resource group
+3. Add a storage table to store the logs, save the Url for later use.
+
+![screen1](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen1.png)
+
+4. Generate a SAS (Shared access signature) for later use
+
+![screen2](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen2.png)
+
+## Sitefinity
+
+1. Install nuget package __Azure.Data.Tables__ in the Sitefinity project. 
+2. Create a configuration section to save __Azure Storage Table Url__ and __SAS connection string__ (from Azure step 3 and step 4 above)
+
+![screen3](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen3.png)
+
+3. Create Global file, user service and audit service in Sitefinity core CMS.
+
+___Global.asax.cs___
+``` 
+
+using System;
+using Telerik.Sitefinity.Abstractions;
+using Telerik.Sitefinity.Configuration;
+using Telerik.Sitefinity.Services;
+using Telerik.Sitefinity.Web.Events;
+
+namespace SitefinityWebApp
+{
+    public class Global : System.Web.HttpApplication
+    {
+        protected void Application_Start(object sender, EventArgs e)
+        {
+            Bootstrapper.Bootstrapped += Bootstrapper_Bootstrapped;
+        }
+
+        private void Bootstrapper_Bootstrapped(object sender, EventArgs e)
+        {
+            // Register Configs
+            Config.RegisterSection<DemoSettingConfig>();
+
+            // Track user access
+            EventHub.Subscribe<ILoginCompletedEvent>(evt => LoginCompletedEventHandler(evt));
+        }
+
+        private void LoginCompletedEventHandler(ILoginCompletedEvent eventInfo)
+        {
+            var userServices = new UserServices();
+            userServices.LogUserAccess(eventInfo.LoginResult, eventInfo.UserId, eventInfo.IpAddress);
+        }
+    }
+}
+
+```
+
+___UserService.cs___
+``` 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Telerik.Sitefinity.Security;
+using Telerik.Sitefinity.Security.Model;
+
+namespace SitefinityWebApp
+{
+    public class UserServices
+    {
+        private readonly UserManager userManager;
+        private readonly UserProfileManager userProfileManager;
+        private readonly RoleManager roleManager;
+        private readonly RoleManager roleManagerApp;
+
+        public UserServices()
+        {
+            userManager = UserManager.GetManager();
+            userProfileManager = UserProfileManager.GetManager();
+            roleManager = RoleManager.GetManager();
+            roleManagerApp = RoleManager.GetManager("AppRoles");
+        }
+
+        public void LogUserAccess(UserLoggingReason loginResult, string userId, string ipAddress)
+        {
+            try
+            {
+                var userGuid = new Guid(userId);
+                var user = userManager.GetUser(userGuid);
+                if (user != null)
+                {
+                    var userProfile = userProfileManager.GetUserProfile<SitefinityProfile>(user);
+                    AuditServices.LogToAzureStorageTable(
+                        logDateTime: DateTime.Now.ToUniversalTime(),
+                        accountName: userProfile.FirstName + " " + userProfile.LastName,
+                        accountId: user.Id.ToString(),
+                        email: user.Email,
+                        roles: string.Join(", ", GetUserRole(user.Id).Select(x => x.Name).ToArray()),
+                        provider: user.ExternalProviderName.IsNullOrEmpty() ? "default" : user.ExternalProviderName,
+                        loginResult: loginResult.ToString(),
+                        ipAddress: ipAddress);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private IEnumerable<Role> GetUserRole(Guid id)
+        {
+            var roleDef = roleManager.GetRolesForUser(id);
+            var roleApp = roleManagerApp.GetRolesForUser(id);
+            return roleDef.Concat(roleApp);
+        }
+    }
+}
+```
+
+___AuditServices.cs___
+```
+
+using Azure;
+using Azure.Data.Tables;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Telerik.Sitefinity.Configuration;
+
+namespace SitefinityWebApp
+{
+    public class AuditEntity : ITableEntity
+    {
+        public string PartitionKey { get; set; }
+        public string RowKey { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
+        public ETag ETag { get; set; }
+        public string AccountName { get; set; }
+        public string AccountId { get; set; }
+        public string Email { get; set; }
+        public string Roles { get; set; }
+        public string Application { get; set; }
+        public string Provider { get; set; }
+        public string Status { get; set; }
+        public string IpAddress { get; set; }
+        public string FormattedTimestamp
+        {
+            get
+            {
+                return Timestamp.HasValue ? Timestamp.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss") : "";
+            }
+        }
+    }
+
+    public class AuditServices
+    {
+        private static TableClient AzureTableClient()
+        {
+            var config = Config.Get<DemoSettingConfig>();
+            var sasCredential = new AzureSasCredential(config.SasConnString);
+            var serviceClient = new TableServiceClient(new Uri(config.AzureStorageTableUrl), sasCredential);
+
+            serviceClient.CreateTableIfNotExists("logs");
+            var tableClient = serviceClient.GetTableClient("logs");
+
+            return tableClient;
+        }
+
+        public static void LogToAzureStorageTable(DateTime logDateTime, string accountName, string accountId,
+            string email, string roles, string provider, string loginResult, string ipAddress)
+        {
+            try
+            {
+                var partitionKey = AuditConstant.UserLogin;
+                var rowKey = string.Format(AuditConstant.RowKeyFormat, logDateTime.ToLocalTime().ToString(AuditConstant.RowDateFormat), Guid.NewGuid().ToString());
+                var entity = new AuditEntity
+                {
+                    PartitionKey = partitionKey,
+                    RowKey = rowKey,
+                    Timestamp = logDateTime,
+                    AccountName = accountName,
+                    AccountId = accountId,
+                    Email = email,
+                    Roles = roles,
+                    Application = AppConstant.Application,
+                    Provider = provider,
+                    Status = loginResult,
+                    IpAddress = ipAddress
+                };
+                var responses = AzureTableClient().UpsertEntity(entity);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static List<AuditEntity> GetLogFromAzureStorageTable(DateTime from, DateTime to, string email = null, string provider = null)
+        {
+            var partitionKey = AuditConstant.UserLogin;
+
+            // limitation: 1000 records - to enhance
+            var auditEntities = AzureTableClient().Query<AuditEntity>(x => x.PartitionKey == partitionKey && x.Timestamp >= from && x.Timestamp < to.AddDays(1)).ToList();
+
+            if (!email.IsNullOrEmpty())
+            {
+                auditEntities = auditEntities.Where(x => x.Email == email).ToList();
+            }
+
+            if (!provider.IsNullOrEmpty())
+            {
+                auditEntities = auditEntities.Where(x => x.Provider == provider).ToList();
+            }
+
+            return auditEntities;
+        }
+    }
+}
+```
+
+4. Try to login a few times and see the logs appeared in Azure Storage Table
+
+![screen4](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen4.png)
+
+5. Create a report view to show report in CMS dashboard
+
+___ReportController.cs___
+```
+using System.Collections.Generic;
+
+namespace SitefinityWebApp.Mvc.Models
+{
+    public class ReportModel : BaseModel
+    {
+        public List<AuditEntity> AuditEntities { get; set; } = new List<AuditEntity>();
+    }
+}using SitefinityWebApp.Mvc.Models;
+using System;
+using System.ComponentModel;
+using System.Web.Mvc;
+using Telerik.Sitefinity.Frontend.Mvc.Infrastructure.Controllers;
+using Telerik.Sitefinity.Mvc;
+
+namespace SitefinityWebApp.Mvc.Controllers
+{
+    [ControllerToolboxItem(
+        Title = WidgetConstant.Report,
+        Name = WidgetConstant.Report,
+        SectionName = WidgetConstant.AdminWidget)]
+    public class ReportController : Controller
+    {
+        private ReportModel _model;
+
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public virtual ReportModel Model
+        {
+            get
+            {
+                if (this._model == null)
+                    this._model = ControllerModelFactory.GetModel<ReportModel>(this.GetType());
+
+                return this._model;
+            }
+        }
+
+        public ReportController() { }
+
+        public ActionResult Index()
+        {
+            if (Model.CurrentView == "AuditReport")
+            {
+                var from = DateTime.Now.AddDays(-30);
+                var to = DateTime.Now;
+                Model.AuditEntities = AuditServices.GetLogFromAzureStorageTable(
+                    from: new DateTime(from.Year, from.Month, from.Day, 0, 0, 0),
+                    to: new DateTime(to.Year, to.Month, to.Day, 0, 0, 0));
+            }
+
+            return View(Model.CurrentView, Model);
+        }
+    }
+}
+```
+
+___ReportModel.cs___
+```
+using System.Collections.Generic;
+
+namespace SitefinityWebApp.Mvc.Models
+{
+    public class ReportModel : BaseModel
+    {
+        public List<AuditEntity> AuditEntities { get; set; } = new List<AuditEntity>();
+    }
+}
+```
+
+___AuditReport.cshtml___
+```
+@using Newtonsoft.Json;
+
+@model SitefinityWebApp.Mvc.Models.ReportModel
+@{
+    Layout = "~/Mvc/Views/Shared/Admin/_AdminLayout.cshtml";
+}
+
+@section head{
+    <style>
+        thead[role=rowgroup] {
+            background-color: #c5c5c5;
+        }
+
+        #grid {
+            font-size: 1.1em;
+        }
+
+        .k-button {
+            font-size: 1.3rem;
+        }
+    </style>
+}
+
+@section body{
+    <div class="sfWorkArea @Model.CssClass">
+        <h1>Custom Audit Report</h1>
+        <span class="text-danger">TODO: Filter</span>
+        <div id="grid"></div>
+    </div>
+}
+
+@section customScript {
+    <script src="~/assets/jszip.min.js"></script>
+    <script>
+        var data = @MvcHtmlString.Create(JsonConvert.SerializeObject(Model.AuditEntities));
+
+        $(function () {
+            $("#grid").kendoGrid({
+                toolbar: ["excel"],
+                excel: {
+                    allPages: true,
+                    fileName: "Custom Audit Report Export.xlsx"
+                },
+                dataSource: {
+                    data: data,
+                    sort: { field: "FormattedTimestamp", dir: "desc" },
+                    schema: {
+                        model: { id: "RowKey" }
+                    },
+                    pageSize: 100
+                },
+                sortable: true,
+                pageable: true,
+                filterable: false,
+                columnMenu: false,
+                reorderable: true,
+                resizable: true,
+                persistSelection: false,
+                columns: [
+                    { selectable: true, width: "30px" },
+                    { field: "FormattedTimestamp" },
+                    { field: "AccountName" },
+                    { field: "Email" },
+                    { field: "Roles" },
+                    { field: "Application" },
+                    { field: "Provider" },
+                    { field: "Status" },
+                    { field: "IpAddress", title: "Ip Address" }
+                ]
+            });
+        })
+    </script>
+}
+```
+
+6. Setup the widget in Backend Page.
+
+![screen5](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen5.png)

@@ -1,3 +1,4 @@
+import BlogLink from '../Blog/BlogLink';
 import ResumeLink from '../Resume/ResumeLink';
 import SocialLink from '../SocialLink';
 import { Oleo_Script } from 'next/font/google';
@@ -14,12 +15,14 @@ export default function HomeIntroText({ firstLiner, secondLiner }) {
                 <h2 className="text-h3" dangerouslySetInnerHTML={{ __html: secondLiner }}></h2>
                 <SocialLink />
                 <ResumeLink />
+                <BlogLink />
             </div>
             <div className="flex-fill mt-3 d-block d-md-none">
                 <h2 className={mainClassH4} dangerouslySetInnerHTML={{ __html: firstLiner }}></h2>
                 <h5 dangerouslySetInnerHTML={{ __html: secondLiner }}></h5>
                 <SocialLink />
                 <ResumeLink />
+                <BlogLink />
             </div>
         </>
     )

@@ -21,14 +21,27 @@ export const metadata = {
 
 export default function BlogPage({ searchParams }) {
   const blogs = GetBlogList(searchParams);
-  
+
   return (
     <main>
       <Header />
       <section className="container blogs">
-        <div className="row">
+        <div className="row mb-3">
           <div className="col-12">
-            <nav className="navbar navbar-expand">
+            <div className="d-flex flex-wrap">
+              <p className="me-3">Category:</p>
+              <Link href={`/blogs`} className="text-link nav-link me-2 mb-2" aria-label="All">
+                <span>All</span>
+              </Link>
+              {
+                blogs && blogs.blogPostsCategory.map((category, index) => (
+                  <Link href={`/blogs?category=${category}`} className="text-link nav-link me-2 mb-2" aria-label={category} key={index}>
+                    <span>{category}</span>
+                  </Link>
+                ))
+              }
+            </div>
+            {/* <nav className="navbar navbar-expand">
               Category: 
               <ul className="navbar-nav">
                 <li className="nav-item">
@@ -46,14 +59,14 @@ export default function BlogPage({ searchParams }) {
                   ))
                 }
               </ul>
-            </nav>
+            </nav> */}
           </div>
         </div>
         <div className="row">
           {
             blogs && blogs.blogPosts.map((blog, index) => (
               <div className="col-12 col-sm-5 col-md-5 col-lg-3 mb-3" key={index}>
-                <Link href={`/blogs/${blog.slug}`} className="text-link" rel="noopener noreferrer" target="_blank" aria-label={blog.title}>
+                <Link href={`/blogs/${blog.slug}`} className="text-link" aria-label={blog.title}>
                   <div className="card align-items-center">
                     <img src={blog.thumbnail} alt={blog.title} className="card-img-top img-fluid" loading="lazy" />
                     <div className="card-body text-center">

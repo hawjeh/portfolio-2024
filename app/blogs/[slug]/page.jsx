@@ -17,7 +17,7 @@ export async function generateMetadata({ params }) {
   return {
     title: 'Haw Jeh | ' + blogPost.data.title,
     description: 'Haw Jeh - Blog - ' + blogPost.data.description,
-    keywords: 'Haw Jehm, Blog, ' + blogPost.data.keyword,
+    keywords: 'Haw Jeh, Blog, ' + blogPost.data.keyword,
     openGraph: {
       title: 'Haw Jeh | ' + blogPost.data.title,
       description: 'Haw Jeh - Blog - ' + blogPost.data.description,
@@ -50,7 +50,7 @@ export default async function BlogPost({ params }) {
             <h1>{blogPost.data.title}</h1>
             <p>{blogPost.data.category} | {blogPost.data.date}</p>
           </div>
-          <div className="col-12 offset-lg-2 wrapper">
+          <div className="col-12 offset-lg-2 col-lg-8 wrapper">
             <MDXRemote source={blogPost.content} />
           </div>
         </div>

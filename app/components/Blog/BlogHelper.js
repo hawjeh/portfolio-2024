@@ -44,8 +44,10 @@ const GetBlogList = ({ category }) => {
         }
       }
       return true;
+    }).sort((a, b) => {
+      return new Date(b.date) - new Date(a.date)
     }),
-    blogPostsCategory: blogPosts.map((post) => post.category).filter((value, index, array) => array.indexOf(value) === index)
+    blogPostsCategory: blogPosts.map((post) => post.category).sort((a, b) => a.localeCompare(b)).filter((value, index, array) => array.indexOf(value) === index)
   };
 }
 

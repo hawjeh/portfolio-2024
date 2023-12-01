@@ -1,0 +1,96 @@
+---
+title: "Play around with Sitefinity SEO Setting"
+slug: "sitefinity-seo-setting"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity - My custom SEO Setting Journey with OpenGraph"
+keyword: ".NET, CMS, Sitefinity"
+category: "sitefinity"
+date: "2020-06-20"
+---
+
+My testing Sitefinity version: V11.1
+
+## Open graph Setting
+
+Setting → Advanced → System → SEO and OpenGraph
+
+- Must enable both SEO and Open Graph Properties
+
+![opengraph_setting](/assets/blogs/sitefinity-seo-setting/opengraph_setting.png)
+
+## Site Name Setting
+
+Setting → Advanced → Project → DefaultSite
+
+- Customize Name for the site
+
+![default_setting](/assets/blogs/sitefinity-seo-setting/defaultsite_setting.png)
+
+## Page Setting
+
+Pre-requisite: Create a CustomField: Image for social media **(OpenGraphImage)**
+
+![page_setting](/assets/blogs/sitefinity-seo-setting/page_setting.png)
+
+## Result
+
+![result](/assets/blogs/sitefinity-seo-setting/result.png)
+
+## Result Mapping
+
+<table className="table table-bordered">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Title</th>
+            <th>Title for search engines</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Meta – Description</td>
+            <td>Description</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Meta – og:title</td>
+            <td>Page Name</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Meta – og:description</td>
+            <td>Description</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Meta – og:image</td>
+            <td>Image for social media</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Meta – og:url</td>
+            <td>Page url</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Meta – og:type</td>
+            <td>website</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Meta – og:site_name</td>
+            <td>Site Name Setting</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Meta – keywords</td>
+            <td>Keywords</td>
+        </tr>
+    </tbody>
+</table>
+
+
+## Result Mapping
+
+- [Sitefinity - Association of custom fields](https://www.progress.com/documentation/sitefinity-cms/association-of-custom-fields-and-open-graph-meta-properties)
