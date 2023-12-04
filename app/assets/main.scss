@@ -101,6 +101,11 @@ main {
       color: getColor('orange');
     }
   }
+
+  .text-smaller {
+    font-size: 0.7rem !important;
+    padding-top: 0.8rem;
+  }
 }
 
 .home-banner {
@@ -283,7 +288,9 @@ main {
   }
 
   .card-body {
-    min-height: 80px;
+    min-height: 65px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   @media (min-width: 992px) {
@@ -322,7 +329,11 @@ main {
     font-size: 0.95rem;
   }
 
-  h1, h2, h3, h4, h5 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     padding-top: 0.8rem;
   }
 

@@ -41,25 +41,6 @@ export default function BlogPage({ searchParams }) {
                 ))
               }
             </div>
-            {/* <nav className="navbar navbar-expand">
-              Category: 
-              <ul className="navbar-nav">
-                <li className="nav-item">
-                  <Link href={`/blogs`} className="text-link nav-link" aria-label="All">
-                    <span>All</span>
-                  </Link>
-                </li>
-                {
-                  blogs && blogs.blogPostsCategory.map((category, index) => (
-                    <li className="nav-item" key={index}>
-                      <Link href={`/blogs?category=${category}`} className="text-link nav-link" aria-label={category}>
-                        <span>{category}</span>
-                      </Link>
-                    </li>
-                  ))
-                }
-              </ul>
-            </nav> */}
           </div>
         </div>
         <div className="row">
@@ -69,6 +50,7 @@ export default function BlogPage({ searchParams }) {
                 <Link href={`/blogs/${blog.slug}`} className="text-link" aria-label={blog.title}>
                   <div className="card align-items-center">
                     <img src={blog.thumbnail} alt={blog.title} className="card-img-top img-fluid" loading="lazy" />
+                    <span className="text-smaller">{blog.date}</span>
                     <div className="card-body text-center">
                       <span>{blog.title}</span>
                     </div>
