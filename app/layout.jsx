@@ -5,6 +5,7 @@ import Profile from './assets/imgs/cartoon.jpg'
 import './assets/bootstrap.scss'
 import './assets/main.scss'
 import { Space_Grotesk } from 'next/font/google'
+import GoogleAnalytics from "./components/Google/GoogleAnalytics";
 
 const inter = Space_Grotesk({ weight: ['300', '400', '500', '600', '700'], subsets: ['latin'] })
 
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
         <link rel="shortcut icon" href={Favicon.src} />
       </head>
       <body className={inter.className}>
+        <GoogleAnalytics />
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </body>
     </html>

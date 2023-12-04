@@ -12,6 +12,16 @@ const nextConfig = {
         destination: '/sitemap.xml',
         permanent: true,
       },
+      {
+        source: '/blog',
+        destination: '/blogs',
+        permanent: true,
+      },
+      {
+        source: '/blog/:slug',
+        destination: '/blogs/:slug',
+        permanent: true,
+      },
     ]
   },
   images: {
