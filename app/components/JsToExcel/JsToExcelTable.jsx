@@ -6,8 +6,12 @@ export default function JsToExcelTable() {
   const onTableClick = () => {
     const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined"
     if (isBrowser) {
-      const table = window.document.getElementById('sample-table');
-      exportHtmlToExcel(table);
+      try {
+        const table = window.document.getElementById('sample-table');
+        exportHtmlToExcel(table);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 

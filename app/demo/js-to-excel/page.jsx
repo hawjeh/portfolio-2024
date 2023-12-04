@@ -1,5 +1,5 @@
-import Profile from '../assets/imgs/cartoon.jpg'
-import JsToExcel from '../components/JsToExcel';
+import Profile from '../../assets/imgs/cartoon.jpg'
+import JsToExcel from '../../components/JsToExcel';
 
 export const metadata = {
   title: 'Haw Jeh | JS to Excel',
