@@ -3,8 +3,14 @@ import { GetBlogList } from './components/Blog/BlogHelper';
 const URL = "https://www.hawjeh.com";
 
 export default async function sitemap() {
-  const blogPosts = GetBlogList({}).blogPosts.map(({ slug, date }) => ({
+  const blogsPosts = GetBlogList({}).blogPosts.map(({ slug, date }) => ({
     url: `${URL}/blogs/${slug}`,
+    lastModified: new Date(date).toISOString(),
+    priority: 0.7
+  }));
+
+  const blogPosts = GetBlogList({}).blogPosts.map(({ slug, date }) => ({
+    url: `${URL}/blog/${slug}`,
     lastModified: new Date(date).toISOString(),
     priority: 0.7
   }));
@@ -15,5 +21,5 @@ export default async function sitemap() {
     priority: 1.0
   }));
 
-  return [...routes, ...blogPosts];
+  return [...routes, ...blogsPosts, ...blogPosts];
 }
