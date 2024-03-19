@@ -1,0 +1,48 @@
+---
+title: "Sitefinity Access Reporting"
+slug: "sitefinity-access-reporting"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity - User Access Reporting"
+keyword: ".NET, CMS, Sitefinity"
+category: "sitefinity"
+date: "2023-12-20"
+---
+
+## Purpose and Use Cases
+
+The purpose is to create an Access Report of Sitefinity CMS - with multisite instances for client.
+
+We know that administrator can set Permission in Sitefinity Page, either by role or user entity.
+
+Each role has a group of user entity.
+
+The challenge is that to query user and user within the role that has permission to pages across multi-sites.
+
+Use cases to include in the report:
+
+1. Page permission added user
+2. Page permission added role
+3. Application column to list full url of pages
+4. Either create, delete, edit content or modify will consider as 'has permission'
+5. Take only published and live page
+6. Exclude backend page and omit redirect and group page.
+
+## Solution
+
+Checkout my sample gist code!
+
+1. Loop through pages in multi-sites
+2. Get the required pages
+3. Query the operation / permission
+4. The data queried is either user role id / user id
+5. Gather users via user id and user role
+6. Structure report in CSV format
+
+
+## References
+- [Sitefinity KB - How to get all pages from a specific site in a multisite project](https://community.progress.com/s/article/How-to-get-all-the-pages-from-a-specific-site-in-a-multisite-project)
+- [Sitefinity KB - How to get all the sites in Sitefinity Multisite using API](https://community.progress.com/s/article/How-to-get-all-the-Pages-from-all-the-sites-in-Sitefinity-Multisite-using-API)
+- [Sitefinity KB - How to get all roles names](https://community.progress.com/s/article/how-to-get-all-roles-names)
+
+## Codes
+[GitHub Gist - Sample Code](https://gist.github.com/hawjeh/43bde97628ee93a9ef68889323ff8f60)
