@@ -7,7 +7,7 @@ export default function Co2CarbonEmission() {
 
   useEffect(() => {
     const calculate = () => {
-      const greenHost = false;
+      const greenHosting = true;
       const emissions = new co2({ model: "swd" });
 
       if (window.performance && window.performance.getEntriesByType) {
@@ -28,12 +28,18 @@ export default function Co2CarbonEmission() {
           totalLoadTime += resLoadTime;
         }
 
-        console.log("Total load time: " + totalLoadTime / 1000 + " seconds.");
-        console.log("Total size: " + totalSize + " bytes.");
+        // console.log("Total load time: " + totalLoadTime / 1000 + " seconds.");
+        // console.log("Total size: " + totalSize + " bytes.");
 
-        const result = emissions.perByte(totalSize, greenHost).toFixed(3);
-
-        setEmission(result);
+        const options = {
+          gridIntensity: {
+            device: 488.21,
+            dataCenter: { country: "SGP" },
+            network: 488.21
+          }
+        };
+        const result = emissions.perByteTrace(totalSize, greenHosting, options);
+        setEmission(result.co2.toFixed(3));
 
       } else {
         console.log("Performance timing not supported.");
