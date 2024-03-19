@@ -1,0 +1,43 @@
+---
+title: "Sitefinity Page Custom Fields Choices"
+slug: "sitefinity-page-custom-fields-choices"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity - Page Custom Fields - Choices"
+keyword: ".NET, CMS, Sitefinity"
+category: "sitefinity"
+date: "2024-01-20"
+---
+
+## Problem
+
+The Custom Fields - Choices for Sitefinity page has only 1 choice of interface widget in v14.4 by default.
+
+It will auto select Checkboxes. We can't easily select others like dropdown or radio button.
+
+![Screenshot1](/assets/blogs/sitefinity-page-custom-fields-choices/screenshot1.png)
+
+
+## Solution
+
+You will need to go to Advanced setting to do so.
+
+The path is 
+
+```
+ContentView -> Controls -> FrontendPages -> Views -> FrontendPagesCreate -> Sections -> CustomFieldSection -> Fields -> <field_name> -> RenderChoiceAs
+```
+
+![Screenshot2](/assets/blogs/sitefinity-page-custom-fields-choices/screenshot2.png)
+
+
+And you will need to do it for FrontendPagesEdit to complete both setup.
+
+
+## Finally
+
+Go to Page -> (Select a Page) -> Title & properties, then you will see it is now Radio Button instead of Checkboxes!
+
+![Screenshot3](/assets/blogs/sitefinity-page-custom-fields-choices/screenshot3.png)
+
+## References
+- [Sitefinity KB - Custom Field Display As Checkbox](https://community.progress.com/s/article/Custom-dropdown-field-displays-as-checkbox)
