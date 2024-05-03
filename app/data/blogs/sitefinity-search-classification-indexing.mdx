@@ -1,0 +1,170 @@
+---
+title: "Sitefinity Lucene Search Classification Indexing"
+slug: "sitefinity-search-classification-indexing"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity Search - Classification Indexing - Lucene Search"
+keyword: ".NET, CMS, Sitefinity, Lucene"
+category: "sitefinity"
+date: "2024-04-20"
+---
+
+## Problem and Solution
+
+In my recent experience with Sitefinity v15.0, I encountered an unexpected issue related to Sitefinity search indexing using the default Lucene. 
+
+The string indexing functionality was working smoothly while the classification or taxonomy indexing wasn't. 
+
+Upon closer inspection during debugging sessions, it became apparent that only the TrackedList Guid was being indexed instead of the actual GUIDs.
+
+After dedicating several hours to both code inspection and scouring online resources, I found an enlightening article. 
+
+It prompted me to take a deeper dive into the issue by decompiling the .dll files to identify any missing pieces.
+
+As my investigation progressed, I opted to implement some code injections to ensure the proper translation of GUIDs within the indexing process.
+
+This solution proved effective in resolving the issue and restoring the expected functionality to the search indexing mechanism.
+
+
+## What I have done?
+
+After I read several articles including Benramey and Sitefinity KB, I got my solution process drawn:
+
+1/ Ensure the search indexing can capture the right taxonomy id / name
+
+2/ Decompile and inspect the Telerik.Siteifnity.Search.Impl.dll
+
+Found that the Search Index piping translate Guid using TransparentTranslator
+
+![Screenshot1](/assets/blogs/sitefinity-search-classification-index/screenshot1.png)
+
+3/ Write a custing piping translator and register in when Sitefinity initialized
+
+In my case, I decided to store the taxonomy name for my search purpose later
+
+```
+public class CustomTransparentTranslator : TransparentTranslator
+{
+    private readonly TaxonomyManager _taxonomyManager;
+
+    public CustomTransparentTranslator()
+    {
+        _taxonomyManager = TaxonomyManager.GetManager();
+    }
+
+    public override object Translate(object[] valuesToTranslate, IDictionary<string, string> translationSettings)
+    {
+        if (valuesToTranslate.Count() > 0 && IsTrackedList<Guid>(valuesToTranslate[0]))
+        {
+            StringBuilder concatedStr = new StringBuilder();
+            ConcatValues(valuesToTranslate, concatedStr);
+            return concatedStr;
+        }
+
+        if (valuesToTranslate.Count() == 1)
+        {
+            return valuesToTranslate[0];
+        }
+
+        return valuesToTranslate;
+    }
+
+    private static bool IsTrackedList<T>(object data)
+    {
+        return data is TrackedList<T>;
+    }
+
+    private void ConcatValues(object[] data, StringBuilder concatedStr)
+    {
+        for (int i = 0; i < data.Length; i++)
+        {
+            string str = "";
+            if (IsTrackedList<Guid>(data[i]))
+            {
+                str = TranslatedTaxonomies(data, i);
+            }
+
+            if (!str.IsNullOrEmpty())
+            {
+                concatedStr.Append(str);
+                if (i + 1 < data.Length)
+                {
+                    concatedStr.Append(' ');
+                }
+            }
+        }
+    }
+
+    private string TranslatedTaxonomies(object[] data, int i)
+    {
+        List<string> taxNames = new List<string>();
+        foreach (Guid guid in ((TrackedList<Guid>)data[i]))
+        {
+            var taxon = _taxonomyManager.GetTaxon(guid);
+            taxNames.Add(taxon.Name);
+        }
+
+        return string.Join(" ", taxNames);
+    }
+}
+```
+
+4/ Register in Global.asax.cs when Sitefinity bootstrapped
+
+```
+PipeTranslatorFactory.RegisterTranslator(new CustomTransparentTranslator());
+```
+
+5/ Modify and extend the [search result model](https://github.com/Sitefinity/feather-widgets/blob/master/Telerik.Sitefinity.Frontend.Search/Mvc/Models/SearchResultsModel.cs), ensure it does take in filter for the searching.
+
+Override the PopulateResults method.
+
+![Screenshot2](/assets/blogs/sitefinity-search-classification-index/screenshot2.png)
+
+To read the string filter and translate it to key pair value for filtering.
+
+```
+List<KeyValuePair<string, string>> categoriesFilterClauses = new List<KeyValuePair<string, string>>();
+
+Match match = Regex.Match(filter, @"Category=\((.*?)\)");
+if (match.Success)
+{
+    string categoriesStr = match.Groups[1].Value;
+
+    // Split the categories string by comma
+    string[] categories = categoriesStr.Split(',');
+
+    // Add each category to the list as a key-value pair
+    foreach (string category in categories)
+    {
+        categoriesFilterClauses.Add(new KeyValuePair<string, string>("Category", category.Trim()));
+    }
+}
+
+var filterGroups = new List<SearchFilterGroup>();
+if (categoriesFilterClauses.Count > 0)
+{
+    var categoriesFilterGroup = new SearchFilterGroup(QueryOperator.Or, categoriesFilterClauses);
+    filterGroups.Add(categoriesFilterGroup);
+}
+```
+
+Then use custom searching method
+
+```
+var customResults = SearchHelper.Search(searchQuery, indexCatalogue, this.SearchFields, out totalCount, filterGroups: filterGroups, groupQueryOperator: QueryOperator.And, skip: itemsToSkip, take: take.Value, orderBy: new List<string> { this.OrderBy.ToString() }).ToList();
+```
+
+The SearchHelper.Search method is reference from [here](https://community.progress.com/s/article/How-to-search-programmatically-in-Sitefinity)
+
+6/ Take note that the filter parameter is taking in base64 string, hence when filter it, just convert the string to base64.
+
+e.g. filter category = breaking, the base64 value is Y2F0ZWdvcnk9KGJyZWFraW5nKQ==
+
+/news-search?indexCatalogue=news-index&searchQuery=news&filter=Y2F0ZWdvcnk9KGJyZWFraW5nKQ==
+
+
+
+## References
+- [Benramey - Indexing Taxonomy Fields for Search](https://www.benramey.com/2012/10/19/indexing-taxonomy-fields-for-search-in-sitefinity-51/)
+- [Sitefinity KB - How to search programmatically in Sitefinity](https://community.progress.com/s/article/How-to-search-programmatically-in-Sitefinity)
+- [Sitefinity - Extend the model of built-in widget](https://www.progress.com/documentation/sitefinity-cms/extend-the-model-of-built-in-widgets-mvc)

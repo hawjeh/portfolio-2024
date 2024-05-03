@@ -49,7 +49,7 @@ export default async function BlogPost({ params }) {
         <div className="row">
           <div className="col-12 text-center mb-4">
             <h1>{blogPost.data.title}</h1>
-            <p>{blogPost.data.category} | {blogPost.data.date}</p>
+            <p>{blogPost.data.category} | {blogPost.data.keyword} | {blogPost.data.date}</p>
           </div>
           <div className="col-12 offset-lg-2 col-lg-8 wrapper">
             <MDXRemote source={blogPost.content} />            

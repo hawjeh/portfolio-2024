@@ -1,0 +1,70 @@
+---
+title: "Sitefinity Cloud Manage Configuration"
+slug: "sitefinity-cloud-manage-configuration"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity Cloud - Manage Configuration"
+keyword: ".NET, CMS, Sitefinity, Sitefinity Cloud"
+category: "sitefinity"
+date: "2024-02-20"
+---
+
+## Introduction
+
+Sitefinity Cloud have different way to manage the configurations.
+
+The article is to demo how to manage configuration using Azure DevOps variable groups.
+
+
+## Here we go
+
+You will need to go to Advanced setting to do so.
+
+Example: Edit this site URL settings
+
+1/ Get the property path from your local machine
+
+![Screenshot1](/assets/blogs/sitefinity-cloud-manage-configuration/screenshot1.png)
+
+
+2/ Map it on webconfig (line 81)
+
+![Screenshot2](/assets/blogs/sitefinity-cloud-manage-configuration/screenshot2.png)
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <appSettings>
+    ...
+	 <add key="sf-env:systemConfig/siteUrlSettings:siteUrl" value="www.websparks.sg" />
+    ...
+  </appSettings>
+</configuration>
+```
+
+
+3/ Add the keypair value variable through devops
+
+![Screenshot3](/assets/blogs/sitefinity-cloud-manage-configuration/screenshot3.png)
+
+
+4/ To take action immediately, rerun the CI.CD pipeline,
+
+Specify the Build Configuration
+
+a. Staging - Staging
+b. Production - Production
+c. Release - both Production & Staging
+
+
+5/ Uncheck Partial Deployment
+
+
+6/ Specify Stage to run
+
+![Screenshot4](/assets/blogs/sitefinity-cloud-manage-configuration/screenshot4.png)
+
+
+## References
+- [Sitefinity - Manage the configurations](https://www.progress.com/documentation/sitefinity-cms/cloud/use-different-configurations-for-different-environments)
+- [Sitefinity - Manage configurations in CD Pipeline](https://www.progress.com/documentation/sitefinity-cms/manage-configurations-in-cd-pipeline)
+- [Sitefinity KB - Sitefinity configuration transformations between environments](https://community.progress.com/s/article/cloud-sitefinity-configuration-transformations-between-environments)
