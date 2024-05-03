@@ -10,24 +10,24 @@ date: "2024-04-20"
 
 ## Problem and Solution
 
-In my recent experience with Sitefinity v15.0, I encountered an unexpected issue related to Sitefinity search indexing using the default Lucene. 
+In my recent experience with Sitefinity v15.0, we encountered an unexpected issue related to Sitefinity search indexing using the default Lucene. 
 
 The string indexing functionality was working smoothly while the classification or taxonomy indexing wasn't. 
 
 Upon closer inspection during debugging sessions, it became apparent that only the TrackedList Guid was being indexed instead of the actual GUIDs.
 
-After dedicating several hours to both code inspection and scouring online resources, I found an enlightening article. 
+After dedicating several hours to both code inspection and scouring online resources, we found an enlightening article. 
 
 It prompted me to take a deeper dive into the issue by decompiling the .dll files to identify any missing pieces.
 
-As my investigation progressed, I opted to implement some code injections to ensure the proper translation of GUIDs within the indexing process.
+As my investigation progressed, we opted to implement some code injections to ensure the proper translation of GUIDs within the indexing process.
 
 This solution proved effective in resolving the issue and restoring the expected functionality to the search indexing mechanism.
 
 
-## What I have done?
+## What we have done?
 
-After I read several articles including Benramey and Sitefinity KB, I got my solution process drawn:
+After we read several articles including Benramey and Sitefinity KB, we got our solution process drawn:
 
 1/ Ensure the search indexing can capture the right taxonomy id / name
 
@@ -39,7 +39,7 @@ Found that the Search Index piping translate Guid using TransparentTranslator
 
 3/ Write a custing piping translator and register in when Sitefinity initialized
 
-In my case, I decided to store the taxonomy name for my search purpose later
+In our case, we decided to store the taxonomy name for my search purpose later
 
 ```
 public class CustomTransparentTranslator : TransparentTranslator
