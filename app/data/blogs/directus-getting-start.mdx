@@ -1,0 +1,201 @@
+---
+title: "Getting Start with Directus"
+slug: "directus-getting-start"
+thumbnail: "/assets/blogs/shared/directus.jpg"
+description: "Directus - Getting Start - Dockers"
+keyword: "Directus, headless cms, docker"
+category: "directus"
+date: "2024-05-20"
+---
+
+### Pre-requisite
+
+- Dockers, docker network and docker compose.
+- Directus Headless CMS
+- NPM command
+
+<br/>
+
+### Installation
+
+For windows, you may consider to install docker desktop - it consists of docker and docker compose bundle.
+
+For linux, install both docker and docker compose.
+
+<br/>
+
+### What are we building?
+
+We are going to spin up Directus instance with PostgreSQL with docker compose yaml.
+
+Sample yaml file:
+
+```
+name: demo
+services:
+  database:
+    image: postgis/postgis:13-master
+    environment:
+      POSTGRES_USER: "demo_user"
+      POSTGRES_PASSWORD: "strong_password"
+      POSTGRES_DB: "demo_db"
+      PGPORT: 5432
+    ports:
+      - "5432:5432"
+
+  directus:
+    image: directus/directus:10.12.1
+    ports:
+      - "8055:8055"
+    depends_on:
+      database:
+        condition: service_started
+    environment:
+      PUBLIC_URL: "instance_url"
+      SECRET: "unique_secret"
+      DB_CLIENT: "pg"
+      DB_HOST: "database"
+      DB_PORT: "5432"
+      DB_DATABASE: "demo_db"
+      DB_USER: "demo_user"
+      DB_PASSWORD: "strong_password"
+      ADMIN_EMAIL: "admin@admin.sg"
+      ADMIN_PASSWORD: "strong_password"
+```
+<br/>
+
+### Volumes
+
+Volumes is optional, it can be local storage instead of storing it in docker image. Easier to migrate / move around. 
+Example:
+
+```
+# postgresql db
+volumes:
+  - ./data/database:/var/lib/postgresql/data
+
+# directus upload files
+volumes:
+  - ./uploads:/directus/uploads
+```
+<br/>
+
+### Networks
+
+In order to build virtual network within dockers so that the app can connect internally and easier to manage. 
+Example:
+
+```
+# on each services
+networks:
+  - demo_net
+
+# on root declaration
+networks:
+  demo_net:
+    driver: bridge
+```
+<br/>
+
+### Auto Restart
+
+Specify this to auto restart the service when it goes down. Do always inspect logs to see what happen to the container service. 
+Example:
+
+```
+# on each services
+restart: unless-stopped
+```
+<br/>
+
+### Pgadmin
+
+You may also include PgAdmin - a free, open-source administration and development platform for PostgreSQL. 
+It was mentioned here - [Getting Started with PsotgreSQL on Docker](https://www.sqlshack.com/getting-started-with-postgresql-on-docker/), 
+all you needed to do is convert to YAML format so that docker-compose can pick it up.
+Example:
+
+```
+# pgadmin
+pgadmin:
+  image: dpage/pgadmin4
+  environment:
+    PGADMIN_DEFAULT_EMAIL: "admin@websparks.sg"
+    PGADMIN_DEFAULT_PASSWORD: "strong_password"
+    PGADMIN_CONFIG_SERVER_MODE: 'False'
+  ports:
+    - "5050:80"
+```
+<br/>
+
+### Cache - Redis
+
+Same to Pgadmin, make sure the right image and configuration are specified. References are at end of the content.
+Example:
+
+```
+# cache
+cache:
+  image: redis:latest
+  ports:
+    - "6379:6379"
+```
+
+<br/>
+
+### Demo Template
+
+There are a few pre-built templates prepared by Directus that we can populate. 
+
+First we need to retrieve access token from the administrator user -
+
+![Screenshot1](/assets/blogs/directus-getting-start/screen1.png)
+
+Then run the directus template cli command to generate auto populated template
+```
+npx directus-template-cli@latest apply
+```
+from [Github - directus-template-cli](https://github.com/directus-labs/directus-template-cli)
+
+<br/>
+
+After we execute the command - select
+
+1/ Community templates
+2/ Headless CMS - Website
+3/ Input the Directus URL and Directus Admin Token
+4/ Then it will auto populate templates to the site
+
+![Screenshot2](/assets/blogs/directus-getting-start/screen2.png)
+
+<br/>
+
+### Some useful commands
+
+```
+# Build and start the docker containers based on docker compose script
+docker-compose up -d
+
+# Shut down the containers
+docker compose down
+
+# List the network bridge
+docker network ls
+
+# Inspect and get information about the network / containers
+docker inspect <name>
+
+# Get logs of the service
+docker logs <name>
+
+```
+<br/>
+
+### References
+- [https://github.com/khezen/compose-postgres](https://github.com/khezen/compose-postgres)
+- [https://www.sqlshack.com/getting-started-with-postgresql-on-docker/](https://www.sqlshack.com/getting-started-with-postgresql-on-docker/)
+- [https://github.com/FL0R1AN84/directus-docker-compose/blob/main/docker-compose.yml](https://github.com/FL0R1AN84/directus-docker-compose/blob/main/docker-compose.yml)
+- [https://github.com/directus/directus/blob/main/docker-compose.yml](https://github.com/directus/directus/blob/main/docker-compose.yml)
+- [https://docs.directus.io/self-hosted/config-options.html](https://docs.directus.io/self-hosted/config-options.html)
+- [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+- [https://docs.directus.io/self-hosted/sso.html](https://docs.directus.io/self-hosted/sso.html)

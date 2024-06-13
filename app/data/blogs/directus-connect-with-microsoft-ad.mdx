@@ -1,0 +1,69 @@
+---
+title: "Connect Directus with Microsoft AD"
+slug: "directus-connect-with-microsoft-ad"
+thumbnail: "/assets/blogs/shared/directus.jpg"
+description: "Directus - Active Directory - Microsoft"
+keyword: "Directus, headless cms, docker, microsoft"
+category: "directus"
+date: "2024-05-21"
+---
+
+### Pre-requisite
+
+- Dockers, docker network and docker compose.
+- Directus Headless CMS
+- Microsoft AD SSO with OpenID
+
+<br/>
+
+### Microsoft AD Setup
+
+Create an AD application for web.
+
+Add a Redirect URIs in AD application for login callback purpose, 
+
+```<instance domain>/auth/login/microsoft/callback```
+
+(It only allowed http with localhost or https with non-localhost.)
+
+![Screenshot1](/assets/blogs/directus-connect-with-microsoft-ad/screen1.png)
+
+<br/>
+
+Create a Client Secrets in AD application, keep the value when secret is generated.
+
+![Screenshot2](/assets/blogs/directus-connect-with-microsoft-ad/screen2.png)
+
+<br/>
+
+Specify the provider in docker-compose.yml file, under environment of directus.
+
+```
+AUTH_PROVIDERS: "microsoft"
+AUTH_MICROSOFT_DRIVER: "openid"
+AUTH_MICROSOFT_CLIENT_ID: <Application (client) ID>
+AUTH_MICROSOFT_CLIENT_SECRET: <Client Secrets generated>
+AUTH_MICROSOFT_ISSUER_URL: "https://login.microsoftonline.com/<Directory (tenant) ID>/v2.0/.well-known/openid-configuration"
+AUTH_MICROSOFT_SCOPE: <check the well-known metadata endpoint to confirm what scope is supported, usually are "openid profile email">
+AUTH_MICROSOFT_IDENTIFIER_KEY: <check the well-known metadata endpoint to confirm what claim is supported, usually is "email">
+AUTH_MICROSOFT_ICON: <Fontawesome icon name, e.g. microsoft>
+AUTH_MICROSOFT_LABEL: <Button label, it will show "Login with `label`">
+AUTH_MICROSOFT_DEFAULT_ROLE_ID: <role_id - Get the role id from URL address when access the role in “Access Control” → “<Role>”>
+```
+
+<br/>
+
+Restart docker instance, then you shall see the login button,
+
+![Screenshot3](/assets/blogs/directus-connect-with-microsoft-ad/screen3.png)
+
+<br/>
+
+### References
+- [https://github.com/khezen/compose-postgres](https://github.com/khezen/compose-postgres)
+- [https://www.sqlshack.com/getting-started-with-postgresql-on-docker/](https://www.sqlshack.com/getting-started-with-postgresql-on-docker/)
+- [https://github.com/FL0R1AN84/directus-docker-compose/blob/main/docker-compose.yml](https://github.com/FL0R1AN84/directus-docker-compose/blob/main/docker-compose.yml)
+- [https://github.com/directus/directus/blob/main/docker-compose.yml](https://github.com/directus/directus/blob/main/docker-compose.yml)
+- [https://docs.directus.io/self-hosted/config-options.html](https://docs.directus.io/self-hosted/config-options.html)
+- [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+- [https://docs.directus.io/self-hosted/sso.html](https://docs.directus.io/self-hosted/sso.html)
