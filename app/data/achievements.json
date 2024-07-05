@@ -15,7 +15,7 @@
     "credId": "",
     "credUrl": "",
     "credlyUrl": "",
-    "badge": "https://media.licdn.com/dms/image/D4E0BAQElpcV7cjfjQg/company-logo_200_200/0/1688157526148/progress_software_logo?e=1709164800&v=beta&t=k1RGd6om9-xCajfKqYuOByszk6Gxej7ay_h6RK_76cU"
+    "badge": "/cert/sf_certified_core.png"
   },
   {
     "year": "Issued Aug 2022 · Expires Apr 2025",
@@ -42,10 +42,10 @@
     "credId": "",
     "credUrl": "",
     "credlyUrl": "",
-    "badge": "https://media.licdn.com/dms/image/D4E0BAQElpcV7cjfjQg/company-logo_200_200/0/1688157526148/progress_software_logo?e=1709164800&v=beta&t=k1RGd6om9-xCajfKqYuOByszk6Gxej7ay_h6RK_76cU"
+    "badge": "/cert/sf_certified_developer.png"
   },
   {
-    "year": "Issued Dec 2021 · Expires Dec 2024",
+    "year": "Issued Dec 2021 · Expires Dec 2025",
     "certificate": "Microsoft Certified: Azure Developer Associate",
     "org": "Microsoft",
     "credId": "B89ADA3CFACD1EBC",

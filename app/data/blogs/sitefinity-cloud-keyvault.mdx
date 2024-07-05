@@ -1,0 +1,35 @@
+---
+title: "Sitefinity Cloud Consuming Secret Key From Azure KeyVault"
+slug: "sitefinity-cloud-keyvault"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity Cloud - Manage Configuration"
+keyword: ".NET, CMS, Sitefinity, Sitefinity Cloud"
+category: "sitefinity"
+date: "2024-06-20"
+---
+
+## The Steps
+
+1. Login to the Azure DevOps - Overview - Summary
+
+2. Hit the “Secret & Certificates” button
+
+![Screenshot1](/assets/blogs/sitefinity-cloud-keyvault/screen1.png)
+
+<br/>
+3. There are 3 types of objects we can create, Keys, Secrets and Certificates
+![Screenshot2](/assets/blogs/sitefinity-cloud-keyvault/screen2.png)
+
+<br/>
+4. For my case, I choose Secrets and select Generate/Import a new secret.
+![Screenshot3](/assets/blogs/sitefinity-cloud-keyvault/screen3.png)
+
+<br/>
+5. There are 2 options to consume the secret key
+
+Option 1: Access it via code, sample code can be found in the keyvault dashboard (in step 3)
+
+Option 2: Using it in the AppSettings, hence the application can pick it up when the CICD run
+
+Example: 
+![Screenshot4](/assets/blogs/sitefinity-cloud-keyvault/screen4.png)

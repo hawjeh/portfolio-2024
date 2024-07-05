@@ -24,6 +24,8 @@ export default function ResumeIntro() {
           <p>
             Haw Jeh has unrelenting passion for all things tech. <br />
             He leaves no stone unturned to deliver the best services and solutions.
+            <br />
+            He have been honoured as <a className='text-link' href="https://www.progress.com/blogs/welcoming-progress-sitefinity-champions-2024">Progress Sitefinity Champions 2024</a>
           </p>
         </div>
       </div>
