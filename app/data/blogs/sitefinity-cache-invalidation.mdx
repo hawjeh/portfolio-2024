@@ -1,0 +1,84 @@
+---
+title: "Sitefinity Cache Invalidation"
+slug: "sitefinity-cache-invalidation"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity - Cache Invalidation for 2 layer Content Type"
+keyword: ".NET, CMS, Sitefinity"
+category: "sitefinity"
+date: "2024-08-20"
+---
+
+## The problem
+
+![Screenshot1](/assets/blogs/sitefinity-cache-invalidation/screenshot1.png)
+
+As per diagram above, we have 2 content types, Content_Type_A and Content_Type_B.
+
+Content_Type_A has an open API endpoint to allow data pushed from alternate source.
+
+Content_Type_B references Content_Type_A for some business logic.
+
+<br />
+Both content type are served in different page.
+
+The Page Cache has turned on, both pages are cached.
+
+<br />
+
+We noticed that when API pushed data to Content_Type_A, the page (blue line) will get updated data display.
+
+While the page uses Content_Type_B (red line) will not get updated.
+
+<br/>
+
+## The Solution
+
+Then we found that Sitefinity do provide a way to manually notify the cache to invalidate (in reference).
+
+![Screenshot2](/assets/blogs/sitefinity-cache-invalidation/screenshot2.png)
+
+We have our code listen to Content_Type_A update event, and notify the invalidation.
+
+Code snippets:
+
+```
+public void Update()
+{
+  if (Content_Type_A_Updated) 
+  { 
+    NotifyCache(TypeResolutionService.ResolveType("Content_Type_B")); 
+  }  
+}
+
+
+private static void NotifyCache(Type type)
+{
+    CacheDependency.Notify(GetCacheDependencyKeys(type, type.FullName));
+}
+
+private static List<CacheDependencyKey> GetCacheDependencyKeys(Type type, string key)
+{
+    var cacheDependencyKeys = new List<CacheDependencyKey>();
+
+    var manager = DynamicModuleManager.GetManager(string.Empty);
+    string applicationName = manager != null && manager.Provider != null ? manager.Provider.ApplicationName : string.Empty;
+
+    cacheDependencyKeys.AddRange(OutputCacheDependencyHelper.GetPublishedContentCacheDependencyKeys(type, applicationName));
+    var itemIds = manager.GetDataItems(type).Where(x => x.Status == ContentLifecycleStatus.Live && x.Visible).Select(x => x.Id).ToList();
+    foreach (var itemId in itemIds)
+    {
+        cacheDependencyKeys.AddRange(OutputCacheDependencyHelper.GetPublishedContentCacheDependencyKeys(type, itemId));
+    }
+    cacheDependencyKeys.Add(new CacheDependencyKey { Key = key, Type = type });
+
+    return cacheDependencyKeys;
+}
+
+```
+
+Code can be further enhance to locate and select the right Content_Type_B that has dependency from Content_Type_A for invalidation.
+
+<br/>
+
+## References
+- [Sitefinity - Cache invalidation](https://www.progress.com/documentation/sitefinity-cms/cache-invalidation)
