@@ -1,0 +1,79 @@
+---
+title: "Sitefinity PDF Redirection"
+slug: "sitefinity-pdf-redirection"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity - pdf redirection from old url to new site"
+keyword: ".NET, CMS, Sitefinity"
+category: "sitefinity"
+date: "2024-09-20"
+---
+
+## Introduction
+
+The request is to redirect pdf from the old site url: xxx.com/en/document/sample.pdf to the new Sitefinity site successfully.
+
+By default the pdf uploaded to Documents & Files will adopt the url pattern, 
+
+```/docs/<provider>/<library_folder>/<file and extension>```
+
+We found no way to configure the Documents & Files setting.
+
+<br/>
+
+## What is the workaround?
+
+We found an archive discussion thread shared the possibility and we went ahead to try on.
+
+Basically it uses Page module as the redirection purpose.
+
+<br/>
+
+1/ Head to advanced setting /Sitefinity/Administration/Settings/Advanced,
+
+Under Page setting, we will need to update the "Not allowed page extensions" -> remove the .pdf from the list.
+
+![Screenshot1](/assets/blogs/sitefinity-pdf-redirection/screenshot1.png)
+
+<br/>
+
+2/ Upload a document, we will need the "URL to file" later when setting up Page
+
+![Screenshot2](/assets/blogs/sitefinity-pdf-redirection/screenshot2.png)
+
+<br/>
+
+3/ Setup the Page structure
+
+![Screenshot3](/assets/blogs/sitefinity-pdf-redirection/screenshot3.png)
+
+We will exclude the en and document page from showing in navigation
+
+![Screenshot4](/assets/blogs/sitefinity-pdf-redirection/screenshot4.png)
+
+Lastly, for the redirect page, we use sample.pdf as the page name and the url will auto populate as "sample.pdf" 
+
+as we had allowed the page extension in step 1.
+
+Tick the "Redirect to another page" and use the "URL to file" from step 2. (You may use the relative path)
+
+![Screenshot5](/assets/blogs/sitefinity-pdf-redirection/screenshot5.png)
+
+The purpose of doing the structuring is to categorize the documents into different path structure.
+
+<br/>
+
+4/ Alternatively, you can also setup 1 redirect page at root with full path as below:
+
+```using documents instead of document because the URL "/en/document/sample.pdf" already exists in page: en > document > sample.pdf```
+
+![Screenshot6](/assets/blogs/sitefinity-pdf-redirection/screenshot6.png)
+
+<br/>
+
+5/ Now visit the url xxx.com/en/document/sample.pdf or xxx.com/en/documents/sample.pdf will redirect you the document!
+
+
+<br/><br/>
+
+## References
+- [Sitefinity - 301 redirects the PDF](https://community-archive.progress.com/forums/00295/40474.html)

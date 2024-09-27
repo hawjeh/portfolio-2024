@@ -8,6 +8,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/blog/:slug*',
+        destination: '/blogs/:slug*',
+        permanent: true,
+      },
+      {
         source: '/sitemap',
         destination: '/sitemap.xml',
         permanent: true,
