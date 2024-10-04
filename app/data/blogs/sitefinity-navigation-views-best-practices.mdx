@@ -1,0 +1,23 @@
+---
+title: "Sitefinity Navigation Views Best Practices"
+slug: "sitefinity-navigation-views-best-practices"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity - Navigation Views Code Best Practices"
+keyword: ".NET, CMS, Sitefinity"
+category: "sitefinity"
+date: "2024-07-20"
+---
+
+Our previous NavigationView implementation was using PageManager to get a whole list of PageNodes in order to get the page details and custom fields.
+
+It costed some performnace hiccup and after talking to Sitefiity Support expert, they suggested the code can be enhanced: A better approach for getting the page nodes would be using the <b>SiteMapBase class</b>, coming from the Telerik.Sitefinity.Base namespace.
+
+The experts also confirmed that using the SiteMap API to get the page nodes would be the preferred way of implementing this behavior, as it causes a lighter load to the database in comparison to the Page Manager, which includes additional redundant data on each request.
+
+Following code sample can be found in Snippets reference, the Navigation.cshtml is the snippet and NavigationView.Horizontal.cshtml is example code via OOTB NavigationView code.
+
+
+## References
+- [Sitefinity - Access custom fields through the SiteMapNodes](https://www.progress.com/documentation/sitefinity-cms/for-developers-access-custom-fields-through-the-sitemapnodes)
+- [Sitefinity - KB](https://community.progress.com/s/article/how-to-get-the-published-pages-that-are-included-in-the-navigation-from-the-sitemap-via-api)
+- [Snippets](https://gist.github.com/hawjeh/7ef54bed4a1bcfccb99067feaf020168)
