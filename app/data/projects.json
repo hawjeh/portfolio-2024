@@ -1,5 +1,33 @@
 [
   {
+    "short": "AmBank Group",
+    "project": "AmBank Group Berhad - Group",
+    "type": "Sitefinity Cloud, Web, Data Integration, JQuery",
+    "website": "https://www.ambankgroup.com/",
+    "thumbnail": "/assets/projects/ambankgroup.jpg"
+  },
+  {
+    "short": "AmBank",
+    "project": "AmBank Group Berhad - Personal",
+    "type": "Sitefinity Cloud, Web, Data Integration, JQuery",
+    "website": "https://www.ambank.com.my/",
+    "thumbnail": "/assets/projects/ambank.jpg"
+  },
+  {
+    "short": "AmInvest",
+    "project": "AmBank Group Berhad - AmInvest",
+    "type": "Sitefinity Cloud, Web, Data Integration, JQuery",
+    "website": "https://www.aminvest.com/",
+    "thumbnail": "/assets/projects/aminvest.jpg"
+  },
+  {
+    "short": "AmBank BizClub",
+    "project": "AmBank Group Berhad - AmBank BizClub",
+    "type": "Sitefinity Cloud, Web, Data Integration, JQuery",
+    "website": "https://ambankbizclub.com/",
+    "thumbnail": "/assets/projects/ambankbizclub.jpg"
+  },
+  {
     "short": "NEA",
     "project": "National Environmental Agency",
     "type": "Sitefinity, Web, Data Integration, JQuery",

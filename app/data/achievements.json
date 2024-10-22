@@ -1,5 +1,14 @@
 [
   {
+    "year": "Issued Oct 2024 · Expires Oct 2026",
+    "certificate": "Certified Sitefinity Developer: Sitefinity Foundations (14)",
+    "org": "Progress",
+    "credId": "",
+    "credUrl": "",
+    "credlyUrl": "",
+    "badge": "/cert/sf_certified_developer.png"
+  },
+  {
     "year": "Issued Jul 2023 · Expires Jul 2026",
     "certificate": "AWS Certified Solutions Architect - Associate",
     "org": "Amazon Web Services (AWS)",
@@ -34,15 +43,6 @@
     "credUrl": "",
     "credlyUrl": "https://www.credly.com/badges/5b557ed4-6ea2-4af8-a6cc-e0ebd0a237f6",
     "badge": "https://images.credly.com/size/340x340/images/d2298e82-b671-434a-876b-21a0ebc3af0e/image.png"
-  },
-  {
-    "year": "Issued May 2022 · Expires May 2024",
-    "certificate": "Certified Sitefinity Developer: Sitefinity Foundations (14)",
-    "org": "Progress",
-    "credId": "",
-    "credUrl": "",
-    "credlyUrl": "",
-    "badge": "/cert/sf_certified_developer.png"
   },
   {
     "year": "Issued Dec 2021 · Expires Dec 2025",
