@@ -1,0 +1,162 @@
+---
+title: "Develop Mini Blog with Directus - Part 5"
+slug: "directus-mini-blog-5"
+thumbnail: "/assets/blogs/shared/directus.jpg"
+description: "Directus - Headless CMS - Mini Blog - NextJS"
+keyword: "Directus, Headless CMS NextJS"
+category: "directus"
+date: "2024-10-24"
+---
+
+### Pre-requisite
+
+- Basic understanding about Directus and NextJS
+
+### Mini Blog Series
+
+- [Part 1](/blogs/directus-mini-blog-1)
+- [Part 2](/blogs/directus-mini-blog-2)
+- [Part 3](/blogs/directus-mini-blog-3)
+- [Part 4](/blogs/directus-mini-blog-4)
+- [Part 5](/blogs/directus-mini-blog-5)
+- [Part 6](/blogs/directus-mini-blog-6)
+
+<b>NextJS Connect to Directus</b>
+
+<br/><br/>
+
+### How to connect?
+
+#### Directus SDK
+
+Firstly, we will need to connect to Directus, therefore we need install the sdk
+
+``` npm install @directus/sdk ```
+
+The basic usage will be
+
+```
+import { createDirectus } from '@directus/sdk';
+
+const DIRECTUS_URL = `${process.env.DIRECTUS_PROTOCOL}://${process.env.DIRECTUS_HOSTNAME}:${process.env.DIRECTUS_PORT}`
+const client = createDirectus(DIRECTUS_URL);
+```
+
+In our case, we are using user token to restrict the permission, hence we will need to use the staticToken() function.
+
+```
+import { createDirectus } from '@directus/sdk';
+
+const DIRECTUS_URL = `${process.env.DIRECTUS_PROTOCOL}://${process.env.DIRECTUS_HOSTNAME}:${process.env.DIRECTUS_PORT}`
+const client = createDirectus(DIRECTUS_URL)
+  .with(staticToken(process.env.DIRECTUS_TOKEN || ''));
+```
+
+Then we need to specify to use Rest SDK or GraphQL as request medium.
+
+```
+import { createDirectus, staticToken, graphql, rest } from '@directus/sdk';
+
+const DIRECTUS_URL = `${process.env.DIRECTUS_PROTOCOL}://${process.env.DIRECTUS_HOSTNAME}:${process.env.DIRECTUS_PORT}`
+
+const clientRest = createDirectus(DIRECTUS_URL)
+  .with(staticToken(process.env.DIRECTUS_TOKEN || ''))
+  .with(rest());
+
+const clientGraphQL = createDirectus(DIRECTUS_URL)
+  .with(staticToken(process.env.DIRECTUS_TOKEN || ''))
+  .with(graphql());
+```
+
+#### Interface and Schema
+
+Next, its to send query to read from Directus.
+
+As our app is NextJS Typescript, hence we needed to build the interface and schema. 
+
+We will create a schema.ts to feed the types
+
+```
+interface Blog {
+  id: string;
+  status: string;
+  title: string;
+  type: string;
+  slug: string;
+  external: string;
+  image: string;
+  start: string;
+  end: string;
+  published: string;
+  content: string;
+}
+
+interface Schema {
+  blog: Blog[];
+}
+
+export type { Blog, Schema }
+
+```
+
+#### Read Items
+
+To read list of data from data model, it is very straightforward. 
+
+We just need to use the readItems('\<collection name\>') and of course put in the right schema / interface.
+
+```
+import { Schema, Blog } from '@/helper/schema';
+import { createDirectus, staticToken, graphql, rest, readItems } from '@directus/sdk';
+
+const DIRECTUS_URL = `${process.env.DIRECTUS_PROTOCOL}://${process.env.DIRECTUS_HOSTNAME}:${process.env.DIRECTUS_PORT}`
+
+const clientRest = createDirectus(DIRECTUS_URL)
+  .with(staticToken(process.env.DIRECTUS_TOKEN || ''))
+  .with(rest());
+
+const clientGraphQL = createDirectus(DIRECTUS_URL)
+  .with(staticToken(process.env.DIRECTUS_TOKEN || ''))
+  .with(graphql());
+  
+const restBlogs = async function() {
+  return await clientRest.request<Blog>(readItems('blog'));
+}
+
+const graphBlogs = async function() {
+  return await client.query<Schema>(`
+      query Blogs {
+          blog {
+              id
+              status
+              title
+              type
+              slug
+              image
+              external
+              published
+              start
+              end
+              content
+          }
+      }
+    `);
+}
+```
+
+#### Rest SDK vs. GraphQL
+
+It is up to us to choose which is preferred way to query data from Directus because there is no difference in the functionality available between the REST and GraphQL endpoints. 
+
+We can decide based on the syntax, learning curve and hands-on experience.
+
+<br/>
+
+### References
+- [API Reference | Directus Docs](https://docs.directus.io/reference/introduction.html)
+- [Resources | Directus Docs](https://docs.directus.io/getting-started/resources.html)
+- [Blog | Directus Docs](https://docs.directus.io/blog/)
+- [Directus TV](https://www.youtube.com/c/DirectusVideos)
+- [Directus GitHub](https://github.com/directus/directus)
+- [Directus Boilerplate & Extensions GitHub](https://github.com/directus-labs/extensions/)
+- [Haw Jeh | MiniBlog Directus NextJS](https://github.com/hawjeh/MiniBlog-Directus-NextJS)

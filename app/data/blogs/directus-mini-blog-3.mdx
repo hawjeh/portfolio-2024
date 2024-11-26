@@ -1,0 +1,75 @@
+---
+title: "Develop Mini Blog with Directus - Part 3"
+slug: "directus-mini-blog-3"
+thumbnail: "/assets/blogs/shared/directus.jpg"
+description: "Directus - Headless CMS - Mini Blog - NextJS"
+keyword: "Directus, Headless CMS NextJS"
+category: "directus"
+date: "2024-10-22"
+---
+
+### Pre-requisite
+
+- Basic understanding about Directus and NextJS
+
+### Mini Blog Series
+
+- [Part 1](/blogs/directus-mini-blog-1)
+- [Part 2](/blogs/directus-mini-blog-2)
+- [Part 3](/blogs/directus-mini-blog-3)
+- [Part 4](/blogs/directus-mini-blog-4)
+- [Part 5](/blogs/directus-mini-blog-5)
+- [Part 6](/blogs/directus-mini-blog-6)
+
+<b>We are preparing access permission for NextJS App</b>
+
+<br/><br/>
+
+### What access policies to setup?
+
+First we need to understand the goal - the goal is to allow NextJS to consume the blog content and images.
+
+Hence, we know there are 2 collections to set in <b>Directus access policies</b>.
+
+<br/>
+
+Set <b>directus_files</b> to Public policy with <b>READ</b> access
+
+![Screenshot1](/assets/blogs/directus-mini-blog-3/screen1.png)
+
+<br/>
+Create a new policy name <b>Presentation</b>
+
+Set <b>blog</b> with <b>READ</b> access, <b>without</b> App and Admin Access
+
+![Screenshot2](/assets/blogs/directus-mini-blog-3/screen2.png)
+
+<br/>
+
+Create a Role, name <b>Presentation</b> and <b>adopt Presentation Policy</b>
+
+![Screenshot3](/assets/blogs/directus-mini-blog-3/screen3.png)
+
+<br/>
+Lastly, create a bot user, set
+
+- Status = Active
+- Role = Presentation
+- Generate security token
+
+
+![Screenshot4](/assets/blogs/directus-mini-blog-3/screen4.png)
+
+<br/>
+<b>Keep</b> the security token, that will be use for NextJS to communicate with Directus CMS.
+
+<br/>
+
+### References
+- [API Reference | Directus Docs](https://docs.directus.io/reference/introduction.html)
+- [Resources | Directus Docs](https://docs.directus.io/getting-started/resources.html)
+- [Blog | Directus Docs](https://docs.directus.io/blog/)
+- [Directus TV](https://www.youtube.com/c/DirectusVideos)
+- [Directus GitHub](https://github.com/directus/directus)
+- [Directus Boilerplate & Extensions GitHub](https://github.com/directus-labs/extensions/)
+- [Haw Jeh | MiniBlog Directus NextJS](https://github.com/hawjeh/MiniBlog-Directus-NextJS)

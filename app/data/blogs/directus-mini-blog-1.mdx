@@ -1,0 +1,150 @@
+---
+title: "Develop Mini Blog with Directus - Part 1"
+slug: "directus-mini-blog-1"
+thumbnail: "/assets/blogs/shared/directus.jpg"
+description: "Directus - Headless CMS - Mini Blog - NextJS"
+keyword: "Directus, Headless CMS NextJS"
+category: "directus"
+date: "2024-10-20"
+---
+
+### Pre-requisite
+
+- Basic understanding about Directus and NextJS
+
+### Mini Blog Series
+
+- [Part 1](/blogs/directus-mini-blog-1)
+- [Part 2](/blogs/directus-mini-blog-2)
+- [Part 3](/blogs/directus-mini-blog-3)
+- [Part 4](/blogs/directus-mini-blog-4)
+- [Part 5](/blogs/directus-mini-blog-5)
+- [Part 6](/blogs/directus-mini-blog-6)
+
+<b>Getting start with Directus</b>
+
+<br/><br/>
+
+### The Final Screen
+
+![Screenshot1](/assets/blogs/directus-mini-blog-1/screen1.png)
+
+<p className="text-center">Listing Page</p>
+
+<br/>
+
+![Screenshot2](/assets/blogs/directus-mini-blog-1/screen2.png)
+
+<p className="text-center">Detail Page</p>
+
+<br/>
+
+### How do we get start?
+
+Firstly, setup the Directus and database.
+
+To spin up a Directus instance, we can either use docker or NPM installation according to [Quickstart Guide | Directus Docs](https://docs.directus.io/getting-started/quickstart.html)
+
+In the demo, we are using NPM installation and Dockers to spin up database
+
+For [PostgreSQL Docker Guide | Directus Docs](https://docs.directus.io/self-hosted/docker-guide.html)
+
+```
+name: playground
+services:
+  database:
+    image: postgis/postgis:16-master
+    ports:
+      - "5432:5432"
+    networks:
+      - ws_net
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "directus"
+      POSTGRES_PASSWORD: "Websparks123!"
+      POSTGRES_DB: "directusdb"
+      PGUSER: "postgres"
+      PGPORT: 5432
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "directus", "-d", "directusdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 30s
+    restart: unless-stopped
+
+networks:
+  ws_net:
+    driver: bridge
+```
+
+<br/><br/>
+Then run script to start the PostgreSQL
+
+```Run docker-compose up -d```
+
+<br/><br/>
+For NPM installation
+
+```
+npm init directus-project@latest backend
+
+Then select -
+> PostgreSQL / Redshift
+Database Host: localhost
+Port: 5432
+Database Name: directusdb
+Database User: directus
+Database Password: Websparks123!
+Enable SSL: no
+
+For the user -
+> Directus User
+admin@websparks.sg
+Websparks123!
+```
+
+<br/><br/>
+The script will auto generate some files
+
+```
+.env - all required configuration for setup
+/upload - folder to keep uploaded file & assets
+/extensions - folder to keep extensions
+```
+
+<br/><br/>
+Next, run the script to start Directus instance
+
+```
+cd .\backend
+npx directus start
+```
+
+<br/><br/>
+You will see some message on console:
+
+```
+WARN: "PUBLIC_URL" should be a full URL
+INFO: Server started at http://0.0.0.0:8055
+```
+
+<br/><br/>
+In your browser, visit http://localhost:8055 you will see the login screen.
+
+![Screenshot3](/assets/blogs/directus-mini-blog-1/screen3.png)
+
+Go ahead and login with the credential you specified earlier.
+
+<br/>
+
+### References
+- [API Reference | Directus Docs](https://docs.directus.io/reference/introduction.html)
+- [Resources | Directus Docs](https://docs.directus.io/getting-started/resources.html)
+- [Blog | Directus Docs](https://docs.directus.io/blog/)
+- [Directus TV](https://www.youtube.com/c/DirectusVideos)
+- [Directus GitHub](https://github.com/directus/directus)
+- [Directus Boilerplate & Extensions GitHub](https://github.com/directus-labs/extensions/)
+- [Haw Jeh | MiniBlog Directus NextJS](https://github.com/hawjeh/MiniBlog-Directus-NextJS)

@@ -1,0 +1,191 @@
+---
+title: "Develop Mini Blog with Directus - Part 2"
+slug: "directus-mini-blog-2"
+thumbnail: "/assets/blogs/shared/directus.jpg"
+description: "Directus - Headless CMS - Mini Blog - NextJS"
+keyword: "Directus, Headless CMS NextJS"
+category: "directus"
+date: "2024-10-21"
+---
+
+### Pre-requisite
+
+- Basic understanding about Directus and NextJS
+
+### Mini Blog Series
+
+- [Part 1](/blogs/directus-mini-blog-1)
+- [Part 2](/blogs/directus-mini-blog-2)
+- [Part 3](/blogs/directus-mini-blog-3)
+- [Part 4](/blogs/directus-mini-blog-4)
+- [Part 5](/blogs/directus-mini-blog-5)
+- [Part 6](/blogs/directus-mini-blog-6)
+
+<b>We are setting up Directus</b>
+
+<br/><br/>
+
+### How do we setup?
+
+On the default screen (Content tab) - we can start to create collection.
+
+![Screenshot1](/assets/blogs/directus-mini-blog-2/screen1.png)
+
+We are going to create a blog collection, name <b>blog</b>, set type to <b>Generated UUID</b>
+
+and tick all Optional Fields
+
+![Screenshot2](/assets/blogs/directus-mini-blog-2/screen2.png)
+
+<p className="text-center">Collection Setup</p>
+
+<br/>
+
+![Screenshot3](/assets/blogs/directus-mini-blog-1/screen3.png)
+
+<p className="text-center">Optional Fields</p>
+
+<br/>
+
+For the blog fields
+
+<div className="table-responsive">
+  <table className="table table-bordered">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Interface</th>
+            <th>Setting</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>title</td>
+            <td>String</td>
+            <td>Input</td>
+            <td>Required</td>
+        </tr>
+        <tr>
+            <td>type</td>
+            <td>String</td>
+            <td>Dropdown (News, Campaign)</td>
+            <td>Required</td>
+        </tr>
+        <tr>
+            <td>slug</td>
+            <td>Text</td>
+            <td>Input (Trim, Slugify)</td>
+            <td>Required</td>
+        </tr>
+        <tr>
+            <td>external</td>
+            <td>Text</td>
+            <td>Input</td>
+            <td>
+              Validation
+              <code className="ps-0">
+                  \{"and":[\{"external":\{"regex":"^(https):\\/\\/([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/[a-zA-Z0-9-])(\\?[a-zA-Z0-9_&amp;%=+-])?(#[a-zA-Z0-9_-])?$"\}\}]\}
+              </code>
+            </td>
+        </tr>
+        <tr>
+          <td>image</td>
+          <td>UUID</td>
+          <td>Image</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>start</td>
+          <td>Date</td>
+          <td>DateTime</td>
+          <td>
+            Default - Set true for Hide on Details
+            Condition:
+            - SHOW if TYPE = Campaign
+            - <code className="ps-0">\{"_and":[\{"type":\{"_eq":"campaign"\}\}]\}</code>
+            - Set false - Hidden on Details
+            - Set true - Required
+          </td>
+        </tr>
+        <tr>
+          <td>end</td>
+          <td>Date</td>
+          <td>DateTime</td>
+          <td>
+            Default - Set true for Hide on Details
+            Condition:
+            - SHOW if TYPE = Campaign
+            - <code className="ps-0">\{"_and":[\{"type":\{"_eq":"campaign"\}\}]\}</code>
+            - Set false - Hidden on Details
+            - Set true - Required
+          </td>
+        </tr>
+        <tr>
+          <td>published</td>
+          <td>Date</td>
+          <td>DateTime</td>
+          <td>
+            Default - Set true for Hide on Details
+            Condition:
+            - SHOW if TYPE = News
+            - <code className="ps-0">\{"_and":[\{"type":\{"_eq":"news"\}\}]\}</code>
+            - Set false - Hidden on Details
+            - Set true - Required
+          </td>
+        </tr>
+        <tr>
+          <td>content</td>
+          <td>Text</td>
+          <td>WYSIWYG</td>
+          <td>&nbsp;</td>
+        </tr>
+      </tbody>
+  </table>
+</div>
+
+<br/>
+
+The editing screen looks like this 
+
+![Screenshot4](/assets/blogs/directus-mini-blog-2/screen4.png)
+
+<br/>
+<b>Condition</b> and <b>Validation</b> that setup earlier will be in place, e.g.
+
+Required fields
+
+![Screenshot5](/assets/blogs/directus-mini-blog-2/screen5.png)
+
+<br/>
+Select <u>Type = News</u>
+
+![Screenshot6](/assets/blogs/directus-mini-blog-2/screen6.png)
+
+![Screenshot7](/assets/blogs/directus-mini-blog-2/screen7.png)
+
+<br/>
+Select <u>Type = Campaign</u>
+
+![Screenshot8](/assets/blogs/directus-mini-blog-2/screen8.png)
+
+<br/>
+Wrong link format
+
+![Screenshot9](/assets/blogs/directus-mini-blog-2/screen9.png)
+
+<br/>
+Setup some contents for integration with NextJS later.
+
+![Screenshot10](/assets/blogs/directus-mini-blog-2/screen10.png)
+
+<br/>
+
+### References
+- [API Reference | Directus Docs](https://docs.directus.io/reference/introduction.html)
+- [Resources | Directus Docs](https://docs.directus.io/getting-started/resources.html)
+- [Blog | Directus Docs](https://docs.directus.io/blog/)
+- [Directus TV](https://www.youtube.com/c/DirectusVideos)
+- [Directus GitHub](https://github.com/directus/directus)
+- [Directus Boilerplate & Extensions GitHub](https://github.com/directus-labs/extensions/)
+- [Haw Jeh | MiniBlog Directus NextJS](https://github.com/hawjeh/MiniBlog-Directus-NextJS)

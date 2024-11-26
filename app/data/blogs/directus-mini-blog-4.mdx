@@ -1,0 +1,105 @@
+---
+title: "Develop Mini Blog with Directus - Part 4"
+slug: "directus-mini-blog-4"
+thumbnail: "/assets/blogs/shared/directus.jpg"
+description: "Directus - Headless CMS - Mini Blog - NextJS"
+keyword: "Directus, Headless CMS NextJS"
+category: "directus"
+date: "2024-10-23"
+---
+
+### Pre-requisite
+
+- Basic understanding about Directus and NextJS
+
+### Mini Blog Series
+
+- [Part 1](/blogs/directus-mini-blog-1)
+- [Part 2](/blogs/directus-mini-blog-2)
+- [Part 3](/blogs/directus-mini-blog-3)
+- [Part 4](/blogs/directus-mini-blog-4)
+- [Part 5](/blogs/directus-mini-blog-5)
+- [Part 6](/blogs/directus-mini-blog-6)
+
+<b>Setting up NextJS App</b>
+
+<br/><br/>
+
+### What's Next?
+
+It’s pretty straight forward now.
+
+We need to have a NextJS app, with directrus-sdk to communicate with Directus CMS and bootstrap for minor styling.
+
+
+#### Installation
+
+Run the spin up command
+
+<code>npx create-next-app@latest</code>
+
+```
+√ What is your project named? ... frontend
+√ Would you like to use TypeScript? ... Yes
+√ Would you like to use ESLint? ... No
+√ Would you like to use Tailwind CSS? ... No
+√ Would you like your code inside a `src/` directory? ... No
+√ Would you like to use App Router? (recommended) ... Yes
+√ Would you like to use Turbopack for next dev? ... No
+√ Would you like to customize the import alias (@/* by default)? ... Yes
+√ What import alias would you like configured? ... @/*
+```
+
+
+#### Check the Installation
+
+Run the command to start the NextJS App
+
+<code>npm run dev</code>
+
+You should see this or similar message on screen. It is the default NextJS screen.
+
+![Screenshot1](/assets/blogs/directus-mini-blog-4/screen1.png)
+
+
+#### Clean the default setup
+
+First thing we would like to do is removing the default code
+
+```
+fonts
+globals.css
+page.module.css
+```
+
+Clean up the tsx code
+
+```
+page.tsx
+layout.tsx
+```
+
+Then add a .env file at root folder
+```
+.env
+```
+
+```
+DIRECTUS_TOKEN=
+DIRECTUS_PROTOCOL=http
+DIRECTUS_HOSTNAME=0.0.0.0
+DIRECTUS_PORT=8055
+```
+
+Put the token we got in previous steps at <b>DIRECTUS_TOKEN</b>
+
+<br/>
+
+### References
+- [API Reference | Directus Docs](https://docs.directus.io/reference/introduction.html)
+- [Resources | Directus Docs](https://docs.directus.io/getting-started/resources.html)
+- [Blog | Directus Docs](https://docs.directus.io/blog/)
+- [Directus TV](https://www.youtube.com/c/DirectusVideos)
+- [Directus GitHub](https://github.com/directus/directus)
+- [Directus Boilerplate & Extensions GitHub](https://github.com/directus-labs/extensions/)
+- [Haw Jeh | MiniBlog Directus NextJS](https://github.com/hawjeh/MiniBlog-Directus-NextJS)
