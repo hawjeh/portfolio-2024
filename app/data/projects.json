@@ -1,5 +1,12 @@
 [
   {
+    "short": "SOC 50 years",
+    "project": "NUS School of Computing 50 years",
+    "type": "Directus, NextJS, Dockers",
+    "website": "https://50years.comp.nus.edu.sg/",
+    "thumbnail": "/assets/projects/soc50.jpg"
+  },
+  {
     "short": "AmBank Group",
     "project": "AmBank Group Berhad - Group",
     "type": "Sitefinity Cloud, Web, Data Integration, JQuery",
