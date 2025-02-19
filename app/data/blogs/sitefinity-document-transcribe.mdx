@@ -1,0 +1,110 @@
+---
+title: "Sitefinity Document Transcribe"
+slug: "sitefinity-document-transcribe"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Sitefinity - Document Transcribe to HTML"
+keyword: ".NET, CMS, Sitefinity"
+category: "sitefinity"
+date: "2025-01-20"
+---
+
+## Introduction
+
+The request is to transcribe documents into HTML format and allow it to be editable.
+
+In Sitefinity, Content Blocks are used to display rich text and provide the ability to edit HTML content.
+
+To customize the transcribe feature, we have to create own extension to the [AdminApp](https://github.com/Sitefinity/sitefinity-admin-app-extensions/).
+
+<br/>
+
+## Planning
+
+We then look into the [Code Sample](https://github.com/Sitefinity/sitefinity-admin-app-extensions-samples) and found that the closest one would be using editor-extender.
+
+The sample code reference is [Sitefinity Insert Videos Extension](https://github.com/Sitefinity/sitefinity-admin-app-extensions-samples/blob/master/editor-extender/sitefinity-videos/README.md)
+
+We also disocvered there is a Paid Product to do the document transcribe.
+
+To do so, our plan is to load the uploaded document in Sitefinity and transcribe it using [Aspose.Word](https://docs.aspose.com/words/net/).
+
+<br/>
+
+## Execution
+
+AdminApp is an Angular app, hence we need an API to query the uploaded document with Aspose.Word.
+
+For the API, we first [load the document into stream](https://docs.aspose.com/words/net/create-or-load-a-document/) then [convert to HTML](https://docs.aspose.com/words/net/convert-a-document-to-html-mhtml-or-epub/) with option of Export Image As Base 64.
+
+Then for AdminApp, we start looking at cloning the code reference above.
+
+After scanning through the code, we could not found any expose method to access document library like image/video library do using openImageLibrarySelector or openVideoLibrarySelector.
+
+<br/>
+
+## What is the workaround?
+
+We are able to use the built-in insertDcoument to select uploaded document.
+
+And we found that the previous discovered method in [previous write-up](/blogs/sitefinity-adminapp-extensions-anchor-point) can be resuse.
+
+```
+const editor = editorHost.getKendoEditor();
+const editorValue = editor.value();
+```
+
+Then, we are able to use simple regex function to retrieve the document id and pass to our custom API.
+
+Our custom API then accept the document id, using Sitefinity API <b>LibrariesManager</b> to retrieve the published document.
+
+The API then use the Aspose.Word library to transribe and return the HTML.
+
+Lastly, in adminapp, we can use method below to update the Content Blocks editor html.
+
+```
+editor.value(html);
+editor.trigger('change');
+```
+
+<br/>
+
+## Final Screen
+
+![screen1](/assets/blogs/sitefinity-document-transcribe/screen1.png)
+
+<br/>
+
+## New Challenges
+
+However, the base64 images were not show in the content.
+
+We suspect there is something related to the default HTML sanitizer.
+
+We will need to allow the attribute / scheme / tags related to base64 images tag.
+
+Finally, we found the right one is AllowedSchemes.
+
+<br/>
+
+```
+public class SitefinityExtendedHtmlSanitizer : HtmlSanitizer
+{
+    public SitefinityExtendedHtmlSanitizer()
+    {
+        base.AllowedSchemes.Add("data");
+    }
+}
+```
+
+<br/>
+
+## Resolved Challenge
+
+![screen2](/assets/blogs/sitefinity-document-transcribe/screen2.png)
+
+<br/>
+
+## References
+- [Sitefinity - Persist base64 images](https://community.progress.com/s/article/marketing-persist-base64-images-in-email-campaigns)
+- [Sitefinity - Modify the HTML sanitizer configuration](https://www.progress.com/documentation/sitefinity-cms/html-sanitization)
+- [Aspose - Words for .NET](https://docs.aspose.com/words/net/)
