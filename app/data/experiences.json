@@ -2,7 +2,7 @@
   {
     "year": "Apr 2018 - Present",
     "company": "Websparks Pte Ltd · Full Time",
-    "title": ".NET Team Lead / Solution Architect",
+    "title": "Solution Architect",
     "description": [
       "Develop and maintain .Net web applications using full SDLC and Agile Scrum methodologies",
       "Manage web applications interfacing with third-party integrations, ensuring high traffic functionality",
@@ -18,11 +18,11 @@
       "Established standard Git flow processes and CI/CD pipeline templates using Azure DevOps",
       "Setup and implemented Apify with Puppeteer API for web application health monitoring",
       "Created mini apps with Postman API for simulating HTTP request flow and running test cases",
-      "Developed a Google Lighthouse desktop app for bulk web page quality measurement",
+      "Develop and maintain inhouse Google Lighthouse desktop app for bulk web page quality measurement",
       "Created Teams/Telegram chatbots integrated with ChatGPT",
-      "Develop web applications using .Net, Linq / Lambda, Restful API, NextJS, ReactJS, VueJS, Directus, Html5, CSS3 and Javascript",
+      "Develop and maintain various web applications using .Net, Linq / Lambda, Restful API, NextJS, ReactJS, VueJS, Directus, Html5, CSS3 and Javascript",
       "Deployed and hosted applications on AWS/Azure, ensuring scalable and efficient cloud infrastructure for optimal performance and reliability",
-      "Progressed from .Net Developer to Solution Architect, with promotions to Senior .Net Developer, Assistant Team Lead, and Team Lead along the way."
+      "Progressed from .Net Developer to Solution Architect, with promotions to Senior .Net Developer, Assistant Team Lead, Team Lead and Solution Architect along the way"
     ]
   },
   {

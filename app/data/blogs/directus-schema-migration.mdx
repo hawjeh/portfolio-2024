@@ -1,0 +1,51 @@
+---
+title: "Directus Schema Migration Tool"
+slug: "directus-schema-migration"
+thumbnail: "/assets/blogs/shared/directus.jpg"
+description: "Directus - Schema Migration"
+keyword: "Directus, Headless CMS docker, microsoft"
+category: "directus"
+date: "2024-11-20"
+---
+
+### Introduction
+
+We explored schema migration tools to facilitate the exact replication of a Directus instance, ensuring a seamless transfer of its configuration and structure to another instance.
+
+This approach accelerates the deployment and cloning of new projects, optimizing setup efficiency.
+
+<br/>
+
+### Process
+
+First, we will need to have both the existing Directus instance and new target Directus instance running.
+
+Both instances requried to be able to connect with token. 
+
+In this migration case, we are using admin token for both.
+
+Next, retrieve the current schema. The response is somewhat like this
+
+```
+{
+  "version": int,
+  "directus": string,
+  "vendor": string,
+  "collections": array<object>,
+  "fields": array<object>,
+  "relations": array<object>
+}
+```
+
+This response will need to feed into the second request in order to check schema snapshot against target Directus instance.
+
+The second response will get the schema differences.
+
+Lastly, do schema apply from the differences to target Directus instance.
+
+Sample code can be found [here](https://github.com/hawjeh/directus-schema-migration-tool).
+
+<br/>
+
+### References
+- [https://directus.io/docs/api/schema](https://directus.io/docs/api/schema)
