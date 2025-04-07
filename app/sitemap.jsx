@@ -1,6 +1,6 @@
 import { GetBlogList } from './components/Blog/BlogHelper';
 
-const URL = "https://www.hawjeh.com";
+const URL = "https://hawjeh.com";
 
 export default async function sitemap() {
   const today = new Date();
