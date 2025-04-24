@@ -1,0 +1,144 @@
+---
+title: "Directus x  Azure Open AI Integration"
+slug: "directus-azure-open-ai"
+thumbnail: "/assets/blogs/shared/directus.jpg"
+description: "Directus - Azure - OpenAI"
+keyword: "Directus, Azure, OpenAI"
+category: "directus"
+date: "2025-04-20"
+---
+
+### Objective
+
+The use case is to auto generate SEO friendly summary and tagging in article with the help of AI.
+
+With Directus Flow, we are going to make it possible!
+
+<br/>
+
+### Pre-requisite
+
+- Setup a Directus instance
+- Setup an Azure AI Foundry | Azure OpenAI Service Deployment
+
+<br/>
+
+### Azure AI Foundry
+
+Firstly, we will need to deploy an AI model, in this demo, gpt-4o is adopted.
+
+![Screenshot1](/assets/blogs/directus-azure-open-ai/screen1.png)
+
+<br/>
+
+Then go to the Deployments page, we will need to reference the basic code reference in order to build it on Directus Flow.
+
+Switch the language to REST and SDK to curl, and scroll to 2. Run a basic code sample.
+
+Keep it as it will be useful to reference later.
+
+![Screenshot2](/assets/blogs/directus-azure-open-ai/screen2.png)
+
+<br/>
+
+### Setup Directus Data Collection and Flow
+
+We are going to create a Data collection named AI Demo News
+
+![Screenshot3](/assets/blogs/directus-azure-open-ai/screen3.png)
+
+```
+title: input: text
+content: wysiwyg: text
+summary: input: text
+tags: Tags: json
+```
+
+<br/>
+
+Next we setup the flow:
+
+1/ It will be manually trigger from AI Demo News data model
+
+2/ We are going to set it on item page only, required confirmation and some confirmation fields to aid the ai text generation
+
+![Screenshot4](/assets/blogs/directus-azure-open-ai/screen4.png)
+
+<br/>
+
+3/ Next, will do a read from triggered data and run a script to ensure massage the title and content, to ensure it contains clean text by removing all html tags and unicodes.
+
+![Screenshot5](/assets/blogs/directus-azure-open-ai/screen5.png)
+
+<br/>
+
+4/ Then setup a webhook to request the Azure Open AI completion.
+
+Then content prompt that we are using:
+
+```
+Please help to generate a summary for the following: 
+Title: {{$last.title}}. Content: {{$last.content}}. 
+Strictly use the {{$trigger.body.tone}} tone. 
+Strictly keep the sentence within {{$trigger.body.length}} words.
+```
+
+and to save cost for demo, the max_token we are setting to 100.
+
+The sample query can be retrieved from earlier Azure Foundary's screen for the basic code sample.
+
+<br/>
+
+5/ Lastly, update the summary field in AI Demo News data model.
+
+![Screenshot6](/assets/blogs/directus-azure-open-ai/screen6.png)
+
+<br/>
+
+### Demo
+
+Now, create a news article, with title and content filled.
+
+The AI Summary trigger button on right
+
+![Screenshot7](/assets/blogs/directus-azure-open-ai/screen7.png)
+
+<br/>
+
+It will prompt to input tone and text length (word length)
+
+![Screenshot8](/assets/blogs/directus-azure-open-ai/screen8.png)
+
+<br/>
+
+The flow will execute and summary will be auto filled :)
+
+![Screenshot9](/assets/blogs/directus-azure-open-ai/screen9.png)
+
+<br/>
+
+### About AI Tagging
+
+We replicate the same flow as we setup for summary, using different prompt:
+
+```
+Please help to generate some SEO friendly tagging with the following content: 
+Title: {{$last.title}}. Content: {{$last.content}}. 
+Strictly only generate max {{$trigger.body.max}} tags and separate by comma.
+```
+
+Then, save it as Tags in json string format.
+
+<br/>
+
+### Finally
+
+We have our summary and tags auto filled with the help of Azure Open AI.
+
+![Screenshot10](/assets/blogs/directus-azure-open-ai/screen10.png)
+
+<br/>
+
+### References
+- [Sitefinity v15.3 New AI Features](/blogs/sitefinity-open-ai-azure)
+- [Sitefinity x Azure OpenAI Integration](/blogs/sitefinity-open-ai)

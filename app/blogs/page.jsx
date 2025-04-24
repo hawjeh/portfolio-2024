@@ -20,7 +20,8 @@ export const metadata = {
 }
 
 export default function BlogPage({ searchParams }) {
-  const blogs = GetBlogList(searchParams);
+  const params = searchParams || {};
+  const blogs = GetBlogList(params);
 
   return (
     <main>
