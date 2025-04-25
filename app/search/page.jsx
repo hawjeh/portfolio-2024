@@ -1,19 +1,8 @@
-import Profile from '../assets/imgs/cartoon.jpg'
 import Search from '../components/Search';
 
-export const metadata = {
-  title: 'Haw Jeh | Search',
-  description: 'Haw Jeh - Solution Whiz - Search',
-  openGraph: {
-    title: 'Haw Jeh | Search',
-    description: 'Haw Jeh - Solution Whiz - Search',
-    images: [
-      {
-        url: Profile.src
-      }
-    ],
-  }
-}
+import { generateMetadataHelper } from '../helper';
+
+export const metadata = generateMetadataHelper('Search', 'search');
 
 export default function SearchPage() {
   return (

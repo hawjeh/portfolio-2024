@@ -1,26 +1,15 @@
-import Profile from '../assets/imgs/cartoon.jpg'
 import Header from '../components/Header';
 import ScrollToTop from '../components/Scroller/ScrollToTop';
 import Footer from '../components/Footer';
 import { GetBlogList } from '../components/Blog/BlogHelper';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Haw Jeh | Blogs',
-  description: 'Haw Jeh - Solution Whiz - Blogs',
-  openGraph: {
-    title: 'Haw Jeh | Blogs',
-    description: 'Haw Jeh - Solution Whiz - Blogs',
-    images: [
-      {
-        url: Profile.src
-      }
-    ],
-  }
-}
+import { generateMetadataHelper } from '../helper';
 
-export default function BlogPage({ searchParams }) {
-  const params = searchParams || {};
+export const metadata = generateMetadataHelper('Blogs', 'blogs');
+
+export default async function BlogPage({ searchParams }) {
+  const params = await searchParams;
   const blogs = GetBlogList(params);
 
   return (

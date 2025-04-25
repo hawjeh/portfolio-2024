@@ -1,6 +1,6 @@
-@import 'bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/functions';
 @import 'variables';
-@import 'bootstrap/scss/mixins';
+@import '../../node_modules/bootstrap/scss/mixins';
 
 html,
 body {
@@ -335,6 +335,7 @@ main {
   h4,
   h5 {
     padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
   }
 
   p,
@@ -354,7 +355,7 @@ main {
 
     pre,
     code {
-      padding-left: 2rem;
+      // padding-left: 2rem;
       color: getColor('red') !important;
     }
 

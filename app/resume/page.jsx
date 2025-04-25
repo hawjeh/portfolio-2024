@@ -1,19 +1,7 @@
-import Profile from '../assets/imgs/cartoon.jpg'
 import Resume from '../components/Resume';
+import { generateMetadataHelper } from '../helper';
 
-export const metadata = {
-  title: 'Haw Jeh | Resume',
-  description: 'Haw Jeh - Solution Whiz - Resume',
-  openGraph: {
-    title: 'Haw Jeh | Resume',
-    description: 'Haw Jeh - Solution Whiz - Resume',
-    images: [
-      {
-        url: Profile.src
-      }
-    ],
-  }
-}
+export const metadata = generateMetadataHelper('Resume', 'resume');
 
 export default function ResumePage() {
   return (
