@@ -4,8 +4,30 @@ import Favicon from '../../assets/imgs/favicon.png';
 import Header from '../../components/Header';
 import ScrollToTop from '../../components/Scroller/ScrollToTop';
 import Footer from '../../components/Footer';
-import { CacheBlogPosts, CacheBlogPost, GetBlogPost } from '../../components/Blog/BlogHelper';
+import { CacheBlogPosts, CacheBlogPost } from '../../components/Blog/BlogHelper';
 import ShareThis from '@/app/components/Blog/ShareThis';
+
+// 🚩 Problem
+// 💡 Idea / Proposal / Solution
+// 🧠 Brain / Summary
+// 🚀 What is ?
+// ⚡ Performance
+// ♿ Accessibility
+// 🛠️ Best Practices
+// 🔍 SEO
+// ✅ Options / Steps
+// 🔥 Proposed
+// 📂 Folder
+// 📌 Recommendation / enhancement
+// 📦 🔗 Sample Code
+// 📚 References
+// ☁️ 🏗️ Setup
+// ⚙️ Pre requisite
+// 🔐 Setup
+// 📈 Flow
+// 📊 Analytic
+// 🏷️ Tags
+// ⚠️ ❌ 💾 📱 🖥 🙏 🎯 🎉
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;

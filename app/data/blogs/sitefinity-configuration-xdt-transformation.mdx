@@ -2,40 +2,62 @@
 title: "Sitefinity Configuration XDT Transformation"
 slug: "sitefinity-configuration-xdt-transformation"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity - Configuration XDT Transformation"
-keyword: ".NET, CMS, Sitefinity"
+description: "Learn how to manage Sitefinity configuration transformations using Slow-Cheetah NuGet for XDT transformations across different environments."
+keyword: "Sitefinity, Sitefinity Configuration Transformation, Slow-Cheetah NuGet, Sitefinity XDT Transformation, Sitefinity Config Management, Sitefinity Build Configuration, Sitefinity Deployment"
 category: "sitefinity"
 date: "2024-03-20"
 ---
 
-## Pre-requisite
+## ⚙️ Pre-requisite
 
-Install [Slow-Cheetah](https://github.com/Microsoft/slow-cheetah) Nuget
+Before you begin, ensure you have installed the **Slow-Cheetah** NuGet package:
+
+- [Slow-Cheetah NuGet](https://github.com/Microsoft/slow-cheetah)
+
+---
+
+## 🚀 Here We Go: Step-by-Step Guide
 
 
-## Here we go
+### Step 1: Locate the Configuration Folder
 
-1/ In the Visual Studio Solution Explorer, navigate to App_Data -> Sitefinity -> Configuration folder
+In **Visual Studio**, navigate to the **App_Data** → **Sitefinity** → **Configuration** folder. 
 
-Note: Include the folder in the Visual Studio project, if not already included
+> **Note:** If this folder is not already included in the Visual Studio project, make sure to add it.
 
-2/ Create a new file for the config that needs transformation. The file name should follow the convention 
+
+### Step 2: Create a New Configuration File
+
+Create a new configuration file that needs transformation. The file should follow the naming convention:
+
 ```
 <ConfigName>.<Stage>.config (Ex. PagesConfig.Staging.config)
 ```
 
-3/ Right-click the new file and click Properties
 
-4/ Set the Build Action to Content
+### Step 3: Set File Properties
 
-5/ Install SlowCheetah
+Right-click the newly created file and select **Properties**. 
 
-6/ Add a transform file of config. e.g. Authentication.Staging.config
+Set the **Build Action** to **Content**.
+
+
+### Step 4: Install Slow-Cheetah
+
+Ensure you have installed the **Slow-Cheetah** NuGet package in your project.
+
+
+### Step 5: Add the Transformation File
+
+Add a transformation file for the configuration. For example, `Authentication.Staging.config`.
 
 ![Screenshot1](/assets/blogs/sitefinity-configuration-xdt-transformation/screenshot1.png)
 
 
-7/ Check the .csproj, ensure the root config, e.g. AuthenticationConfig.config contains   
+### Step 6: Verify `.csproj` File
+
+Check your **.csproj** file to make sure the root config (e.g., `AuthenticationConfig.config`) contains the following:
+
 ```
 <TransformOnBuild>true</TransformOnBuild>
 ```
@@ -50,8 +72,10 @@ and the created AuthenticationConfig.Staging.config contains
 ![Screenshot2](/assets/blogs/sitefinity-configuration-xdt-transformation/screenshot2.png)
 
 
-8/ Publish the project with proper Build Configuration.
+### Step 7: Publish with the Correct Build Configuration
+
+Finally, publish the project with the appropriate build configuration (e.g., **Staging**, **Production**) to apply the transformation.
 
 
-## References
+## 📚 References
 - [Sitefinity KB - Sitefinity configuration transformations between environments](https://community.progress.com/s/article/cloud-sitefinity-configuration-transformations-between-environments)

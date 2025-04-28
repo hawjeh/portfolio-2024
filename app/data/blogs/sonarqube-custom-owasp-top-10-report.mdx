@@ -1,5 +1,5 @@
 ---
-title: "SonarQube Custom OWASP-Top 10 Report"
+title: "I Built My First SonarQube Plugin!"
 slug: "sonarqube-custom-owasp-top-10-report"
 thumbnail: "/assets/blogs/sonarqube-custom-owasp-top-10-report/sonarqube-logo.png"
 description: "Discover how I built a custom SonarQube plugin to generate security reports tailored to OWASP Top 10 using React and REST APIs"
@@ -8,10 +8,8 @@ category: "tool"
 date: "2022-02-20"
 ---
 
-# I Built My First SonarQube Plugin!
 
-
-## What is the Reason I Built a Module?
+## 🚩 What is the Reason I Built a Module?
 
 Recently, my company launched an initiative to integrate SAST tools into our CI/CD pipeline.  
 We evaluated tools like Fortify and SonarQube.  
@@ -21,13 +19,13 @@ Initially, we discovered the [CNES plugin](https://github.com/cnescatlab/sonar-c
 Therefore, we decided to re-invent the wheel!
 
 
-## Why I Re-Invented the Wheel?
+## 💡 Why I Re-Invented the Wheel?
 
 Although SonarQube has a built-in reporting tool, it's only available in the [Enterprise Edition](https://www.sonarqube.org/enterprise-edition/).  
 As a developer, I'm more inclined toward open-source, community-based, and **FREE** solutions!
 
 
-## How I Got Started and Learned About It
+## 🚀 How I Got Started and Learned About It
 
 I first explored the CNES report plugin to see if it could be customized.  
 However, the version (as of end April 2022) didn't support the OWASP 2021 report without upgrading SonarQube to 9.x.
@@ -39,7 +37,7 @@ I then pulled the [Sonar custom plugin example repo](https://github.com/SonarSou
 - By exploring the SonarQube dashboard and API docs, I figured out how to get the data I needed.
 
 
-## How I Built It
+## 🛠️ How I Built It
 
 I'm not a Java developer, so my custom security report was built mostly in **React**, with direct API calls.  
 You can check my repository here: [hawjeh/sonar-custom-plugin-example-report](https://github.com/hawjeh/sonar-custom-plugin-example-report)
@@ -49,7 +47,7 @@ I forked from the sample repo, kept the essential parts, and modified both the J
 For future upgrades, I will pull from the base repository as needed.
 
 
-## What Does the Plugin Look Like?
+## 🔥 What Does the Plugin Look Like?
 
 **Access Point:**
 ![sonarqube-report0](/assets/blogs/sonarqube-custom-owasp-top-10-report/sonarqube-report0.png)

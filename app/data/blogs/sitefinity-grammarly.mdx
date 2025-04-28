@@ -1,27 +1,38 @@
 ---
-title: "Sitefinity x Grammarly"
+title: "Adding Grammarly Support in Sitefinity CMS"
 slug: "sitefinity-grammarly"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – My experience to integrate with Grammarly"
-keyword: ".NET, CMS, Sitefinity, C#, Grammarly"
+description: "Integrate Grammarly into Sitefinity CMS to enable real-time grammar checking in custom fields and the AdminApp. Improve content quality and editing efficiency with simple setup steps."
+keyword: "Sitefinity, Grammarly, Sitefinity grammar check, Sitefinity AdminApp, Sitefinity content editing, Sitefinity AdminApp Customization, integrate Grammarly in CMS"
 category: "sitefinity"
 date: "2023-03-20"
 ---
 
-## Background Story
 
-We want to have grammar check while user editing the content.
+## 🚩 Background
+
+When users edit content in a CMS, ensuring proper grammar enhances credibility and readability.  
+To address this need, we integrated **Grammarly** directly into the Sitefinity content editing experience.
+
+This guide walks through the setup process.
+
+---
+
+## 💡 How We Implemented It
+
+### 1. Register for a Grammarly Developer Account
+
+- Visit [Grammarly Developer Portal](https://developer.grammarly.com/).
+- Register for an account.
+- Add your Sitefinity instance domain to the **Allowed Domains** list.
+- Copy the **Client ID** from your application — you will use it in the implementation.
 
 
-How we do that?
+### 2. Integration Approach
 
-Firstly, we register a Grammarly account at [Grammarly](https://developer.grammarly.com/)
+We followed the approach outlined in [Grammarly Editor SDK Introduction](https://developer.grammarly.com/docs/editor-sdk-intro#usage), which provides an easy way to embed Grammarly using HTML tags and a script.
 
-Add allowed domain of the Sitefinity instance.
-
-Copy the client id as we are going to follow this approach: [Grammarly Developer](https://developer.grammarly.com/docs/editor-sdk-intro#usage)
-
-With the html tag and script.
+Example:
 
 ```
 <grammarly-editor-plugin>
@@ -31,43 +42,72 @@ With the html tag and script.
 <script src="https://cdn.jsdelivr.net/npm/@grammarly/editor-sdk?clientId=YOUR_CLIENT_ID"></script>
 ```
 
-Also pre-requisite for CMS, adding content security policy (CSP) rule:
 
-<b>script sources</b>
+### 3. Update Content Security Policy (CSP)
 
-```
-cdn.jsdelivr.net
-*.grammarly.com
-```
+Sitefinity enforces security rules via CSP headers.
 
-<b>connect sources</b>
+You need to update the CSP settings to allow Grammarly scripts and connections.
 
-```
-*.grammarly.com
-*.grammarly.io
-wss://capi.grammarly.com
-```
+Add these domains to your CSP rules:
 
-<br/>
-<br/>
+- **Script Source**
 
-Two places to amend, the custom sf-html-field and the adminapp
+  ```
+  cdn.jsdelivr.net
+  *.grammarly.com
+  ```
 
-<br/>
-1/ In the custom sf-html-field.sf-cshtml, added the Grammarly wrapper and script to Grammarly
+- **Connect Source**
 
-![screen1](/assets/blogs/sitefinity-grammarly/screen-1.png)
+  ```
+  *.grammarly.com
+  *.grammarly.io
+  wss://capi.grammarly.com
+  ```
 
-Result at pop up editing RTE:
+---
 
-![screen2](/assets/blogs/sitefinity-grammarly/screen-2.png)
+## ✅ Implementation Details
 
-<br/><br/>
-2/ Custom provider at AdminApp to inject the scripts
+We made two main adjustments:
 
-![screen3](/assets/blogs/sitefinity-grammarly/screen-3.png)
+1. Customizing the sf-html-field
+2. Extending AdminApp functionality
 
-<br/>
-Result at the AdminApp powered RTE:
 
-![screen4](/assets/blogs/sitefinity-grammarly/screen-4.png)
+
+
+1. **Customizing** `sf-html-field.sf-cshtml`
+
+    In the custom `sf-html-field.sf-cshtml`, we wrapped the `<textarea>` with the Grammarly plugin and injected the Grammarly script.
+
+    This ensures Grammarly is available when editing rich text fields via popup editors.
+
+    ![screen1](/assets/blogs/sitefinity-grammarly/screen-1.png)
+
+    Result when editing a popup RTE (Rich Text Editor):
+
+    ![screen2](/assets/blogs/sitefinity-grammarly/screen-2.png)
+
+2. **Injecting Grammarly into AdminApp**
+
+    For the Sitefinity AdminApp interface, we created a ***custom provider*** to automatically inject the Grammarly script into AdminApp pages.
+
+    Custom Provider Implementation:
+
+    ![screen3](/assets/blogs/sitefinity-grammarly/screen-3.png)
+
+    Result in AdminApp's built-in RTE editor:
+
+    ![screen4](/assets/blogs/sitefinity-grammarly/screen-4.png)
+
+---
+
+## 🧠 Final Notes
+
+This integration improves the editorial workflow for both technical teams and non-technical content editors, 
+
+making it easier to maintain high writing standards across all Sitefinity-managed content.
+
+By leveraging the Grammarly SDK, Sitefinity CMS becomes even more user-friendly for businesses aiming to enhance communication quality without requiring external editing tools.

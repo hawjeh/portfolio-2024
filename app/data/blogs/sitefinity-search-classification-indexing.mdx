@@ -1,45 +1,40 @@
 ---
-title: "Sitefinity Lucene Search Classification Indexing"
+title: "Sitefinity Search Indexing Issue for Classification/Taxonomy in v15.0"
 slug: "sitefinity-search-classification-indexing"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity Search - Classification Indexing - Lucene Search"
-keyword: ".NET, CMS, Sitefinity, Lucene"
+description: "Fix Sitefinity v15.0 search indexing issue for taxonomy using custom TransparentTranslator. Learn how to properly index GUIDs and categories for enhanced search functionality."
+keyword: "Sitefinity, Lucene Search, Sitefinity search indexing, Sitefinity taxonomy indexing, Sitefinity v15.0, custom TransparentTranslator, Sitefinity search filter, Sitefinity Lucene search, Sitefinity search taxonomy fix"
 category: "sitefinity"
 date: "2024-04-20"
 ---
 
-## Problem and Solution
+In a recent project using **Sitefinity v15.0**, we encountered an unexpected issue with **Sitefinity search indexing** when using the default **Lucene** indexing. While string indexing worked fine, indexing for classification or taxonomy didn't function as expected.
 
-In my recent experience with Sitefinity v15.0, we encountered an unexpected issue related to Sitefinity search indexing using the default Lucene. 
+After a thorough debugging session, we discovered that only the **TrackedList GUID** was being indexed instead of the actual **GUIDs** of the taxonomy items. This led us to dive deeper into Sitefinity’s search indexing mechanism and implement a solution that would properly index the taxonomy names.
 
-The string indexing functionality was working smoothly while the classification or taxonomy indexing wasn't. 
+## 🚩 The Problem
 
-Upon closer inspection during debugging sessions, it became apparent that only the TrackedList Guid was being indexed instead of the actual GUIDs.
+- **Issue:** Only the GUID for tracked lists was being indexed, and not the actual taxonomy names.
+- **Solution:** By creating a custom **TransparentTranslator** for the **Lucene** index, we were able to ensure that the taxonomy names were indexed correctly.
 
-After dedicating several hours to both code inspection and scouring online resources, we found an enlightening article. 
+---
 
-It prompted me to take a deeper dive into the issue by decompiling the .dll files to identify any missing pieces.
+## ✅ What we have done?
 
-As my investigation progressed, we opted to implement some code injections to ensure the proper translation of GUIDs within the indexing process.
+### 1. **Ensured Correct Taxonomy Indexing**
 
-This solution proved effective in resolving the issue and restoring the expected functionality to the search indexing mechanism.
+First, we needed to ensure that **search indexing** could capture the correct taxonomy **ID/name**. To achieve this, we followed a detailed investigation process.
 
+### 2. **Decompiled Telerik.Sitefinity.Search.Impl.dll**
 
-## What we have done?
-
-After we read several articles including Benramey and Sitefinity KB, we got our solution process drawn:
-
-1/ Ensure the search indexing can capture the right taxonomy id / name
-
-2/ Decompile and inspect the Telerik.Siteifnity.Search.Impl.dll
-
-Found that the Search Index piping translate Guid using TransparentTranslator
+We decompiled the **Telerik.Sitefinity.Search.Impl.dll** to understand how the **GUID translation** was being handled. We found that the **Search Index** pipeline was using **TransparentTranslator** to translate GUIDs.
 
 ![Screenshot1](/assets/blogs/sitefinity-search-classification-index/screenshot1.png)
 
-3/ Write a custing piping translator and register in when Sitefinity initialized
+### 3. **Implemented a Custom Transparent Translator**
 
-In our case, we decided to store the taxonomy name for my search purpose later
+We wrote a **custom TransparentTranslator** to handle the GUID translation properly, specifically translating taxonomy GUIDs into their names. Below is the custom translator implementation:
+
 
 ```
 public class CustomTransparentTranslator : TransparentTranslator
@@ -108,15 +103,19 @@ public class CustomTransparentTranslator : TransparentTranslator
 }
 ```
 
-4/ Register in Global.asax.cs when Sitefinity bootstrapped
+### 4. Registered the Custom Translator
+
+We registered the CustomTransparentTranslator in the `Global.asax.cs` file when Sitefinity bootstraps:
 
 ```
 PipeTranslatorFactory.RegisterTranslator(new CustomTransparentTranslator());
 ```
 
-5/ Modify and extend the [search result model](https://github.com/Sitefinity/feather-widgets/blob/master/Telerik.Sitefinity.Frontend.Search/Mvc/Models/SearchResultsModel.cs), ensure it does take in filter for the searching.
+### 5. Modified the Search Results Model
 
-Override the PopulateResults method.
+Next, we extended the [search result model](https://github.com/Sitefinity/feather-widgets/blob/master/Telerik.Sitefinity.Frontend.Search/Mvc/Models/SearchResultsModel.cs) to handle the filtering mechanism for taxonomy names. 
+
+We used a regular expression to match category filters from the query string and translated them into key-value pairs for filtering.
 
 ![Screenshot2](/assets/blogs/sitefinity-search-classification-index/screenshot2.png)
 
@@ -148,23 +147,28 @@ if (categoriesFilterClauses.Count > 0)
 }
 ```
 
-Then use custom searching method
+### 6. Custom Search Query
+
+We then implemented the custom search method with the **SearchHelper.Search** method, passing in the filter groups to ensure proper filtering.
 
 ```
 var customResults = SearchHelper.Search(searchQuery, indexCatalogue, this.SearchFields, out totalCount, filterGroups: filterGroups, groupQueryOperator: QueryOperator.And, skip: itemsToSkip, take: take.Value, orderBy: new List<string> { this.OrderBy.ToString() }).ToList();
 ```
 
-The SearchHelper.Search method is reference from [here](https://community.progress.com/s/article/How-to-search-programmatically-in-Sitefinity)
+The SearchHelper.Search method is reference from the [Sitefinity community](https://community.progress.com/s/article/How-to-search-programmatically-in-Sitefinity)
 
-6/ Take note that the filter parameter is taking in base64 string, hence when filter it, just convert the string to base64.
+### 7. Handle Base64-Encoded Filter Parameters 
 
-e.g. filter category = breaking, the base64 value is Y2F0ZWdvcnk9KGJyZWFraW5nKQ==
+Finally, we noted that the filter parameter is **base64-encoded**, so we converted our filter values into base64 format before using them in the query. 
 
+For instance, the category "breaking" is encoded as `Y2F0ZWdvcnk9KGJyZWFraW5nKQ==`.
+
+```
 /news-search?indexCatalogue=news-index&searchQuery=news&filter=Y2F0ZWdvcnk9KGJyZWFraW5nKQ==
+```
 
 
-
-## References
+## 📚 References
 - [Benramey - Indexing Taxonomy Fields for Search](https://www.benramey.com/2012/10/19/indexing-taxonomy-fields-for-search-in-sitefinity-51/)
 - [Sitefinity KB - How to search programmatically in Sitefinity](https://community.progress.com/s/article/How-to-search-programmatically-in-Sitefinity)
 - [Sitefinity - Extend the model of built-in widget](https://www.progress.com/documentation/sitefinity-cms/extend-the-model-of-built-in-widgets-mvc)

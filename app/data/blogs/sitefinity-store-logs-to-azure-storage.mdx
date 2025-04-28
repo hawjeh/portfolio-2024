@@ -2,64 +2,73 @@
 title: "Storing Sitefinity Access Logs to Azure Storage"
 slug: "sitefinity-store-logs-to-azure-storage"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity - My custom implementation to store access logs to Azure storage"
-keyword: ".NET, CMS, Sitefinity"
+description: "Learn how to store Sitefinity CMS logs into Azure Storage with this detailed guide, including Azure Storage setup, custom code implementation, and dashboard reporting. Ideal for both developers and CMS administrators."
+keyword: "Sitefinity, Sitefinity CMS, Azure Storage, CMS Logs, Azure Storage Setup, Sitefinity Logging, Azure Integration"
 category: "sitefinity"
 date: "2023-05-20"
 ---
 
 
-The setup consists of 2 parts: Azure and Sitefinity.
+Implementing centralized logging enhances transparency and governance across your CMS applications. This guide walks through setting up Azure Storage to capture Sitefinity CMS logs, using a clean hybrid implementation between .NET Core and MVC architectures.
 
-Azure Storage configuration and custom code implementation in Sitefinity.
+The setup involves two main components:
+- **Azure Storage configuration**
+- **Custom code implementation in Sitefinity**
 
+---
 
-## Pre-Requisite
+## ⚙️ Prerequisites
 
-1. Sitefinity 14.4+ (Tested)
-2. Running hybrid .NET Core and MVC mode (Net Core Renderer and Progress.Sitefinity)
-3. Azure Subscription with right permission to manage Azure Storage
+Before you begin, ensure you have:
 
+- **Sitefinity CMS version 14.4 or later** (tested)
+- **Hybrid Sitefinity project** (using both .NET Core Renderer and MVC with Progress.Sitefinity)
+- **Azure Subscription** with appropriate permissions to manage Storage services
 
-## Azure
+---
 
-1. Go to Azure portal and navigate to Storage
-2. Create a storage account under resource group
-3. Add a storage table to store the logs, save the Url for later use.
+## ☁️ Azure Setup
 
-![screen1](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen1.png)
+1. Log into the [Azure Portal](https://portal.azure.com/) and navigate to **Storage Accounts**.
+2. Create a **new Storage Account** under your desired **Resource Group**.
+3. Add a **Storage Table** to store logs, and save the **URL** for later use.
 
-4. Generate a SAS (Shared access signature) for later use
+    ![screen1](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen1.png)
 
-![screen2](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen2.png)
+4. Generate a **Shared Access Signature (SAS)** for secure access to the Storage Table. You will need this for connecting Sitefinity to Azure Storage.
 
-## Sitefinity
+    ![screen2](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen2.png)
 
-1. Install nuget package __Azure.Data.Tables__ in the Sitefinity project. 
-2. Create a configuration section to save __Azure Storage Table Url__ and __SAS connection string__ (from Azure step 3 and step 4 above)
+---
 
-![screen3](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen3.png)
+## 🏗️ Sitefinity Setup
 
-3. Create Global file, user service and audit service in Sitefinity core CMS.
+1. **Install NuGet Package**: In your Sitefinity project, install the `Azure.Data.Tables` NuGet package.
 
-- ___Global.asax.cs___
-- ___UserService.cs___
-- ___AuditServices.cs___
+2. **Create Configuration Section**: Add a configuration section to store the **Azure Storage Table URL** and the **SAS connection string** (generated from Azure steps 3 and 4 above).
 
-4. Try to login a few times and see the logs appeared in Azure Storage Table
+    ![screen3](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen3.png)
 
-![screen4](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen4.png)
+3. **Create Core Services**: Implement the following components in your Sitefinity CMS:
+    - `Global.asax.cs` for application-wide settings
+    - `UserService.cs` for user-related log processing
+    - `AuditServices.cs` for storing audit-related logs
 
-5. Create a report view to show report in CMS dashboard
+4. **Test the Log Implementation**: Perform a few login attempts to verify that logs are captured and stored in Azure Storage.
 
-- ___ReportController.cs___
-- ___ReportModel.cs___
-- ___AuditReport.cshtml___
+    ![screen4](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen4.png)
 
-6. Setup the widget in Backend Page.
+5. **Create Report View**: Develop a reporting view to display logs in the Sitefinity CMS dashboard:
+    - `ReportController.cs` for handling the report generation
+    - `ReportModel.cs` to structure the log data
+    - `AuditReport.cshtml` for the report's front-end display
 
-![screen5](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen5.png)
+6. **Configure the Widget**: Add the custom widget to the **Backend Page** of Sitefinity for easy log viewing.
 
+    ![screen5](/assets/blogs/sitefinity-store-logs-to-azure-storage/screen5.png)
 
-## Codes
-[GitHub Gist - Sample Code](https://gist.github.com/hawjeh/5044cfe31f674bfb79b6e62bd2b3695b)
+---
+
+## 🔗 Sample Code
+
+You can access the complete sample code for this implementation on my [GitHub Gist](https://gist.github.com/hawjeh/5044cfe31f674bfb79b6e62bd2b3695b).

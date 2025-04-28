@@ -1,112 +1,161 @@
 ---
-title: "Sitefinity x Azure OpenAI Integration"
+title: "Integrating OpenAI with Sitefinity CMS"
 slug: "sitefinity-open-ai"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity - Integration with Azure OpenAI - GenAI"
-keyword: ".NET, CMS, Sitefinity"
+description: "This guide walks you through the steps to integrate Azure OpenAI with Sitefinity CMS v15.0+ to leverage artificial intelligence for content creation and management. Using the AI capabilities, users can automate content composition, generate tags, and enhance content workflow in a more efficient manner."
+keyword: "Sitefinity, Sitefinity CMS, Azure OpenAI Integration, Sitefinity 15.0+, AI Content Generation, Sitefinity AI Services, OpenAI in Sitefinity, Azure OpenAI, CMS Automation, AI Tags, Sitefinity CMS Tutorial"
 category: "sitefinity"
 date: "2023-11-20"
 ---
 
-## Pre-Requisite
+## ⚙️ Prerequisites
 
-1. Sitefinity 15.0+
-2. Install Progress.Sitefinity.AIServiceConnector
-3. Azure Subscription
+Ensure that you have the following before proceeding:
 
+1. **Sitefinity CMS 15.0+** (or higher)
+2. **Progress.Sitefinity.AIServiceConnector NuGet package** installed
+3. **Azure Subscription** with appropriate permissions
 
-## Azure
+---
 
-1. Go to [Azure Portal Microsoft Azure](https://portal.azure.com/)
-2. Create a resource group under your subscription
-3. Create a service in the resource group you created in step 2
+## ☁️ Setting Up Azure OpenAI
+
+Follow these steps to configure Azure OpenAI for integration with Sitefinity:
+
+### 1. Access Azure Portal
+
+Go to the [Azure Portal](https://portal.azure.com/) and log in with your Azure credentials.
+
+### 2. Create a Resource Group
+
+Create a new **Resource Group** within your Azure Subscription to organize your OpenAI resources.
+
+### 3. Create an OpenAI Service
+
+Within the resource group, create a new **Azure OpenAI** service.
 
 ![screen1](/assets/blogs/sitefinity-open-ai/screen1.png)
 
-4. Search ___"OpenAi"___ in the marketplace, select ___Azure OpenAI___ and create
+### 4. Search and Select OpenAI
+
+In the **Azure Marketplace**, search for **"OpenAI"**, select **Azure OpenAI**, and create the service.
 
 ![screen2](/assets/blogs/sitefinity-open-ai/screen2.png)
 
-5. In the Azure OpenAI service, go to ___Keys and Endpoints___, save the ___KEY 1___ or ___KEY 2___ and ___Endpoint___ for later use.
+### 5. Obtain API Keys and Endpoint
+
+Navigate to **Keys and Endpoints** in the Azure OpenAI service. Save either **KEY 1** or **KEY 2** and the **Endpoint** for later use.
 
 ![screen3](/assets/blogs/sitefinity-open-ai/screen3.png)
 
-6. Go to Overview, and click Go to ___Azure OpenAI Studio___
+### 6. Access Azure OpenAI Studio
+
+In the **Overview** section, click **Go to Azure OpenAI Studio** to start configuring your OpenAI models.
 
 ![screen4](/assets/blogs/sitefinity-open-ai/screen4.png)
 
-7. Create a new Deployment, select ___gpt-35-turbo___ and set a ___Deployment Name___
+### 7. Create a Deployment
+
+In the Azure OpenAI Studio, create a **new Deployment** and select the **gpt-35-turbo** model. Set a **Deployment Name**.
 
 ![screen5](/assets/blogs/sitefinity-open-ai/screen5.png)
 
-8. Save the ___Deployment Name___ for later use.
+### 8. Save the Deployment Name
 
-## Sitefinity
+Remember the **Deployment Name** as it will be required for Sitefinity configuration.
 
-1. Install nuget package, ___Progress.Sitefinity.AIServiceConnector___ to Sitefinity project
+---
 
-2. Login to Sitefinity CMS dashboard, navigate to Administration → Modules & Services 
+## 🏗️ Configuring Sitefinity
 
-3. Install AI services
+### 1. Install the AIServiceConnector NuGet Package
+
+In your **Sitefinity project**, install the **Progress.Sitefinity.AIServiceConnector** NuGet package to enable AI service integration.
+
+### 2. Log in to Sitefinity CMS Dashboard
+
+Log into your **Sitefinity CMS Dashboard**, and navigate to **Administration → Modules & Services**.
+
+### 3. Install AI Services
+
+Install the **AI Services** module in Sitefinity to enable AI functionalities.
 
 ![screen6](/assets/blogs/sitefinity-open-ai/screen6.png)
 
-4. Navigate to Administration → Settings → AI services
+### 4. Configure AI Services
+
+Go to **Administration → Settings → AI Services** to configure the API keys and endpoints:
+
+- **API Key**: Use either **KEY 1** or **KEY 2** from Azure (Step 5 above).
+- **Endpoint**: Use the **Endpoint** provided by Azure.
+- **Deployment Name**: Enter the **Deployment Name** from Azure.
 
 ![screen7](/assets/blogs/sitefinity-open-ai/screen7.png)
 
-5. Key in API key with the ___KEY 1___ or ___KEY 2___ from Azure step 5 above.
+### 5. Set API Version
 
-6. Key in Endpoints with the ___Endpoint___ from Azure step 5 above.
-
-7. Key in Deployment name with ___Deployment Name___ from Azure step 7 above.
-
-8. We can check the stable API Version from the question mark tool tip, in this demo, we are using the stable version ___2023-05-15___
+Check the **stable API Version** by clicking the **question mark** tooltip. In this demo, we are using version **2023-05-15**.
 
 ![screen8](/assets/blogs/sitefinity-open-ai/screen8.png)
 
-9. Save the changes and restart the Sitefinity instance (___must restart___, otherwise it may not work)
+### 6. Save and Restart
 
-## Sitefinity Integrate AI Demo
+Save your changes and **restart** the Sitefinity instance to ensure the configuration is applied correctly. *(Restart is required for proper integration)*.
 
-1. Login to Sitefinity CMS dashboard, navigate to Content → Content Blocks
+---
 
-2. Create a new content block
+## 📱 Sitefinity OpenAI Integration Demo
 
-3. Go to content, and you will see the AI button available within editor
+### 1. Create a Content Block
 
-4. It supports 3 options: 
+Log into Sitefinity CMS, navigate to **Content → Content Blocks**, and create a new content block.
+
+### 2. Open the Content Editor
+
+In the content editor, you will see an **AI button** that enables the integration of OpenAI.
+
+### 3. Available AI Features
+
+The AI button supports three key options:
 
 ![screen9](/assets/blogs/sitefinity-open-ai/screen9.png)
 
-5. Select Compose new text, and key in details to aid the content and compose it
+### 4. Generate Content
+
+Select **Compose new text**, provide the necessary details, and let the AI assist in generating content.
 
 ![screen10](/assets/blogs/sitefinity-open-ai/screen10.png)
 
-6. Then taadaa! The content has generated and we are able to insert into content block / compose again if you are not happy with the content.
+### 5. Insert or Modify Content
+
+Once the content is generated, you can insert it into your content block or modify it further as needed.
 
 ![screen11](/assets/blogs/sitefinity-open-ai/screen11.png)
 
-<br />
-
 ![screen12](/assets/blogs/sitefinity-open-ai/screen12.png)
 
-7. The new Use AI to generate tags in v15.1! My new example is using this [artcile](https://www.straitstimes.com/sport/sport-singapore-launches-fairer-more-transparent-facility-booking-platform-myactivesg)
+### 6. Generate Tags with AI (Sitefinity 15.1)
 
-8. There is a new icon besides Tags "Use AI"
+In Sitefinity 15.1, you can also generate **tags** for content using AI. For example, the article on [Sport Singapore launches fairer facility booking platform](https://www.straitstimes.com/sport/sport-singapore-launches-fairer-more-transparent-facility-booking-platform-myactivesg) is tagged using AI.
+
+### 7. Generate Tags with AI
+
+Click the **"Use AI"** icon next to the tags section, and the AI will generate relevant tags for your content.
 
 ![screen13](/assets/blogs/sitefinity-open-ai/screen13.png)
 
 ![screen14](/assets/blogs/sitefinity-open-ai/screen14.png)
 
-9. Save and see all new tags are created and attach the the article!
+### 8. Save and Review Generated Tags
+
+Once you save, you’ll see the new AI-generated tags attached to the article.
 
 ![screen15](/assets/blogs/sitefinity-open-ai/screen15.png)
 
+---
 
-## References
+## 📚 References
 
-- [YouTube 1](https://www.youtube.com/watch?v=-yYh8UCH2c4&ab_channel=LinoTV)
-- [YouTube 2](https://www.youtube.com/watch?v=-WxVUiSFLzI&ab_channel=LinoTV)
-- [Sitefinity - Integrate with AI Service](https://www.progress.com/documentation/sitefinity-cms/integrate-ai-services)
-
+- [YouTube - Setting up Sitefinity 15 AI to work with Azure Open AI - Part 1](https://www.youtube.com/watch?v=-yYh8UCH2c4&ab_channel=LinoTV)
+- [YouTube - Setting up Sitefinity 15 AI to work with Azure Open AI - Part 2](https://www.youtube.com/watch?v=-WxVUiSFLzI&ab_channel=LinoTV)
+- [Sitefinity - Integrate with AI Services](https://www.progress.com/documentation/sitefinity-cms/integrate-ai-services)

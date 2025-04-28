@@ -1,90 +1,108 @@
 ---
-title: "Sitefinity Document Transcribe"
+title: "Transcribing Documents into Editable HTML in Sitefinity"
 slug: "sitefinity-document-transcribe"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity - Document Transcribe to HTML"
-keyword: ".NET, CMS, Sitefinity"
+description: "Learn how to transcribe uploaded documents into editable HTML in Sitefinity using AdminApp extensions and Aspose.Words, with a step-by-step guide for developers."
+keyword: "Sitefinity, Sitefinity document transcription, Sitefinity editable HTML, Sitefinity Content Block extension, Sitefinity AdminApp customization, Aspose.Words Sitefinity integration, Sitefinity AdminApp API extension, Sitefinity convert document to HTML"
 category: "sitefinity"
 date: "2025-01-20"
 ---
 
-## Introduction
+## 🚩 Introduction
 
-The request is to transcribe documents into HTML format and allow it to be editable.
+In a recent project, we needed to **transcribe documents into HTML** format within Sitefinity, making them **editable directly via the Content Block** widget.
 
-In Sitefinity, Content Blocks are used to display rich text and provide the ability to edit HTML content.
+Sitefinity uses **Content Blocks** to manage rich text and HTML content. To extend its functionality and implement a custom document transcription feature, we needed to create a custom extension for the [Sitefinity AdminApp](https://github.com/Sitefinity/sitefinity-admin-app-extensions/).
 
-To customize the transcribe feature, we have to create own extension to the [AdminApp](https://github.com/Sitefinity/sitefinity-admin-app-extensions/).
+---
 
-<br/>
+## 💡 Planning the Approach
 
-## Planning
+After reviewing the available resources, we found a relevant [AdminApp Extension Sample Repository](https://github.com/Sitefinity/sitefinity-admin-app-extensions-samples).
 
-We then look into the [Code Sample](https://github.com/Sitefinity/sitefinity-admin-app-extensions-samples) and found that the closest one would be using editor-extender.
+The sample that closely matched our goal was the [Sitefinity Insert Videos Extension](https://github.com/Sitefinity/sitefinity-admin-app-extensions-samples/blob/master/editor-extender/sitefinity-videos/README.md).
 
-The sample code reference is [Sitefinity Insert Videos Extension](https://github.com/Sitefinity/sitefinity-admin-app-extensions-samples/blob/master/editor-extender/sitefinity-videos/README.md)
+While researching, we also discovered there are **paid products** available for document transcription. However, for flexibility and full control, we decided to build our own solution using [Aspose.Words for .NET](https://docs.aspose.com/words/net/).
 
-We also disocvered there is a Paid Product to do the document transcribe.
+Our plan was:
 
-To do so, our plan is to load the uploaded document in Sitefinity and transcribe it using [Aspose.Word](https://docs.aspose.com/words/net/).
+- Load the uploaded document in Sitefinity
+- Transcribe it into HTML format using **Aspose.Words**
+- Embed the resulting HTML into the Content Block editor
 
-<br/>
+---
 
-## Execution
+## ⚡ Execution Strategy
 
-AdminApp is an Angular app, hence we need an API to query the uploaded document with Aspose.Word.
+Since the **AdminApp** is an **Angular application**, we needed an **API endpoint** that:
 
-For the API, we first [load the document into stream](https://docs.aspose.com/words/net/create-or-load-a-document/) then [convert to HTML](https://docs.aspose.com/words/net/convert-a-document-to-html-mhtml-or-epub/) with option of Export Image As Base 64.
+- Accepts a document ID
+- Loads the document from Sitefinity
+- Converts it to HTML
 
-Then for AdminApp, we start looking at cloning the code reference above.
+For the server-side API:
 
-After scanning through the code, we could not found any expose method to access document library like image/video library do using openImageLibrarySelector or openVideoLibrarySelector.
+- We [loaded the document as a stream](https://docs.aspose.com/words/net/create-or-load-a-document/)
+- [Converted the document to HTML](https://docs.aspose.com/words/net/convert-a-document-to-html-mhtml-or-epub/), configuring it to **export images as base64 strings** for embedded display
 
-<br/>
+On the **AdminApp** side:
 
-## What is the workaround?
+- We cloned the Insert Videos extension for structure
+- However, we discovered that **there was no built-in method** for opening a Document Library picker, unlike the image or video selectors
 
-We are able to use the built-in insertDcoument to select uploaded document.
+---
 
-And we found that the previous discovered method in [previous write-up](/blogs/sitefinity-adminapp-extensions-anchor-point) can be resuse.
+## 🔍 Workaround for Document Selection
+
+We utilized the **built-in `insertDocument` functionality** to allow document selection.
+
+From our earlier research ([reference article](/blogs/sitefinity-adminapp-extensions-anchor-point)), 
+
+we reused this method to access the Kendo Editor:
+
 
 ```
 const editor = editorHost.getKendoEditor();
 const editorValue = editor.value();
 ```
 
-Then, we are able to use simple regex function to retrieve the document id and pass to our custom API.
+We applied a simple RegEx to extract the selected document'sID from the inserted link.
 
-Our custom API then accept the document id, using Sitefinity API <b>LibrariesManager</b> to retrieve the published document.
+The API then:
 
-The API then use the Aspose.Word library to transribe and return the HTML.
+- Retrieved the document using Sitefinity's **LibrariesManager API**
+- Used **Aspose.Words** to transcribe the document into HTML
+- Returned the resulting HTML to the AdminApp
 
-Lastly, in adminapp, we can use method below to update the Content Blocks editor html.
+Finally, we updated the Content Block editor:
 
 ```
 editor.value(html);
 editor.trigger('change');
 ```
 
-<br/>
+This process enabled seamless insertion of transcribed, editable HTML content into the page!
 
-## Final Screen
+
+## 📱 Final Result
+
+Here'show it looks once transcribed into editable HTML:
 
 ![screen1](/assets/blogs/sitefinity-document-transcribe/screen1.png)
 
-<br/>
 
-## New Challenges
+## 🚀 New Challenge: Base64 Images Not Displaying
 
-However, the base64 images were not show in the content.
+After transcription, **images encoded in base64** were not displaying correctly in the Content Block.
 
-We suspect there is something related to the default HTML sanitizer.
+We suspected Sitefinity's**HTML sanitizer** was stripping out the data URLs.
 
-We will need to allow the attribute / scheme / tags related to base64 images tag.
+Upon further investigation, we realized the issue was with the allowed URL schemes.
 
-Finally, we found the right one is AllowedSchemes.
 
-<br/>
+## 💡 Solution: Extending the HTML Sanitizer
+
+We created a custom sanitizer by allowing the `data:` scheme:
 
 ```
 public class SitefinityExtendedHtmlSanitizer : HtmlSanitizer
@@ -96,20 +114,21 @@ public class SitefinityExtendedHtmlSanitizer : HtmlSanitizer
 }
 ```
 
-<br/>
+This resolved the issue, allowing base64 images to render correctly in the Content Block.
 
-## Resolved Challenge
+
+## 🎯 Challenge Resolved!
+
+Here's the working screen after base64 images are properly rendered:
 
 ![screen2](/assets/blogs/sitefinity-document-transcribe/screen2.png)
 
-<br/>
 
-## References
+## 📚 References
 - [Sitefinity - Persist base64 images](https://community.progress.com/s/article/marketing-persist-base64-images-in-email-campaigns)
 - [Sitefinity - Modify the HTML sanitizer configuration](https://www.progress.com/documentation/sitefinity-cms/html-sanitization)
 - [Aspose - Words for .NET](https://docs.aspose.com/words/net/)
 
-<br/>
 
-## My Code Repository
+## 📦 Code Repository
 - [GitHub - hawjeh/sitefinity-admin-app-extensions-transcribe-document](https://github.com/hawjeh/sitefinity-admin-app-extensions-transcribe-document)

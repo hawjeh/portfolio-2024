@@ -8,14 +8,14 @@ category: "iis"
 date: "2020-05-20"
 ---
 
-# How to Initialize an IIS Application Before the First Visitor Request
+## ⚡ How to Initialize an IIS Application Before the First Visitor Request
 
 This guide demonstrates how to configure IIS so that your application initializes automatically — even before the first visitor arrives. 
 
 This helps reduce perceived cold start time by ensuring the app is already running.
 
 
-## What We Want to Achieve
+## 💡 What We Want to Achieve
 
 We aim to **spin up (initialize) the application earlier** than the first user request, improving the responsiveness of the site after a recycle or server reboot.
 
@@ -92,7 +92,7 @@ And apply the following settings:
 This configuration ensures the application initializes after a restart, optionally showing a placeholder during warm-up.
 
 
-## Summary
+## 🧠 Summary
 
 With the above settings in place, IIS will proactively load and initialize your application. 
 

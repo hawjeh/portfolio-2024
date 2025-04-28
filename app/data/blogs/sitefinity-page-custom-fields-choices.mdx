@@ -1,43 +1,58 @@
 ---
-title: "Sitefinity Page Custom Fields Choices"
+title: "Customize the Sitefinity CMS Page Custom Fields Choices"
 slug: "sitefinity-page-custom-fields-choices"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity - Page Custom Fields - Choices"
-keyword: ".NET, CMS, Sitefinity"
+description: "Learn how to customize Sitefinity CMS custom fields, changing the default checkbox display to radio buttons or dropdowns for better user interface customization."
+keyword: "Sitefinity Custom Fields, Sitefinity Checkbox, Sitefinity Radio Buttons, Sitefinity Dropdown, Customize Sitefinity Fields, Sitefinity v14.4, Sitefinity UI Customization"
 category: "sitefinity"
 date: "2024-01-20"
 ---
 
-## Problem
+In **Sitefinity CMS v14.4**, the **Custom Fields - Choices** interface widget defaults to displaying as a **Checkbox**. 
 
-The Custom Fields - Choices for Sitefinity page has only 1 choice of interface widget in v14.4 by default.
+This may not be ideal when you want to change the display to other options, such as **Radio Buttons** or **Dropdowns**. 
 
-It will auto select Checkboxes. We can't easily select others like dropdown or radio button.
+This guide walks you through how to customize this field to your desired format.
+
+---
+
+## 🚩 Problem
+
+By default, when you create a custom field for **Choices** in Sitefinity, the system automatically uses **Checkboxes**. 
+
+There is no simple way in the interface to change it to other options like **Dropdown** or **Radio Buttons**.
 
 ![Screenshot1](/assets/blogs/sitefinity-page-custom-fields-choices/screenshot1.png)
 
 
-## Solution
+## 💡 Solution
 
-You will need to go to Advanced setting to do so.
+To change the **Choices** field from Checkboxes to another type of widget (like **Radio Buttons** or **Dropdowns**), you’ll need to adjust settings in the **Advanced Settings** section.
 
-The path is 
+### Steps to Change the Interface Widget:
 
-```
-ContentView -> Controls -> FrontendPages -> Views -> FrontendPagesCreate -> Sections -> CustomFieldSection -> Fields -> <field_name> -> RenderChoiceAs
-```
+1. Navigate to the following path:
 
-![Screenshot2](/assets/blogs/sitefinity-page-custom-fields-choices/screenshot2.png)
+    ```
+    ContentView -> Controls -> FrontendPages -> Views -> FrontendPagesCreate -> Sections -> CustomFieldSection -> Fields -> <field_name> -> RenderChoiceAs
+    ```
+
+    This path allows you to modify the widget type.
+
+    ![Screenshot2](/assets/blogs/sitefinity-page-custom-fields-choices/screenshot2.png)
+
+2. Apply the changes to both the **FrontendPagesCreate** and **FrontendPagesEdit** views to ensure the customization works across both page creation and editing interfaces.
 
 
-And you will need to do it for FrontendPagesEdit to complete both setup.
+## 🧠 Finally
 
+Once the changes are applied, navigate to a page in **Sitefinity CMS**:
 
-## Finally
-
-Go to Page -> (Select a Page) -> Title & properties, then you will see it is now Radio Button instead of Checkboxes!
+1. Go to **Page** → Select a Page → **Title & Properties**.
+2. You will now see that the **Choices** field has been updated to **Radio Buttons** instead of the default Checkboxes.
 
 ![Screenshot3](/assets/blogs/sitefinity-page-custom-fields-choices/screenshot3.png)
 
-## References
+
+## 📚 References
 - [Sitefinity KB - Custom Field Display As Checkbox](https://community.progress.com/s/article/Custom-dropdown-field-displays-as-checkbox)

@@ -1,114 +1,143 @@
 ---
-title: "Sitefinity v15.3 New AI Features"
+title: "SFv15.3 AI Content Optimization & Translation"
 slug: "sitefinity-open-ai-azure"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity - v15.3 AI-Powered Features"
-keyword: ".NET, CMS, Sitefinity"
+description: "Discover how Sitefinity v15.3 integrates AI for content optimization and translation. Learn to set up Azure AI and Microsoft Translator for seamless content management."
+keyword: "Sitefinity, Sitefinity AI content optimization, Sitefinity AI translation service, Azure OpenAI integration Sitefinity, Sitefinity v15.3 AI features, Sitefinity translation connector setup, Sitefinity Azure integration tutorial, Sitefinity multilingual content, Sitefinity AI-based content editing, Microsoft Translator"
 category: "sitefinity"
 date: "2025-04-11"
 ---
 
-Some features available from Sitefinity v15.3
+Sitefinity v15.3 introduces two powerful AI-driven features to streamline your content management process:
 
-1. AI-Based Content Optimization
-2. AI-Based Translator Integration
+1. **AI-Based Content Optimization**
+2. **AI-Based Translator Integration**
 
-<br/>
+---
 
-## Pre-Requisite
+## ⚙️ Pre-Requisites for Setup
 
-1. Azure Subscription
-2. Sitefinity 15.3 
-3. Install Progress.Sitefinity.AIServiceConnector
-4. Install Progress.Sitefinity.Translations.MicrosoftMachineTranslatorConnector
+Before diving into these features, ensure you have the following set up:
 
-<br/>
+1. **Azure Subscription**
+2. **Sitefinity 15.3**
+3. **Install `Progress.Sitefinity.AIServiceConnector` NuGet Package**
+4. **Install `Progress.Sitefinity.Translations.MicrosoftMachineTranslatorConnector` NuGet Package**
 
-## For AI-Based Content Optimization
+---
 
-The newly enhanced content optimization contains more ai assist for content writing:
+## 🧠 AI-Based Content Optimization
 
-![screen1](/assets/blogs/sitefinity-open-ai-azure/screen-1.png)
+The **AI-Based Content Optimization** feature is designed to assist in content writing, offering suggestions and edits directly within the Sitefinity platform.
 
-now you can highlight the text and ask for ai help directly
-![screen2](/assets/blogs/sitefinity-open-ai-azure/screen-2.png)
 
-e.g. make shorter
+### How It Works
 
-![screen3](/assets/blogs/sitefinity-open-ai-azure/screen-3.png)
+Once set up, you can now easily highlight text and ask for AI assistance directly. For example, you can request the AI to help in making the text shorter, clearer, or more engaging.
 
-You may refer to previous [blog](/blogs/sitefinity-open-ai) where we had discussed about the setup.
+**Example:**
 
-One thing to note while setting up the Azure Open AI service is to select the right model and specify the API version in Sitefinity setting screen.
+1. **Highlight the Text**  
+   Simply select the text you want to optimize.
 
-You may refer to [here](https://www.progress.com/documentation/sitefinity-cms/integrate-ai-services#azure-openai-api-versions-and-ai-models)
+2. **Request AI Help**  
+   Choose the desired optimization action, such as **"Make it shorter"**.
 
-![screen4](/assets/blogs/sitefinity-open-ai-azure/screen-4.png)
+   ![AI Optimization](/assets/blogs/sitefinity-open-ai-azure/screen-1.png)
 
-Also, you may want to refer to this [KB](https://community.progress.com/s/article/unable-to-work-with-openai-plug-in) if you hit unknown error while using the ai service.
+3. **Resulting Optimized Content**  
+   The AI will process your request and generate a refined version of the content.
 
-<br/>
+   ![AI Result](/assets/blogs/sitefinity-open-ai-azure/screen-2.png)
 
-## For AI-Based Translator Integration
+4. **Example Output**  
+   For instance, a paragraph can be condensed without losing key information.
 
-First, setup a Azure Translator AI service.
+   ![AI Example](/assets/blogs/sitefinity-open-ai-azure/screen-3.png)
 
-There is a free F0 tier!
+> For a full setup guide, refer to our previous [blog post on Sitefinity Open AI](https://www.progress.com/documentation/sitefinity-cms/integrate-ai-services).
 
-<br />
+### Configuration Tips
 
-![screen5](/assets/blogs/sitefinity-open-ai-azure/screen-5.png)
+When configuring the **Azure Open AI** service, make sure to:
 
-Second, follow the [step](https://www.progress.com/documentation/sitefinity-cms/microsoft-machine-translator-connector) to install nuget package to Sitefinity project
+- **Select the correct AI model**
+- **Specify the appropriate API version** in the Sitefinity settings screen.
 
-Next, sepcify the parameters in Sitefinity advanced setting screen.
+For detailed information, check the [official documentation](https://www.progress.com/documentation/sitefinity-cms/integrate-ai-services#azure-openai-api-versions-and-ai-models).
 
-![screen6](/assets/blogs/sitefinity-open-ai-azure/screen-6.png)
+![AI Setup](/assets/blogs/sitefinity-open-ai-azure/screen-4.png)
 
-<br />
+If you encounter errors while using the AI service, refer to this [knowledge base article](https://community.progress.com/s/article/unable-to-work-with-openai-plug-in) for troubleshooting.
 
-Do not forget to enable the setting and specify the supported language after filling the parameters / leave it empty for all kind.
+---
+## ☁️ AI-Based Translator Integration
 
-![screen6a](/assets/blogs/sitefinity-open-ai-azure/screen-6a.png)
+### Setup for Translation
 
-<br />
+For seamless content translation, Sitefinity v15.3 integrates with **Azure Translator AI Service**.
 
-There is a bug in v15.3.8500, read here about my [report](https://community.progress.com/s/question/0D5Pb000025XPjnKAG/could-be-a-bug-in-microsoftmachinetranslatorconnector-sitefinity-v153)
+1. **Azure Translator Service**  
+   Start by setting up an Azure Translator service. Note that Azure offers a **free tier (F0)** for low-volume usage.
 
-Hence, the ConnectorType is SitefinityWebApp.CustomMicrosoftMachineTranslatorConnector instead of Progress.Sitefinity.Translations.MicrosoftMachineTranslatorConnector.MicrosoftMachineTranslatorConnector
+   ![Azure Translator](/assets/blogs/sitefinity-open-ai-azure/screen-5.png)
 
-Next, make sure the site is in multi-lingual mode
+2. **Install the Translator Connector**  
+   Install the **`Progress.Sitefinity.Translations.MicrosoftMachineTranslatorConnector`** NuGet package by following the steps outlined in the [documentation](https://www.progress.com/documentation/sitefinity-cms/microsoft-machine-translator-connector).
 
-![screen7](/assets/blogs/sitefinity-open-ai-azure/screen-7.png)
+3. **Configure Sitefinity**  
+   After installation, set the necessary parameters in the Sitefinity **advanced settings** screen.
 
-<br />
+   ![Advanced Settings](/assets/blogs/sitefinity-open-ai-azure/screen-6.png)
 
-Last, go to a content item / page, select Action -> Send for translate.
+### Key Configuration Notes
 
-Select the language translate into, and select the translate service we defined.
+- **Enable the translator setting**: Ensure the setting is activated and specify supported languages (or leave empty to support all languages).
+  
+   ![Language Settings](/assets/blogs/sitefinity-open-ai-azure/screen-6a.png)
 
-![screen8](/assets/blogs/sitefinity-open-ai-azure/screen-8.png)
+### 📌 Bug in Version 15.3.8500
 
-<br />
+There's a known bug in Sitefinity v15.3.8500 related to the Translator Connector. Please refer to my [bug report](https://community.progress.com/s/question/0D5Pb000025XPjnKAG/could-be-a-bug-in-microsoftmachinetranslatorconnector-sitefinity-v153).
 
-Finally a draft translated version of content will be created.
+**Fix**: Use the `SitefinityWebApp.CustomMicrosoftMachineTranslatorConnector` instead of `Progress.Sitefinity.Translations.MicrosoftMachineTranslatorConnector.MicrosoftMachineTranslatorConnector`.
 
-You can now review the content before publish!
+---
 
-![screen9](/assets/blogs/sitefinity-open-ai-azure/screen-9.png)
+## 🔄 Translating Content
 
-<br />
-<br />
+Once the translator is configured:
 
-You can also access to the Translation Page ```/Sitefinity/Administration/Translations``` to see the translation status:
+1. **Set Your Site in Multilingual Mode**  
+   Ensure your Sitefinity instance is set up in **multi-lingual mode**.
 
-![screen10](/assets/blogs/sitefinity-open-ai-azure/screen-10.png)
+   ![Multilingual Mode](/assets/blogs/sitefinity-open-ai-azure/screen-7.png)
 
-<br />
+2. **Send Content for Translation**  
+   From any content item or page, click on the **Action** dropdown and select **Send for Translate**.
 
-## References
+   Choose the language to translate into and select the translation service you configured earlier.
+
+   ![Send for Translate](/assets/blogs/sitefinity-open-ai-azure/screen-8.png)
+
+### 📱 Review and Publish Translated Content
+
+After the content is translated, a **draft** version of the translated content is created for you to review before publishing.
+
+![Translated Content Draft](/assets/blogs/sitefinity-open-ai-azure/screen-9.png)
+
+You can also view the translation status by navigating to **/Sitefinity/Administration/Translations**.
+
+![Translation Status](/assets/blogs/sitefinity-open-ai-azure/screen-10.png)
+
+
+## 📚 References
 
 - [Sitefinity - Integrate with AI Service](https://www.progress.com/documentation/sitefinity-cms/integrate-ai-services)
 - [Sitefinity - Integrate with AI Service - API Version and Model](https://www.progress.com/documentation/sitefinity-cms/integrate-ai-services#azure-openai-api-versions-and-ai-models)
 - [Sitefinity - Unable to work with openai plugin](https://community.progress.com/s/article/unable-to-work-with-openai-plug-in)
 - [Sitefinity - Microsoft Machine Translator Connector](https://www.progress.com/documentation/sitefinity-cms/microsoft-machine-translator-connector)
+
+## 📦 Code Repository
+
+- [GitHub - hawjeh/sitefinity-open-ai-azure](https://github.com/hawjeh/sitefinity-open-ai-azure)

@@ -1,9 +1,9 @@
 ---
-title: "Sitefinity x Azure AD SAML SSO Login Integration"
+title: "Azure AD SAML SSO Integration with Sitefinity CMS"
 slug: "sitefinity-azure-ad-saml-sso-login-integration"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity - Login Integration with Azure AD SAML"
-keyword: ".NET, CMS, Sitefinity"
+description: "This guide explains how to integrate Azure AD with Sitefinity CMS using SAML SSO. This integration allows users to authenticate with Azure Entra ID and access Sitefinity CMS with roles automatically assigned based on Azure AD configurations."
+keyword: "Sitefinity, Azure AD SSO, Sitefinity CMS, Azure Entra ID, SAML Integration, Sitefinity Authentication, SAML SSO, Azure SSO, Sitefinity Role Assignment, Single Sign-On Tutorial, Sitefinity Azure Integration"
 category: "sitefinity"
 date: "2023-10-20"
 ---
@@ -12,101 +12,128 @@ The setup consists of 2 parts: Azure and Sitefinity.
 
 Azure Entra ID configuration and custom code implementation in Sitefinity.
 
-## Pre-Requisite
+## ⚙️ Pre-Requisites
 
-1. Sitefinity 14.4+ (Tested)
-2. Running hybrid .NET Core and MVC mode (Net Core Renderer and Progress.Sitefinity)
-3. Azure Subscription with right permission to manage Azure Storage
-4. Setup some roles to match with role assigned in Azure
+Before starting, ensure you have the following:
 
+1. **Sitefinity CMS 14.4+** (Tested version)
+2. **Hybrid .NET Core and MVC mode** enabled (with Net Core Renderer and Progress.Sitefinity)
+3. **Azure Subscription** with appropriate permissions to manage Azure resources
+4. **Roles setup in Azure** to match the roles configured in Sitefinity CMS
 
-## Azure
+---
 
-1. Go to Azure portal and navigate to Microsoft Entra ID
+## ☁️ Azure Configuration
+
+Follow these steps to set up **Azure Entra ID** for integration with Sitefinity CMS:
+
+### 1. Access the Azure Portal
+
+Go to the [Azure Portal](https://portal.azure.com/) and sign in with your Azure credentials.
+
+### 2. Create a New Application
+
+Under **Azure Entra ID**, select **Create Your Own Application** and provide a name for the application.
 
 ![screen1](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen1.png)
 
-2. Create a new application, select __create your own application__ and name the application.
+### 3. Configure Single Sign-On
+
+In the application settings, configure **Single Sign-On**:
+
+- **Identifier**: Set this to a URL such as `https://localhost:5001/Saml2`.
+- **Reply URL**: Set this to `https://localhost:5001/Saml2/Acs`.
+- **Attributes & Claims**: Adjust the necessary settings for your needs.
 
 ![screen2](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen2.png)
 
-3. Configure __Single sign-on__
-
-    a. Identifier (e.g. https://localhost:5001/Saml2)
-
-    b. Reply URL (e.g. https://localhost:5001/Saml2/Acs)
-    
-    c. Attributes & Claims
-
 ![screen3](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen3.png)
+
+### 4. Add Users and Assign Roles
+
+Under **Users and Groups**, add the users and groups that should access the application. Assign default roles to the users and groups.
+
+`Under **Entra ID → App Registration → <Your Application> → App Roles**, create roles that match the roles defined in Sitefinity CMS.`
+
+Assign these roles to the users and groups.
 
 ![screen4](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen4.png)
 
-4. Under __Users and groups__, add user and groups that you would like them to access the application, assign a default role for the assigned users and groups.
+![screen5](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen5.png)
 
-    a. {"Under Entra ID → App Registration → <Application> → App roles, Create app roles that matched with roles setup in Sitefinity CMS."}
+![screen6](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen6.png)
 
-    b. Add user/group in the Enterprise App and assign role.
+---
 
-    ![screen5](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen5.png)
+## 🏗️ Sitefinity Configuration
 
-    ![screen6](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen6.png)
+### 1. Create a Custom Authentication Provider
 
+To enable Azure SAML authentication in Sitefinity, start by creating a custom **SAML authentication provider**:
 
-## Sitefinity
+- **SamlAuthenticationProvidersInitializer.cs**
 
-1. Create a custom authentication provider
+### 2. Update Global File in Sitefinity
 
-- ___SamlAuthenticationProvidersInitializer.cs___
+Add the necessary code in **Global.asax.cs** and **CreateUserFromSaml.cs** files to handle the authentication flow.
 
-2. Create Global file in Sitefinity core CMS.
+### 3. Build the Project
 
-- ___Global.asax.cs___
+Build the project and log in to the Sitefinity CMS dashboard.
 
-- ___CreateUserFromSaml.cs___
+### 4. Configure Authentication Providers
 
-3. Build the project, then login to Sitefinity CMS dashboard
+Navigate to **Administration → Settings → Advanced Settings → Authentication → SecurityTokenService → AuthenticationProviders** in the Sitefinity CMS and create a new provider:
 
-4. Navigate to Administration → Settings → Advanced Settings → Authentication → SecurityTokenService → AuthenticationProviders → Create New
-
-5. Name it saml2p and configure as below
+- Name it **saml2p** and configure it as shown below:
 
 ![screen7](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen7.png)
 
-6. Configure all 3 parameters underneath as below:
+### 5. Configure Parameters
 
-    a. {"SpEntityId: <your domain>/Saml2 (The setting must matched with Identifier (Entity ID) in Azure Step 3 above)"}
+Configure the following parameters for the provider:
 
-    b. {"IdpEntityId: <get the Microsoft Entra Identifier link from Azure Step 3 above>"}
+- **SpEntityId**: Set this to `<your domain>/Saml2` (This must match the **Identifier** from Azure Step 3).
+- **IdpEntityId**: Use the **Microsoft Entra Identifier link** from Azure Step 3.
+- **IdpMetadataUrl**: Use the **App Federation Metadata URL** from Azure Step 3.
 
 ![screen8](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen8.png)
 
-    c. {"IdpMetadataUrl: <get the App Federation Metadata Url link from Azure Step 3 above>"}
-
 ![screen9](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen9.png)
 
-7. Save all 3 parameter setting
+### 6. Save and Restart
+
+Save the changes and restart the Sitefinity instance to apply the new authentication settings.
+
+### 7. Access the Sitefinity Login Screen
+
+Log out of the Sitefinity CMS and restart the application. You should now see an **Azure SAML button** beneath the usual login form.
 
 ![screen10](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen10.png)
 
-8. Logout from Sitefinity CMS and restart the application.
+### 8. Perform the Azure SAML Login
 
-9. Go to Sitefinity login screen and you are able to see Azure SAML button below the usual login username & password.
+Click the **Azure SAML button** to initiate the **SAML SSO** login process.
+
+### 9. User Creation and Role Assignment
+
+Once logged in via Azure SSO, the user will be automatically created in Sitefinity, and the roles assigned in Azure will be applied to the new user.
 
 ![screen11](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen11.png)
 
-10. Go through the Azure SAML SSO login
-
-11. The user will be auto generated and role is assigned to the generated user
-
 ![screen12](/assets/blogs/sitefinity-azure-ad-saml-sso-login-integration/screen12.png)
 
+---
 
-## References
+## 📚 References
+
 - [Microsoft - Add Application Portal Setup SSO](https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/add-application-portal-setup-sso)
 - [Microsoft - Auth SAML](https://learn.microsoft.com/en-us/entra/architecture/auth-saml)
-- [Sitefinity KB - How to configure external login with a SAML2 provider](https://community.progress.com/s/article/How-to-configure-external-STS-Login-using-SAML-token)
-- [Sitefinity KB - Accessing custom claims from ADFS provider](https://community.progress.com/s/article/accessing-custom-claims-from-adfs-provider)
+- [Sitefinity - How to Configure External Login with a SAML2 Provider](https://community.progress.com/s/article/How-to-configure-external-STS-Login-using-SAML-token)
+- [Sitefinity - Accessing Custom Claims from ADFS Provider](https://community.progress.com/s/article/accessing-custom-claims-from-adfs-provider)
 
-## Codes
-[GitHub Gist - Sample Code](https://gist.github.com/hawjeh/3658cc6a6c0e62df4872a54e367f31ed)
+---
+
+## 📦 Sample Code
+
+You can access the sample code for this integration via [GitHub Gist](https://gist.github.com/hawjeh/3658cc6a6c0e62df4872a54e367f31ed).

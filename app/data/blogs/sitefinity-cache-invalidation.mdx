@@ -1,45 +1,49 @@
 ---
-title: "Sitefinity Cache Invalidation"
+title: "Invalidate Sitefinity Cache of Multiple Content Types"
 slug: "sitefinity-cache-invalidation"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity - Cache Invalidation for 2 layer Content Type"
-keyword: ".NET, CMS, Sitefinity"
+description: "Learn how to handle Sitefinity page cache invalidation when content dependencies exist between multiple content types. Discover techniques to manually trigger cache refresh and ensure consistent data across pages."
+keyword: "Sitefinity cache invalidation, Sitefinity invalidate cache programmatically, Sitefinity API push cache update, Sitefinity page cache refresh"
 category: "sitefinity"
 date: "2024-08-20"
 ---
 
-## The problem
+## 🚩 Problem Overview
 
 ![Screenshot1](/assets/blogs/sitefinity-cache-invalidation/screenshot1.png)
 
-As per diagram above, we have 2 content types, Content_Type_A and Content_Type_B.
+In our Sitefinity project, we are working with two interconnected content types:
 
-Content_Type_A has an open API endpoint to allow data pushed from alternate source.
+- **Content_Type_A**: Receives data updates through an open API pushed from an external source.
+- **Content_Type_B**: References **Content_Type_A** for its business logic and content display.
 
-Content_Type_B references Content_Type_A for some business logic.
+Both content types are served through **separate pages**, each with **Page Output Caching** enabled for performance.
 
-<br />
-Both content type are served in different page.
 
-The Page Cache has turned on, both pages are cached.
+## ❗ Issue Identified
 
-<br />
+When a data update is pushed to **Content_Type_A** via the API:
 
-We noticed that when API pushed data to Content_Type_A, the page (blue line) will get updated data display.
+- The page directly displaying **Content_Type_A** (blue line) correctly reflects the updated information after cache invalidation.
+- However, the page displaying **Content_Type_B** (red line), which depends on **Content_Type_A**, **does not automatically refresh** and continues to show outdated content.
 
-While the page uses Content_Type_B (red line) will not get updated.
+This inconsistent cache behavior can result in confusing user experiences and stale data being shown on key pages.
 
-<br/>
 
-## The Solution
+## 💡 The Solution
 
-Then we found that Sitefinity do provide a way to manually notify the cache to invalidate (in reference).
+Sitefinity provides a built-in mechanism to **programmatically trigger cache invalidation** for specific pages or content types when needed.
 
 ![Screenshot2](/assets/blogs/sitefinity-cache-invalidation/screenshot2.png)
 
-We have our code listen to Content_Type_A update event, and notify the invalidation.
+To address the problem:
 
-Code snippets:
+- We subscribed to the update event of **Content_Type_A**.
+- Upon detecting an update, we **manually triggered cache invalidation** for the related pages.
+
+This ensures that both pages — those displaying **Content_Type_A** directly and those referencing it through **Content_Type_B** — are updated consistently when the underlying data changes.
+
+### 🔗 The Solution Code Snippets:
 
 ```
 public void Update()
@@ -76,9 +80,18 @@ private static List<CacheDependencyKey> GetCacheDependencyKeys(Type type, string
 
 ```
 
-Code can be further enhance to locate and select the right Content_Type_B that has dependency from Content_Type_A for invalidation.
+## 📌 Potential Enhancements
 
-<br/>
+The current solution invalidates the affected cache manually.  
+To further optimize:
 
-## References
-- [Sitefinity - Cache invalidation](https://www.progress.com/documentation/sitefinity-cms/cache-invalidation)
+- Implement logic to **intelligently locate** and **invalidate only the specific pages** where **Content_Type_B** depends on the updated **Content_Type_A** items.
+- Reduce unnecessary cache invalidations to maintain optimal site performance.
+
+This enhancement would allow for **more targeted** and **efficient cache management**, balancing performance with real-time data accuracy.
+
+
+## 📚 References
+
+- [Sitefinity Documentation – Cache Invalidation Programmatically](https://www.progress.com/documentation/sitefinity-cms/cache-invalidation-programmatically)
+- [Sitefinity Knowledge Base – Working with Cache Policies](https://community.progress.com/s/article/cache-invalidation-and-refresh-behavior-in-sitefinity)

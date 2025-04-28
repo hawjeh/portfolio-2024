@@ -1,74 +1,93 @@
 ---
-title: "Sitefinity Content Import"
+title: "Content Migration into Sitefinity CMS Dynamic Modules"
 slug: "sitefinity-content-import"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – Content Import using SQL Script"
-keyword: "NET, CMS, Sitefinity"
+description: "Learn how to efficiently migrate structured content into Sitefinity CMS dynamic modules using SQL scripts and Excel automation. Save time, reduce manual work, and streamline content publishing."
+keyword: "Sitefinity, Sitefinity content migration, Sitefinity dynamic modules, Sitefinity CMS tips, Sitefinity dynamic modules import, Sitefinity script"
 category: "sitefinity"
 date: "2023-04-20"
 ---
 
-## Introduction
+## ⚙️ Introduction
 
-Content migration can be a real hassle. When dealing with structured content, you have to go through each 
-row of the exported data, copying and pasting everything manually into the appropriate form for that type 
-of content. And of course, you need to review it before making it live.
+Content migration can be a real hassle.  
+When dealing with structured content, you often need to go through each row of exported data, copying and pasting it manually into the appropriate forms for each content type.  
+And, of course, every piece must be reviewed before it goes live.
 
-Talking about Sitefinity CMS, the way content is organized – like custom content types or dynamic modules – 
-involves some pretty complicated connections between lots of different tables.
+In Sitefinity CMS, the way content is organized — especially with custom content types or dynamic modules — involves complex relationships between multiple database tables.  
+Most of the time, we are forced to manually copy and paste content for migration purposes.
 
-Most of the time, we are forced to do the manual copy and paste for the sake of migrating the content. 
+Fortunately, we figured out how these tables are related and even developed scripts to import content directly from Excel files into Sitefinity’s backend.
 
-Fortunate that we figure out how the tables in the database relate to each other. 
-We also have written some scripts to help bring in data from Excel forms.
+---
 
+## 🔥 The Goal
 
-
-## The Goal
-
-Efficiently bring the Excel content into the database as a draft, allowing the user to conduct another round of 
-review on the migrated content before it's officially published.
+Efficiently migrate structured content from Excel into Sitefinity’s database as **drafts**, allowing a second round of review before final publication.
 
 
+## 🧠 Findings: Table Relationships
 
-## The Finding: Table Relationship
+When you publish a piece of content in Sitefinity, it automatically generates records across several tables:
 
-The relationship when we publish a content:
+<table className="table table-bordered">
+    <thead>
+        <tr>
+            <th>Table</th>
+            <th>Purpose</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>`&lt;generated_content_type_table&gt;`</td>
+            <td>Stores the raw content record (3 records per item, sharing the same `base_id`)</td>
+        </tr>
+        <tr>
+            <td>`sf_dynamic_content`</td>
+            <td>Tracks the content’s state, versioning, and lifecycle (3 records with different status/version per item)</td>
+        </tr>
+        <tr>
+            <td>`sf_language_data`</td>
+            <td>Links the dynamic content to its language version</td>
+        </tr>
+        <tr>
+            <td>`sf_dynmc_cntnt_sf_lnguage_data`</td>
+            <td>Further language-specific metadata per content version</td>
+        </tr>
+    </tbody>
+</table>
 
-- {"<generated_content_type_table>"} - 3 raw records are created, with base_id as PK
-- sf_dynamic_content - a table to tell the dynamic content state - 3 records  are created with different status and versions, with base_id as FK
-- sf_language_data - a linking table between dynamic content and its language - 3 records are created with base_id and id as linking key
-- sf_dynmc_cntnt_sf_lnguage_data - a table to tell language version - 3 records are created with id as FK
+**Key Insight:**
+> Each content item creates **three records** (master, temp, published) across these tables when published.
 
-From the finding, we aware that, when you publish a content, it will create 3 records - versions for master, temp and published.
+---
 
+## 🔍 Pre-requisites
 
-## Pre-requisite
+- Working knowledge of **Sitefinity CMS**
+- Understanding of **dynamic modules** / **custom content types**
+- Basic **SQL** scripting skills
+- Familiarity with **Excel data handling**
 
-- Understanding of Sitefinity CMS
-- Understanding of dynamic module / custom content type
-- Basic understanding of SQL script
-- Basic knowledge of excel
+---
 
+## ✅ Migration Process Summary
 
-## Summary
-
-1. Create a custom content type with the structure that map to previous dataset.
-2. Build the script that will insert records to 4 relevant tables: 
-    - {"<generated_content_type_table>"}
-    - sf_dynamic_content 
-    - sf_language_data 
-    - sf_dynmc_cntnt_sf_lnguage_data 
-3. You can reuse the excel uploaded here
-    - [AutoScriptGenerator.xlsx](/assets/blogs/sitefinity-content-import/AutoScriptGenerator.xlsx)
-    - [sample_script.sql](/assets/blogs/sitefinity-content-import/sample_script.sql)
-4. Execute the SQL script, make sure all scripts are executed without error.
-5. Restart the Sitefinity instance
-6. Review the actual content and publish.
+1. **Create** a custom content type in Sitefinity matching the old dataset's structure.
+2. **Build SQL scripts** to insert records into the four key tables:
+    - `<generated_content_type_table>`
+    - `sf_dynamic_content`
+    - `sf_language_data`
+    - `sf_dynmc_cntnt_sf_lnguage_data`
+3. **Prepare Excel files and scripts**:
+    - [AutoScriptGenerator.xlsx](/assets/blogs/sitefinity-content-import/AutoScriptGenerator.xlsx) (to help generate SQL inserts)
+    - [sample_script.sql](/assets/blogs/sitefinity-content-import/sample_script.sql) (sample insert scripts)
+4. **Execute** the SQL scripts on the database — ensure no execution errors.
+5. **Restart** the Sitefinity instance (to clear cache and reload content).
+6. **Review** the migrated content in the CMS and **publish** after confirmation.
 
 
-
-## Some Readings
+## 📚 Helpful Resources
 
 - [Sitefinity - Content Lifecycle](https://www.progress.com/documentation/sitefinity-cms/for-developers-content-lifecycle)
 - [Haw Jeh - Blogs - Sitefinity Table Structure](https://hawjeh.com/blogs/sitefinity-table-structure/)

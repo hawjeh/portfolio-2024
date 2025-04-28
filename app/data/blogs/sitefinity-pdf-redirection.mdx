@@ -1,79 +1,104 @@
 ---
-title: "Sitefinity PDF Redirection"
+title: "Redirecting Old PDF URLs to New Sitefinity URLs"
 slug: "sitefinity-pdf-redirection"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity - pdf redirection from old url to new site"
-keyword: ".NET, CMS, Sitefinity"
+description: "Learn how to redirect legacy PDF URLs to new Sitefinity URLs using the Pages module workaround. Step-by-step guide for seamless document redirection with improved SEO and user experience."
+keyword: "Sitefinity, Sitefinity PDF redirect, Sitefinity URL redirection, Redirect PDF in Sitefinity, Sitefinity Pages module, Sitefinity Pages Setting"
 category: "sitefinity"
 date: "2024-09-20"
 ---
 
-## Introduction
+## 🚩 Introduction
 
-The request is to redirect pdf from the old site url: xxx.com/en/document/sample.pdf to the new Sitefinity site successfully.
+When migrating to a new Sitefinity website, we encountered a need to **redirect legacy PDF links** from the old URL structure (e.g., `xxx.com/en/document/sample.pdf`) to their new locations.
 
-By default the pdf uploaded to Documents & Files will adopt the url pattern, 
+By default, Sitefinity stores uploaded documents under the following URL pattern:
 
 ```/docs/<provider>/<library_folder>/<file and extension>```
 
+Unfortunately, Sitefinity does not offer direct configuration options to modify this URL structure for Documents & Files.
+
 We found no way to configure the Documents & Files setting.
 
-<br/>
 
-## What is the workaround?
+## 🔍 Workaround Solution
 
-We found an archive discussion thread shared the possibility and we went ahead to try on.
+After researching community discussions, we discovered a creative workaround using the **Pages module** to simulate the desired PDF redirection behavior.
 
-Basically it uses Page module as the redirection purpose.
+Here's the step-by-step guide:
 
-<br/>
+### 1. Update Allowed Page Extensions
 
-1/ Head to advanced setting /Sitefinity/Administration/Settings/Advanced,
+Navigate to:
 
-Under Page setting, we will need to update the "Not allowed page extensions" -> remove the .pdf from the list.
+> **Sitefinity Backend ➔ Administration ➔ Settings ➔ Advanced ➔ Pages**
+
+Under the Pages settings:
+
+- Locate the **"Not allowed page extensions"** setting.
+- **Remove `.pdf`** from the list to allow Sitefinity pages to have a `.pdf` extension.
 
 ![Screenshot1](/assets/blogs/sitefinity-pdf-redirection/screenshot1.png)
 
-<br/>
+This change enables the system to create pages that end with `.pdf`.
 
-2/ Upload a document, we will need the "URL to file" later when setting up Page
+
+### 2. Upload the Document
+
+Upload your PDF file to the **Documents & Files** module.
+
+- **Note:** You will need the **"URL to file"** for later when setting up the redirect.
 
 ![Screenshot2](/assets/blogs/sitefinity-pdf-redirection/screenshot2.png)
 
-<br/>
 
-3/ Setup the Page structure
+### 3. Set Up the Page Structure for Redirection
+
+- Create the necessary page hierarchy to match the original URL path (e.g., `/en/document/`).
+- Exclude intermediate pages (like `/en/` and `/document/`) from navigation if they are only meant for structuring.
 
 ![Screenshot3](/assets/blogs/sitefinity-pdf-redirection/screenshot3.png)
 
-We will exclude the en and document page from showing in navigation
+Use the page settings to **hide from navigation**:
 
 ![Screenshot4](/assets/blogs/sitefinity-pdf-redirection/screenshot4.png)
 
-Lastly, for the redirect page, we use sample.pdf as the page name and the url will auto populate as "sample.pdf" 
+- Create a final page named `sample.pdf`.
+- Since `.pdf` is now an allowed extension, the URL will properly end with `.pdf`.
 
-as we had allowed the page extension in step 1.
+For this `sample.pdf` page:
 
-Tick the "Redirect to another page" and use the "URL to file" from step 2. (You may use the relative path)
+- Check **"Redirect to another page"**.
+- Set the target to the document's URL obtained in Step 2 (you can use a relative path).
 
 ![Screenshot5](/assets/blogs/sitefinity-pdf-redirection/screenshot5.png)
 
-The purpose of doing the structuring is to categorize the documents into different path structure.
+The structured approach categorizes and redirects documents cleanly.
 
-<br/>
 
-4/ Alternatively, you can also setup 1 redirect page at root with full path as below:
+### 4. Alternative: Root-Level Redirection
 
-```using documents instead of document because the URL "/en/document/sample.pdf" already exists in page: en > document > sample.pdf```
+Alternatively, you can create a **single redirect page** at the root if matching the full path is challenging.
+
+⚡ **Important:** Be aware of URL conflicts if the same path already exists as a structured page.
+
+Example: `/en/documents/sample.pdf`
+
+> Use `/documents/` instead of `/document/` if `/document/` is already taken.
 
 ![Screenshot6](/assets/blogs/sitefinity-pdf-redirection/screenshot6.png)
 
-<br/>
 
-5/ Now visit the url xxx.com/en/document/sample.pdf or xxx.com/en/documents/sample.pdf will redirect you the document!
+### 5. Test the Redirection
+
+Now, visiting:
+
+- `xxx.com/en/document/sample.pdf`  
+or  
+- `xxx.com/en/documents/sample.pdf`
+
+should correctly redirect to your uploaded PDF document!
 
 
-<br/><br/>
-
-## References
+## 📚 References
 - [Sitefinity - 301 redirects the PDF](https://community-archive.progress.com/forums/00295/40474.html)

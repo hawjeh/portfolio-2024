@@ -1,73 +1,125 @@
 ---
-title: "ShareThis Social Icon"
+title: "ShareThis Social Icon - Why ShareThis?"
 slug: "sharethis-plugin"
 thumbnail: "/assets/blogs/sharethis-plugin/sharethis-icon.png"
-description: "Interface with ShareThis Social Icon"
-keyword: "Javascript, HTML, ShareThis"
+description: "Learn how to replace AddThis with ShareThis for social sharing after AddThis shutdown. Step-by-step guide including CSP settings and customization tips."
+keyword: "ShareThis, ShareThis integration guide, Social sharing buttons setup, ShareThis CSP whitelist, Inline share buttons ShareThis, Site sharing integration"
 category: "web"
 date: "2023-02-20"
 ---
 
-Why ShareThis?
 
-The reason of using [ShareThis](https://sharethis.com/) as [AddThis](https://www.addthis.com/) has announced service termination end May onwards.
+Since [AddThis](https://www.addthis.com/) announced its service termination by end of May, our team decided to search for an alternative social sharing tool.  
+[ShareThis](https://sharethis.com/) emerged as a strong candidate due to its ease of use, customizable options, and stability.
 
-Hence, the team has decided to look for alternative solution and ShareThis caught our eyeballs.
+---
 
-## Steps to setup
+## 💡 How to Set Up ShareThis
 
-1. Register an account via the [onboarding](https://sharethis.com/onboarding/)
+Follow these steps to integrate ShareThis into your site.
 
-2. Select one of the Sharing tools
+
+### 1. Register a ShareThis Account
+
+- Start by registering an account via the [ShareThis onboarding page](https://sharethis.com/onboarding/).
+
+
+### 2. Select a Sharing Tool
+
+- After registration, select one of the available sharing tools.  
+- In our example, we chose **Inline Share Buttons**.
+
 ![screen1](/assets/blogs/sharethis-plugin/screen1.png)
-<br/>
 
-3. In this example, we are choosing inline share buttons
 
-4. Customize your share buttons
+### 3. Customize Your Share Buttons
+
+- Adjust the look and feel of your buttons.
+
 ![screen2](/assets/blogs/sharethis-plugin/screen2.png)
-<br/>
 
-5. Select Channels - Choose Buttons Manually and choose the social networks as share icons
+
+### 4. Select Channels
+
+- Choose **Buttons Manually**.
+- Select the social networks you want to display.
+
 ![screen3](/assets/blogs/sharethis-plugin/screen3.png)
-<br/>
 
-6. Customize the settings, such as alignment, color, size, labels, counts, corners, extras and language
+
+### 5. Fine-Tune the Appearance
+
+Customize settings including:
+
+- Alignment
+- Background and text colors
+- Button size
+- Labels, counts, corners, extra spacing
+- Language
+
 ![screen4](/assets/blogs/sharethis-plugin/screen4.png)
-<br/>
 
-7. The sample we do have 
+#### In our setup, we used:
 
-  a/ Right alignment
+- **Right alignment**
+- **Customized background and text colors**
+- **Large size**
+- **No labels, no counts**
+- **Zero corners**
+- **No extra spacing**
+- **English language**
 
-  b/ Customized color for background and text color
-
-  c/ Large size
-
-  d/ No label, no counts, zero corners, no extra spacing
-
-  e/ English language
 ![screen5](/assets/blogs/sharethis-plugin/screen5.png)
-<br/>
 
-8. Copy the code and paste to the html.
 
-  a/ The ShareThis installation
+### 6. Install the ShareThis Code
+
+- Copy the **installation script** and paste it into your site's `<head>` section.
+
 ![screen6](/assets/blogs/sharethis-plugin/screen6.png)
-<br/>
 
-  b/ The buttons code
+- Copy the **inline button code** and paste it where you want the buttons to appear on your page.
+
 ![screen7](/assets/blogs/sharethis-plugin/screen7.png)
-<br/>
 
-9. Ensure the Content Security Policy (CSP) has whitelisted:
 
-  a/ script-src - platform-api.sharethis.com and buttons-config.sharethis.com
-  
-  b/ connect-src - l.sharethis.com
+### 7. Update Your Content Security Policy (CSP)
 
-  c/ img-src - platform-cdn.sharethis.com
+If your site uses a CSP, make sure to whitelist ShareThis domains:
 
-10. Final result look
+<table className="table table-bordered">
+    <thead>
+      <tr>
+        <td>Directive</td>
+        <td>Allow these domains</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>`script-src`</td>
+        <td>`platform-api.sharethis.com`, `buttons-config.sharethis.com`</td>
+      </tr>
+      <tr>
+        <td>`connect-src`</td>
+        <td>`l.sharethis.com`</td>
+      </tr>
+      <tr>
+        <td>`img-src`</td>
+        <td>`platform-cdn.sharethis.com`</td>
+      </tr>
+    </tbody>
+</table>
+
+
+### 8. Final Result
+
+Here’s how it looks when everything is correctly set up:
 
 ![outcome](/assets/blogs/sharethis-plugin/outcome.png)
+
+
+# 🧠 Summary
+
+✅ ShareThis is a modern, customizable alternative to AddThis.  
+✅ Quick onboarding and setup.  
+✅ Works seamlessly with proper CSP configuration.

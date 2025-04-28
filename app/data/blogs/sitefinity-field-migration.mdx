@@ -1,5 +1,5 @@
 ---
-title: "Sitefinity Field Migration"
+title: "Fixing Postal Code Type from Number to ShortText"
 slug: "sitefinity-field-migration"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
 description: "Learn how to migrate Sitefinity field type using a custom widget with C# Reflection"
@@ -8,9 +8,8 @@ category: "sitefinity"
 date: "2021-06-20"
 ---
 
-# Sitefinity Field Migration: Fixing Postal Code Type from Number to ShortText
 
-## Background Story
+## 🚩 Background Story
 
 We had originally set up a content type in Sitefinity with `PostalCode` as a **Number** field. While this sounds fine at first, we later learned that:
 
@@ -21,7 +20,7 @@ This caused data entry issues. So, we needed to fix our mistake and allow valid 
 
 ---
 
-## Steps to Counter This Issue
+## ✅ Steps to Counter This Issue
 
 1. **Backup existing content**  
    - Any schema change carries risk, so backup for disaster recovery.
@@ -44,7 +43,7 @@ This caused data entry issues. So, we needed to fix our mistake and allow valid 
 
 ---
 
-## Migration Tool
+## 🔥 Migration Tool
 
 ![screen1](/assets/blogs/sitefinity-field-migration/screen-1.png)
 
@@ -74,21 +73,21 @@ A list of migrated content items.
 
 Just type in the method name, hit submit, and boom — old postal codes are copied into the new field!
 
-## Outcomes
+## 💾 Outcomes
 
 - We learned and applied **Reflection** in real use case
 - Created a **reusable tool** for other field migrations
 
 
-## Further Enhancements
+## 📌 Further Enhancements
 
 - Allow passing of content type, source field, and destination field via HTTP POST
 - Generalize the migration logic to be fully dynamic
 
 
-## Code Snippets
+## 🔗 Code Snippets
 
-- 🔗 [GitHub Gist – Sitefinity PostalCode Migration Tool](https://gist.github.com/hawjeh/175610ad762f6d7e05bebc753fd9aced)
+- [GitHub Gist – Sitefinity PostalCode Migration Tool](https://gist.github.com/hawjeh/175610ad762f6d7e05bebc753fd9aced)
 
 
 ## 📚 References

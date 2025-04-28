@@ -1,5 +1,5 @@
 ---
-title: "EF Core DbContext Connection issue"
+title: "Handling DbContext Threading Issues in .NET Core with EF Core"
 slug: "ef-core-dbcontext-connection-query-issue"
 thumbnail: "/assets/blogs/shared/ef_core.png"
 description: "Figure out how to handle DbContext threading issues in .NET Core applications using Entity Framework Core."
@@ -8,9 +8,11 @@ category: "net"
 date: "2021-08-20"
 ---
 
-# Handling DbContext Threading Issues in .NET Core with Entity Framework Core
+
+## 🚩 The Problem
 
 While working on a **.NET Core** application using **Entity Framework Core** (EF Core) as ORM, 
+
 we faced some threading issues due to multiple `DbContext` usage, JWT authentication, and API concurrency.
 
 ---

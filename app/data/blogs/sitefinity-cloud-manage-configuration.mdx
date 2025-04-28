@@ -1,32 +1,33 @@
 ---
-title: "Sitefinity Cloud Manage Configuration"
+title: "Managing Sitefinity Cloud Configurations"
 slug: "sitefinity-cloud-manage-configuration"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity Cloud - Manage Configuration"
-keyword: ".NET, CMS, Sitefinity, Sitefinity Cloud"
+description: "Learn how to manage Sitefinity Cloud configurations using Azure DevOps Variable Groups to streamline deployment and configuration management for staging and production environments."
+keyword: "Sitefinity, Sitefinity Cloud, Sitefinity Cloud Configurations, Azure DevOps Variable Groups, Sitefinity Deployment, Sitefinity CI/CD Pipeline, Sitefinity Configuration Management, WebConfig Configuration"
 category: "sitefinity"
 date: "2024-02-20"
 ---
 
-## Introduction
+## ☁️ Introduction
 
-Sitefinity Cloud have different way to manage the configurations.
+Sitefinity Cloud allows users to manage their site configurations with Azure DevOps Variable Groups, offering flexibility and automation for deployment processes. 
 
-The article is to demo how to manage configuration using Azure DevOps variable groups.
+This article will walk you through managing configuration settings, such as **site URL settings**, using Azure DevOps.
 
 
-## Here we go
+## 💡 Here We Go: Step-by-Step Configuration Management
 
-You will need to go to Advanced setting to do so.
 
-Example: Edit this site URL settings
+### Step 1: Get the Property Path
 
-1/ Get the property path from your local machine
+Start by retrieving the property path from your local machine.
 
 ![Screenshot1](/assets/blogs/sitefinity-cloud-manage-configuration/screenshot1.png)
 
 
-2/ Map it on webconfig (line 81)
+### Step 2: Map the Property in WebConfig
+
+Next, map the property in your **web.config** file (specifically, at line 81).
 
 ![Screenshot2](/assets/blogs/sitefinity-cloud-manage-configuration/screenshot2.png)
 
@@ -42,29 +43,35 @@ Example: Edit this site URL settings
 ```
 
 
-3/ Add the keypair value variable through devops
+### Step 3: Add Key-Value Pairs in Azure DevOps
+
+Now, add the ***key-value pair*** variable through Azure DevOps to store the configuration securely.
 
 ![Screenshot3](/assets/blogs/sitefinity-cloud-manage-configuration/screenshot3.png)
 
 
-4/ To take action immediately, rerun the CI.CD pipeline,
+### Step 4: Trigger Immediate Action
 
-Specify the Build Configuration
+To apply the changes, rerun your ***CI/CD pipeline***.
 
-a. Staging - Staging
-b. Production - Production
-c. Release - both Production & Staging
-
-
-5/ Uncheck Partial Deployment
+**Specify the Build Configuration:**
+- Staging – For Staging environment.
+- Production – For Production environment.
+- Release – For both Production and Staging environments.
 
 
-6/ Specify Stage to run
+### Step 5: Disable Partial Deployment
+
+Make sure to **uncheck** the **Partial Deployment** option to ensure a full deployment.
+
+### Step 6: Specify the Stage to Run
+
+Select the **stage** for which the configuration should apply.
 
 ![Screenshot4](/assets/blogs/sitefinity-cloud-manage-configuration/screenshot4.png)
 
 
-## References
+## 📚 References
 - [Sitefinity - Manage the configurations](https://www.progress.com/documentation/sitefinity-cms/cloud/use-different-configurations-for-different-environments)
 - [Sitefinity - Manage configurations in CD Pipeline](https://www.progress.com/documentation/sitefinity-cms/manage-configurations-in-cd-pipeline)
 - [Sitefinity KB - Sitefinity configuration transformations between environments](https://community.progress.com/s/article/cloud-sitefinity-configuration-transformations-between-environments)
