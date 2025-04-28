@@ -2,28 +2,45 @@
 title: "Sitefinity Accordion Tab Layout"
 slug: "sitefinity-grid-accordion-layout"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – My workable reusable Accordion Tab Layout"
-keyword: ".NET, CMS, Sitefinity"
+description: "This guide demonstrates how to implement a flexible accordion layout in Sitefinity that supports up to 7 sections, with Bootstrap CSS conditional visibility"
+keyword: "Sitefinity, Sitefinity accordion layout, Sitefinity widget layout customization, Sitefinity CMS frontend accordion, dynamic accordion sections Sitefinity"
 category: "sitefinity"
 date: "2020-11-20"
 ---
 
-Overkill Accordion Layout:
+# Overkill Accordion Layout
 
-1. Support 7 Accordions
-2. Use css class: d-none to hide accordion 5 – accordion 7 by default
+This layout implementation supports up to **7 accordion sections**. By default, **accordion sections 5 through 7** are hidden using the Bootstrap utility class `d-none`.
 
-## Widget Editing screen:
+This approach ensures a cleaner interface on initial load while allowing flexibility for expanding content when needed.
+
+
+## Widget Editing Screen
+
+This view displays the configuration interface for the accordion widget within the Sitefinity backend.
 
 ![screen1](/assets/blogs/sitefinity-grid-accordion-layout/screen1.png)
 
-## Editing Screen:
+---
+
+## Editing Screen
+
+In the editing mode, editors can modify the content and structure of each accordion section directly from the CMS interface.
 
 ![screen2](/assets/blogs/sitefinity-grid-accordion-layout/screen2.png)
 
-## Actual Screen:
+---
+
+## Actual Screen (Frontend)
+
+The final rendered layout on the frontend, with only the first four accordion sections visible by default.
 
 ![screen3](/assets/blogs/sitefinity-grid-accordion-layout/screen3.png)
 
-## My Sample Code
+---
+
+## Sample Code
+
+View the implementation example in the following GitHub Gist:
+
 - [GitHub Gist](https://gist.github.com/hawjeh/0a021153fea4a063f3f65b134b9aab75)

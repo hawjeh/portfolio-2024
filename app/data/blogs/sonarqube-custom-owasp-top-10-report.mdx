@@ -2,63 +2,68 @@
 title: "SonarQube Custom OWASP-Top 10 Report"
 slug: "sonarqube-custom-owasp-top-10-report"
 thumbnail: "/assets/blogs/sonarqube-custom-owasp-top-10-report/sonarqube-logo.png"
-description: "SonarQube – OWASP Top 10 Security Report"
-keyword: "SonarQube, Security, React"
+description: "Discover how I built a custom SonarQube plugin to generate security reports tailored to OWASP Top 10 using React and REST APIs"
+keyword: "SonarQube, build SonarQube plugin, SonarQube custom report plugin, SonarQube OWASP Top 10 report, SonarQube plugin development, SonarQube React plugin"
 category: "tool"
 date: "2022-02-20"
 ---
 
-I built my first SonarQube plugin!
+# I Built My First SonarQube Plugin!
 
-<br/>
 
-## What is the reason I build a module?
+## What is the Reason I Built a Module?
 
-Recently, my company has an initiative to integrate SAST tool into CICD pipeline. 
-We have been looking at Fortify, SonarQub and etc.
-Fortunately, I am taking part in the SonarQube research part :)
+Recently, my company launched an initiative to integrate SAST tools into our CI/CD pipeline.  
+We evaluated tools like Fortify and SonarQube.  
+Fortunately, I had the chance to take part in the SonarQube research phase. :)
 
-We first discovered [CNES plugin](https://github.com/cnescatlab/sonar-cnes-report) but it does not really covered all the cases that we wanted to see.
+Initially, we discovered the [CNES plugin](https://github.com/cnescatlab/sonar-cnes-report), but it didn't fully meet all our requirements.  
 Therefore, we decided to re-invent the wheel!
 
-## Why I re-invent the wheel?
 
-Actually there is a built in report tool, unfortunately, it only available in the [Enterprise Edition](https://www.sonarqube.org/enterprise-edition/)
-As a developer myself, I am more bias to the community basis version and FREE! :)
+## Why I Re-Invented the Wheel?
 
-## How I get start and learn about it?
+Although SonarQube has a built-in reporting tool, it's only available in the [Enterprise Edition](https://www.sonarqube.org/enterprise-edition/).  
+As a developer, I'm more inclined toward open-source, community-based, and **FREE** solutions!
 
-I pulled the CNES report, to seek a chance to amend the report.
-However, the current (as of end April 2022) version doesnt support OWASP 2021 report, it only by the upgraded (I believe is 9.x) version.
-Then, I go ahead and pull the sonar custom plugin example repo, study and learn about it.
 
-I discovered that the Java code is a wrapper to plug into sonarqube system, which I believe is based on Java too. (of course they use other plugins like elasticsearch, etc).
-I also discovered that there is a bunch of RESTful Web Api available out of the box!
-Although it is very confusing in certain case, I managed to find out by visiting different pages in the SonarQube dashboard itself.
+## How I Got Started and Learned About It
 
-## How I build it?
+I first explored the CNES report plugin to see if it could be customized.  
+However, the version (as of end April 2022) didn't support the OWASP 2021 report without upgrading SonarQube to 9.x.
 
-I am not a Java developer, therefore, my custom security report is purely based on React code with API calls.
-You can check [my repository](https://github.com/hawjeh/sonar-custom-plugin-example-report), my code is under /src/main/js.
-I forked out from the sample code repository, remained the sample code and hacked some of the Java & Javascript code to show only my plugin.
-I will need to pull from the base repository in order to upgrade it in future~
+I then pulled the [Sonar custom plugin example repo](https://github.com/SonarSource/sonar-custom-plugin-example), studied it, and learned that:
 
-## How is the plugin looks like?
+- SonarQube plugins are Java-based.
+- The system exposes a set of RESTful Web APIs out of the box.
+- By exploring the SonarQube dashboard and API docs, I figured out how to get the data I needed.
 
-Access point:
+
+## How I Built It
+
+I'm not a Java developer, so my custom security report was built mostly in **React**, with direct API calls.  
+You can check my repository here: [hawjeh/sonar-custom-plugin-example-report](https://github.com/hawjeh/sonar-custom-plugin-example-report)
+
+The main code is under `/src/main/js`.  
+I forked from the sample repo, kept the essential parts, and modified both the Java and JavaScript code to focus only on my plugin needs.  
+For future upgrades, I will pull from the base repository as needed.
+
+
+## What Does the Plugin Look Like?
+
+**Access Point:**
 ![sonarqube-report0](/assets/blogs/sonarqube-custom-owasp-top-10-report/sonarqube-report0.png)
 
-Report:
+**Report View:**
 ![sonarqube-report1](/assets/blogs/sonarqube-custom-owasp-top-10-report/sonarqube-report1.png)
 
-Sample Report:
-Unfortunately, it contains client's data, I cant show it here..
-But, no worry, just get your hand dirty and pull my code :)
-You will be able to see how it works!
+**Sample Report:**  
+Unfortunately, it contains client data, so I can't share it here.  
+But don't worry — clone my repo, build it yourself, and see it in action!
 
 <br/>
 
-## My Repository and References
+## 📦📚 My Repository and References
 
 - [GitHub - hawjeh/sonar custom plugin example](https://github.com/hawjeh/sonar-custom-plugin-example-report)
 - [SonarQube - developing plugin](https://docs.sonarqube.org/latest/extend/developing-plugin/)

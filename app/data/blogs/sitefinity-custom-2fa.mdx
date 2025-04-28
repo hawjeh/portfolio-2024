@@ -2,51 +2,63 @@
 title: "Sitefinity Custom 2FA Authentication"
 slug: "sitefinity-custom-2fa"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – My experience constructing custom 2FA"
-keyword: "NET, CMS, Sitefinity"
+description: "Secure your Sitefinity CMS login using custom two-factor authentication (2FA). This step-by-step guide walks you through creating a new user field, configuring token authentication, and integrating QR code-based login with Authenticator apps"
+keyword: "Sitefinity, Sitefinity two factor authentication, Sitefinity 2FA setup, Sitefinity custom login"
 category: "sitefinity"
 date: "2021-05-20"
 ---
 
-Only tested in V12.x
+# Sitefinity Custom 2FA Login (Tested in v12.x)
 
-## Idea in general
+## Idea in General
 
-1. Create a new user in Sitefinity
-2. User receive QR code and setup in Authenticator
-3. User login with username & password -> Prompt for 2FA code
-4. Login Successful!
-
+1. Create a new user in Sitefinity  
+2. User receives a QR code and sets up Authenticator  
+3. User logs in with username & password → Prompted for 2FA code  
+4. Login Successful!  
 
 ## Sample Code
 
-- [Haw Jeh GitHub - Sitefinity 2FA](https://github.com/hawjeh/Sitefinity2fa)
+- 🔗 [Haw Jeh GitHub - Sitefinity 2FA](https://github.com/hawjeh/Sitefinity2fa)
 
-# Steps
+---
 
-1. Go to 
-```
-/Sitefinity/Administration/ProfileTypes -> Basic Profile
-Add a custom field – AuthCode (ShortText) in user profile
-```
+## Steps
+
+### 1. Add a Custom Field to User Profile
+
+Go to:
+
+` /Sitefinity/Administration/ProfileTypes -> Basic Profile `
+
+Add a custom field – `AuthCode` (ShortText) in the user profile.
 
 ![screen1](/assets/blogs/sitefinity-custom-2fa/screen-1.png)
 
-2. Create a new user, wait for email and setup the Authenticator in your mobile.
+
+### 2. Create a New User
+
+- Wait for email
+- Set up the Authenticator app on your mobile
 
 ![screen2](/assets/blogs/sitefinity-custom-2fa/screen-2.png)
 
-3. Go to /Sitefinity/Administration/Settings/Advanced
 
-    a. Authentication -> Authentication protocol -> set to SimpleWebToken
+### 3. Update Advanced Settings 
 
-    b. Security -> RelyingParties -> Add a new record, and state the realm=”(host)”, key can be exactly same as the default localhost’s key.
-    
-    c. Security -> SecurityTokenIssuers -> Add a new record, and state the realm=”(host)”, key can be exactly same as the default localhost’s key.
+` Go to /Sitefinity/Administration/Settings/Advanced `
+
+```
+a. **Authentication** → Authentication protocol → Set to `SimpleWebToken`  
+b. **Security** → RelyingParties → Add a new record  
+   - `realm="http://<host>"`, use the same key as localhost  
+c. **SecurityTokenIssuers** → Add a new record  
+   - `realm="http://<host>"`, use the same key as localhost
+```
 
 ![screen3](/assets/blogs/sitefinity-custom-2fa/screen-3.png)
 
-4. Update wsFederation at web.config
+### 4. Update `web.config` with wsFederation Settings
 
 ```
  <system.identityModel.services>
@@ -57,21 +69,25 @@ Add a custom field – AuthCode (ShortText) in user profile
   </system.identityModel.services>
 ```
 
-5. Restart Sitefinity.
+### 5. Restart Sitefinity.
 
-6. Go to /Sitefinity, it will route you to the sample login screen
+
+### 6. Test Login 
+
+Go to `/Sitefinity`, it will route you to the sample login screen
 
 ![screen4](/assets/blogs/sitefinity-custom-2fa/screen-4.png)
 
+
 ## Further enhancements:
 
-1. Make fields configurable, such as:
+- Make fields configurable, such as:
     – custom field name
     – email template
+- Make it work in all Sitefinity version (Currently tested in v12.2)
 
-2. Make it work in all Sitefinity version (Currently tested in v12.2)
 
-## References
+## 📚 References
 
 - [GitHub - timw255](https://github.com/timw255/timw255.Sitefinity.TwoFactorAuthentication)
 - [GitHub Gist - rickbassham 2FA](https://github.com/rickbassham/two-factor)

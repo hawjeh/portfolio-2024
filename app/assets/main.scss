@@ -334,7 +334,7 @@ main {
   h3,
   h4,
   h5 {
-    padding-top: 0.8rem;
+    padding-top: 1.5rem;
     padding-bottom: 0.8rem;
   }
 
@@ -344,6 +344,10 @@ main {
     font-size: 0.9rem;
   }
 
+  hr {
+    margin-top: 1.5rem;
+  }
+
   .wrapper {
     // width: 100%;
 
@@ -351,6 +355,7 @@ main {
       max-width: 100%;
       height: auto;
       padding-left: 2rem;
+      padding-bottom: 2rem;
     }
 
     pre,

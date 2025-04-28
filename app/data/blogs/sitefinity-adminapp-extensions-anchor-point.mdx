@@ -2,45 +2,45 @@
 title: "Sitefinity AdminApp Extensions - Anchor Point"
 slug: "sitefinity-adminapp-extensions-anchor-point"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – My custom Anchor Point AdminApp Extension"
-keyword: "NET, CMS, Sitefinity, AdminApp"
+description: "Learn how to build a Sitefinity AdminApp extension. Build your own Sitefinity extensions"
+keyword: "Sitefinity, Sitefinity AdminApp extension, Sitefinity content block extension, Sitefinity toolbar item extension"
 category: "sitefinity"
 date: "2022-03-20"
 ---
 
-I built my first Sitefinity AdminApp Extension!
+# I Built My First Sitefinity AdminApp Extension!
 
-<br/>
+---
 
 ## Problems / Issues
 
-Sitefinity does not support out of the box insert anchor id attribute to the content block.
+Sitefinity does not support inserting the anchor `id` attribute to content blocks out of the box.
 
-This is the closet I found in [documentation](https://www.progress.com/documentation/sitefinity-cms/insert-anchors-in-content-mvc)
+The closest solution I found is described in [Sitefinity documentation](https://www.progress.com/documentation/sitefinity-cms/insert-anchors-in-content-mvc), but it requires users to have basic HTML knowledge to manually enter the `id` for the content.
 
-It required dummy user to have basic HTML knowledge in order to enter the id for the content.
 
 ## My Solution
 
-I found the sample Sitefinity AdminApp extension repository in GitHub.
+I found a sample Sitefinity AdminApp extension repository on GitHub, which helped me create my own extension.
 
-I pulled it, study the code and inspect the methods I can reuse in the sample repository.
+I cloned the repo, studied the code, and identified reusable methods.  
+The sample `word-count` implementation was a good fit for my solution.
 
-I found the sample word-count implementation is best fit to my solution.
+I added an extension to the **ToolBarItem** that wraps the content block in a `div` and prompts the user for an `id` before adding it to the block.
 
-I added an extension to ToolBarItem, it is to add a div wrapper to the content block with the prompt ID from user.
+To use it:
+1. Build and copy the file to the `/AdminApp/` folder in your Sitefinity application.
+2. Make sure to add it to the `config.json` file to make it work.
 
-Follow the step in the sample repository, build and copy the file over to /AdminApp/ folder in the Sitefinity application.
 
-Also, you should not to forget to add it to config.json in order to make it works.
-
-## Sample Screen
+## Sample Screens
 
 ![screen1](/assets/blogs/sitefinity-adminapp-extensions-anchor-point/screen1.png)
 
 ![screen2](/assets/blogs/sitefinity-adminapp-extensions-anchor-point/screen2.png)
 
 ![screen3](/assets/blogs/sitefinity-adminapp-extensions-anchor-point/screen3.png)
+
 
 ### Code Snippet
 ```
@@ -77,17 +77,14 @@ Also, you should not to forget to add it to config.json in order to make it work
   }
 ```
 
+---
 
-## What other extension can we build?
+### What Other Extensions Can We Build?
 
-Further AdminApp extension, we can refer to the Sitefinity repository links below.
-
-
-## References
-
-- [GitHub - sitefinity/sitefinity-admin-app-extensions](https://github.com/Sitefinity/sitefinity-admin-app-extensions)
+There are plenty of other AdminApp extensions you can create for Sitefinity. 
+You can explore the [Sitefinity AdminApp Extensions GitHub repository](https://github.com/Sitefinity/sitefinity-admin-app-extensions) for more ideas.
 
 
-## My Code Repository
+## 📚 My Code Repository for Reference
 
 - [GitHub - hawjeh/sitefinity-admin-app-extensions-anchor-point](https://github.com/hawjeh/sitefinity-admin-app-extensions-anchor-point)

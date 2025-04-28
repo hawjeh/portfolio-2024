@@ -2,23 +2,27 @@
 title: "Sitefinity Custom Page Title"
 slug: "sitefinity-page-title"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – My custom page title using code for webform and mvc"
-keyword: ".NET, CMS, Sitefinity"
+description: "Learn how to dynamically update the page title in Sitefinity Web Forms and MVC virtual pages to maintain consistent branding and improve user engagement"
+keyword: "Sitefinity, Sitefinity dynamic page title, update page title in Web Forms, Sitefinity MVC page title override, Sitefinity branding in title tag, set page title in Sitefinity template, Sitefinity page title customization"
 category: "sitefinity"
 date: "2021-02-20"
 ---
 
-## What we want to achieve?
+# ✅ What Are We Trying to Achieve?
 
-– To modify the Page Title to "ABC Inc | (Page_Title)" on the fly
+The goal is to dynamically modify the browser **page title** to follow the format:
 
-## How to achieve in Webform Template?
+> `ABC Inc | (Page_Title)`
 
-1. Make sure the HTML Template has included the (title) tag
-2. Add an HTML id to the (title) tag
-3. Webform Template:
+This ensures better brand visibility and consistent user experience.
 
-Add the title tag with id attribute:
+---
+
+## 🛠️ How to Implement This in a Web Forms Template
+
+### Step 1: Ensure the HTML Template Includes the `<title>` Tag
+
+Update your Web Forms template (`.Master` or `.aspx`) by adding a `title` tag with an `id` attribute for dynamic access:
 
 ```
 <html>
@@ -32,9 +36,9 @@ Add the title tag with id attribute:
 ```
 
 
+### Step 2: Set Page Title in Page_Load Event
 
-
-Update page title at Page_Load override method:
+Override the ```Page_Load``` method to dynamically update the page title at runtime:
 
 ```
 protected void Page_Load(object sender, EventArgs e)
@@ -61,12 +65,9 @@ protected void Page_Load(object sender, EventArgs e)
 
 ```
 
+### ⚙️ For MVC Widget (Virtual Page Rendering)
 
-
-
-4. MVC Widget Virtual Page:
-We have some pages are “virtual” page, not the physical page setup in Sitefinity.
-Therefore, we need to update the code itself at .cshtml
+In some cases, especially with MVC widgets used in ***virtual pages*** (not physically created in Sitefinity), you must manually update the title directly in the ```.cshtml``` file:
 
 ```
 @{
@@ -76,4 +77,5 @@ Therefore, we need to update the code itself at .cshtml
 ```
 
 ## References
-- https://www.progress.com/documentation/sitefinity-cms/for-developers-modify-pages
+
+- [Sitefinity Docs – Modify Page Titles](https://www.progress.com/documentation/sitefinity-cms/for-developers-modify-pages)

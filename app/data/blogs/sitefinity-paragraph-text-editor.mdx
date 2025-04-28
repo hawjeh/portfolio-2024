@@ -2,35 +2,43 @@
 title: "Sitefinity WebForm Paragraph Text Editor"
 slug: "sitefinity-paragraph-text-editor"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – Simple Classic Web Form Text Editor Setting"
-keyword: ".NET, CMS, Sitefinity"
+description: "Learn how to add custom text formatting options to the Sitefinity Text Editor by editing the paragraph format list. Step-by-step guide with screenshots and XML examples to easily expand formatting choices."
+keyword: "Sitefinity, Sitefinity Text Editor, add custom paragraph formats Sitefinity, Sitefinity formatting guide, Sitefinity CMS tutorial"
 category: "sitefinity"
 date: "2021-12-20"
 ---
 
-## Intro
+# Add New Text Format to Sitefinity Paragraph List
 
-Add text format to existing paragraph format list.
+Add new text formats to the existing paragraph format list in Sitefinity's text editor.
+
 
 ## Expected Result
 
 ![screen1](/assets/blogs/sitefinity-paragraph-text-editor/screen1.png)
 
+--- 
 
 ## Text Editor Setting
 
-1. Access to /Sitefinity/Administration/Settings/Basic/TextEditor:
+
+### 1. Access Text Editor Settings
+
+Go to: `/Sitefinity/Administration/Settings/Basic/TextEditor`
 
 ![screen2](/assets/blogs/sitefinity-paragraph-text-editor/screen2.png)
 
-2. Then we add the line of the code before end of (/root):
+
+### 2. Add New Paragraph Format
+
+Find the `/root` section and **add the following XML before the end tag**:
 
 ![screen3](/assets/blogs/sitefinity-paragraph-text-editor/screen3.png)
 
 
+#### Base (Original) Paragraphs
+
 ```
-#Base
- 
 <paragraphs>
     <paragraph name="Normal" value="&lt;p&gt;" />
     <paragraph name="&lt;H1&gt;Heading 2&lt;/H1&gt;" value="&lt;H1&gt;" />
@@ -47,9 +55,9 @@ Add text format to existing paragraph format list.
 
 ```
 
-```
-#Added new paragraph
+#### Added new paragraph
 
+```
 <paragraphs>
     <paragraph name="Normal" value="&lt;p&gt;" />
     <paragraph name="&lt;H1&gt;Heading 2&lt;/H1&gt;" value="&lt;H1&gt;" />
@@ -70,11 +78,13 @@ Add text format to existing paragraph format list.
 ```
 
 
-3. Finally
+### 3. Final Result
+
+After saving and restarting, you will see the new paragraph formats available in the text editor.
 
 ![screen4](/assets/blogs/sitefinity-paragraph-text-editor/screen4.png)
 
 
-## References
+## 📚 References
 
 - [Telerik Demo](https://demos.telerik.com/aspnet-ajax/editor/examples/formatblock/defaultvb.aspx)

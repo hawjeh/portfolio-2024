@@ -2,157 +2,148 @@
 title: "Singpass QR Login OIDC"
 slug: "singpass-login"
 thumbnail: "/assets/blogs/singpass-login/sp_icon.png"
-description: "NodeJS x React - Singpass QR Login Integration"
-keyword: "NodeJS, React, SingPass, QR Login"
+description: "Integrate Singpass QR login with your web app using OIDC authentication flow. Learn how to onboard, setup JWKS endpoints, generate keys, build frontend QR login, and decrypt and verify JWT responses from Singpass API."
+keyword: "singpass login integration, singpass api onboarding, singpass qr code login, setup jwks endpoint singpass, singpass authentication flow"
 category: "integration"
 date: "2021-10-20"
 ---
 
-***Probably deprecated already***
+***Singpass Login Integration (Probably Deprecated)***
 
-## Login Flow
+## 🏁 Login Flow Overview
 
-- High level Frontend / Backend Login: [Actor](https://api.singpass.gov.sg/assets/api-lib/login/img/actors.png)
+- High-level Frontend/Backend Login Actors:  
+  [View Actor Diagram](https://api.singpass.gov.sg/assets/api-lib/login/img/actors.png)
 
-- OIDC authentication flow: 
+- OIDC Authentication Flow:
 
-![screen1](/assets/blogs/singpass-login/oidc_auth.png)
+  ![OIDC Auth Flow](/assets/blogs/singpass-login/oidc_auth.png)
 
-- Very detail sequence diagram: [sequence diagram](https://api.singpass.gov.sg/assets/api-lib/login/img/private-qr.png)
+- Detailed Sequence Diagram:  
+  [View Sequence Diagram](https://api.singpass.gov.sg/assets/api-lib/login/img/private-qr.png)
 
+---
 
-## Onboarding
+## 🚀 Onboarding with Singpass API
 
-1. Go to Singpass API Onboarding, login with CorpPass
-    1. Request Integration with Login API
-    2. Submit App information
+1. Go to **Singpass API Onboarding** and log in with **CorpPass**:
+   - Request integration with **Login API**.
+   - Submit application details.
 
-2. Then, the SingPass representative will engage you directly
+2. A Singpass representative will engage you directly.
 
-3. (SingPass rep to provide) Onboarding form
-    1. company info
-    2. app info
-    3. domain name
-    4. redirect url
-    5. landing url
-    6. jwks endpoint url (Check Setup JWKS endpoints)
-    7. testing accounts
+3. Singpass will provide an onboarding form requiring:
+   - Company Information
+   - Application Information
+   - Domain Name
+   - Redirect URL
+   - Landing URL
+   - JWKS Endpoint URL (see [Setup JWKS Endpoints](#setup-jwks-endpoints))
 
-4. After approval, (SingPass provide credential) you will obtain **TestFlight** accounts & **client_id**
+4. Upon approval, you will receive:
+   - **TestFlight** access.
+   - **client_id** credentials.
 
+---
 
-## Setup JWKS endpoints
+## 🔐 Setup JWKS Endpoints
 
-The JSON Web Key Set (JWKS) endpoint is a read-only endpoint that returns the Identity Server"s public key set in the JWKS format. 
-This contains the signing key(s) that the Relying Party (RP) uses to validate signatures from the Identity Server.
+The **JWKS endpoint** serves the public keys used to validate signatures and decrypt tokens from Singpass Identity Server.
 
-The signing JWK will be used to verify the client assertion JWT provided during /token request, thereby authenticating the client.
+### Key Generation Commands:
 
-Steps to create:
+```bash
+# Decryption Key Pair
+openssl ecparam -name prime256v1 -genkey -noout -out singpass-decryption-key.pem
+openssl ec -in singpass-decryption-key.pem -pubout -out singpass-encryption-key.pem
 
-1. Generate private and public key pairs:
+# Signing Key Pair
+openssl ecparam -name prime256v1 -genkey -noout -out singpass-signing-key.pem
+openssl ec -in singpass-signing-key.pem -pubout -out singpass-verification-key.pem
 
-    **encryption key, decryption key, signing key and verification key**
-    
-        ### Generate a private key for content decryption
-        openssl ecparam -name prime256v1 -genkey -noout -out singpass-decryption-key.pem
-
-        ### Generate a public key for content encryption
-        openssl ec -in singpass-decryption-key.pem -pubout -out singpass-encryption-key.pem
-
-        ### Generate a private key for signature signing key
-        openssl ecparam -name prime256v1 -genkey -noout -out singpass-signing-key.pem
-
-        ### Generate a public key for signature verification key
-        openssl ec -in singpass-signing-key.pem -pubout -out singpass-verification-key.pem
-
-    **(Optional) Encrypt signing and decryption key**
-
-        ### encrypt private key use for token decryption
-        openssl ec -in singpass-decryption-key.pem -out singpass-decryption-key-encrypted.pem -aes256
-
-        ### encrypt private key use to sign the client assertions
-        openssl ec -in singpass-signing-key.pem -out singpass-signing-key-encrypted.pem -aes256
-
-2. Using **node-jose** to create keystores, use asKey / asKeyStore - input, form and headers
-
-3. Keystores consists of two public keys: enc (encryption-key) and sig (verification-key).
-
-4. Build an APi and make sure it fulfilled the SingPass requirement to serve the jwks
+# (Optional) Encrypt Private Keys
+openssl ec -in singpass-decryption-key.pem -out singpass-decryption-key-encrypted.pem -aes256
+openssl ec -in singpass-signing-key.pem -out singpass-signing-key-encrypted.pem -aes256
+```
 
 
+### JWKS Endpoint Requirements:
 
-## QR Login Frontend
+- Use node-jose library to create keystores.
+- Serve a keystore with two public keys:
+    - enc (encryption)
+    - sig (signature verification)
+- Build an API endpoint that satisfies Singpass JWKS format requirements.
+
+
+### 📱 QR Login Frontend Setup
 
 **Sample step / tutorial**
 
 - Singpass API Tutorial 1 
 - Singpass API Tutorial 2 
 - Singpass API Tutorial 3 
-- Visit here: https://stg-id.singpass.gov.sg/docs/embedded-auth/js
-- Sample Code: https://stg-id.singpass.gov.sg/docs/embedded-auth/js#_sample_html_with_ndi_embedded_auth_js
+- Visit [here](https://stg-id.singpass.gov.sg/docs/embedded-auth/js)
+- Sample [Code](https://stg-id.singpass.gov.sg/docs/embedded-auth/js#_sample_html_with_ndi_embedded_auth_js)
 - Receive callback with code & state
 
-**NOTE**
 
-- Setup TestFlight app (It doesnt work together with actual SingPass app, hence, you have to install at backup phone)
+**Flow:**
 
-- Follow the tutorial, specify clientId, redirectUri, scope, responseType
+1. Install TestFlight app (backup phone recommended).
+2. Configure:
+    - `clientId`
+    - `redirectUri`
+    - `scope`
+    - `responseType`
+3. Display QR code.
+4. Scan QR using TestFlight app.
+5. Callback to provided redirect URL with code and state.
 
-- Then, you shall able to see the QR code and scan it using TestFlight
 
-- Lastly, it will callback to the redirect URL you provided
+### 🖥 Relying Party Backend Setup
 
+**Steps:**
 
-
-## Relying Party Backend
-
-**Sample step / tutorial**
-
-- Build Client Assertion
+1. Build Client Assertion
     - Build a JWT with required payload and sign with private key - signing-key
 
-- Build API to receive code and exchange for JWE (access_token, token_type and id_token)
+2. Build API to receive code and exchange for JWE (access_token, token_type and id_token)
     - HTTP POST to token_endpoint with required body and headers
 
-- Decrypt JWE and get a JWT token
+3. Decrypt JWE and get a JWT token
     - Decrypt JWE with private key - decryption-key
     - Will retrieve another encrypted JWT token
 
-- Verify encrypted JWT token
+4. Verify encrypted JWT token
     -Verify the decrypted JWT token with Singpass public key
 
-- Lastly, it will return payload with sub (IC id and U id)
+5. Lastly, it will return payload with sub (IC id and U id)
 
 
 
-## Sample response screen
+### 📸 Sample Screens
 
-Login Screen
+**Login Screen**
 
 ![screen2](/assets/blogs/singpass-login/login.png)
 
-Response / Verify Screen
+**Response / Verify Screen**
 
 ![screen3](/assets/blogs/singpass-login/response.png)
 
 
+**Scenario:**
 
-## Add on feature
-
-- How it works? Scenario below:
-
+- How it works?
     - I want to login using singpass
     - Redirect to provider/login?callback=origin_end_point&nonce=nonce
     - Scan QR code and authenticate my user
     - Provider response to origin end point with base64 endcoded payload + nonce
     - Origin endpoint should verify the nonce be matched with request
-
 - Demo: Check Demo Video
-
 - Demo in App
-
-	- Repository: https://github.com/hawjeh/SitefinityWidgetCollection
+	- [Repository](https://github.com/hawjeh/SitefinityWidgetCollection)
     - Setup widget with login role, service and callback url
     - A nonce cookie generated on load - expired in 20 mins
     - Click login button request to service url with callback url & nonce (Format: {`https://{service_url}?callback={callback_url}&nonce={nonce}`})
@@ -162,13 +153,15 @@ Response / Verify Screen
     - Create user if not exists; login user if exists
     - Furthermore, check the demo video for app integration
 
-## Futher Enhancements
+--- 
+
+
+## 🌟 Future Enhancements
 
 - Integrate with myInfo service
 
 
-
-## References
+## 📚 References
 
 - [mkjwk](https://mkjwk.org/)
 - [node-jose](https://github.com/cisco/node-jose)
@@ -178,9 +171,11 @@ Response / Verify Screen
     - [techrino930 article 3](https://techrino930.medium.com/integrating-singpass-login-api-with-laravel-socialite-provider-the-last-part-frontend-de362da9f979)
 - [YouTube](https://www.youtube.com/playlist?list=PLwUcMsSZ5FPQPApNCWpaOqhac1gWykjtG)
 
-## Repository
+
+## 📂 Repository
 
 - [GitHub - hawjeh/SingPassConnector](https://github.com/hawjeh/SingPassConnector)
+
 
 ## Demo Video
 

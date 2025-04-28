@@ -2,30 +2,43 @@
 title: "My Custom Lighthouse Tool"
 slug: "custom-lighthouse-tool"
 thumbnail: "/assets/blogs/custom-lighthouse-tool/lighthouse.png"
-description: "My mini project - Custom Lighthouse Tool with ElectronJS and CLI"
-keyword: "ElectronJS, JavaScript, CLI"
+description: "Batch run Google Lighthouse audits across multiple URLs easily! Download a custom desktop app or CLI tool to automate performance, accessibility, SEO, and PWA reporting — no more tedious page-by-page testing."
+keyword: "lighthouse batch audit tool, lighthouse multiple urls audit, batch lighthouse desktop app, lighthouse cli tool run multiple pages, automate google lighthouse audit, lighthouse nodejs batch runner, lighthouse accessibility seo performance audit, batch lighthouse report generator, run lighthouse for mobile and desktop, lighthouse summary report generation"
 category: "tool"
 date: "2021-09-20"
 ---
 
-## Problem
+# Batch Running Lighthouse Audit for Multiple Pages
 
-- Very tedious to run page by page
-- Not stable for each run
+Running **Google Lighthouse** page-by-page is tedious and unstable. Here's a better way: **Batch Lighthouse testing** using a desktop app or CLI tool!
 
-## Idea / Proposal
+---
 
-- Run batch lighthouse test using a single tool / command.
-- Generate report based on the specified site urls in the loaded txt file
+## 🚩 Problem
 
-## What is Lighthouse?
+- Very tedious to run page by page.
+- Runs are unstable (timing out, manual errors).
 
-Lighthouse is an open source, automated tool by Google.
 
-The aim is to improve quality of web page.
-It audits for performance, accessibility, progressive web apps, SEO and more.
+## 💡 Idea / Proposal
 
-We can use the tool with
+- Run **batch Lighthouse tests** via a **single command or app**.
+- Generate **reports automatically** from a list of site URLs.
+
+---
+
+## 🚀 What is Lighthouse?
+
+Lighthouse is an open-source, automated tool by **Google** for improving the **quality** of web pages.  
+It audits across:
+
+- ⚡ Performance
+- ♿ Accessibility
+- 📦 Progressive Web App (PWA)
+- 🛠️ Best Practices
+- 🔍 SEO
+
+Ways to use Lighthouse:
 
 - **Google Chrome + DevTools**
     - Incognito -> F12 -> Lighthouse
@@ -38,91 +51,100 @@ We can use the tool with
 - **Nodejs cli** - https://github.com/GoogleChrome/lighthouse#using-the-node-cli 
     - with command
     ```
-        lighthouse https://www.websparks.sg --output json --output html --output-path "C:\Users\hawjeh.lee\Documents\Projects\lighthouse-presentation\cli\www-websparks-sg" --chrome-flags="--no-sandbox --headless --disable-gpu" --preset=desktop --only-categories=accessibility,best-practices,performance,seo,pwa
+        lighthouse https://www.websparks.sg 
+            --output json 
+            --output html 
+            --output-path "C:\Users\hawjeh.lee\Documents\Projects\lighthouse-presentation\cli\www-websparks-sg" 
+            --chrome-flags="--no-sandbox --headless --disable-gpu" 
+            --preset=desktop --only-categories=accessibility,best-practices,performance,seo,pwa
 
-        lighthouse https://www.websparks.sg --output json --output html --output-path "C:\Users\hawjeh.lee\Documents\Projects\lighthouse-presentation\cli\www-websparks-sg-mobile" --chrome-flags="--no-sandbox --headless --disable-gpu" --only-categories=accessibility,best-practices,performance,seo,pwa
+        lighthouse https://www.websparks.sg 
+            --output json 
+            --output html 
+            --output-path "C:\Users\hawjeh.lee\Documents\Projects\lighthouse-presentation\cli\www-websparks-sg-mobile" 
+            --chrome-flags="--no-sandbox --headless --disable-gpu" 
+            --only-categories=accessibility,best-practices,performance,seo,pwa
     ```
 
 - **Report Viewer** - https://googlechrome.github.io/lighthouse/viewer/ 
 
-## Porposed Tool - Lighthouse Desktop App
+---
 
-Download and install from here: https://drive.google.com/file/d/1krdWzxDQbDz7vV5SCwY3UGTlSqs6Ba4a/view?usp=sharing
+## 🛠 Proposed Tool — Lighthouse Desktop App
+
+Download from here: [Google Drive Link](https://drive.google.com/file/d/1krdWzxDQbDz7vV5SCwY3UGTlSqs6Ba4a/view?usp=sharing)
+
+The app screen:
 
 ![screen1](/assets/blogs/custom-lighthouse-tool/screen1.png)
 
-**Setup:**
+### App Setup:
 
-[ ] Sites TXT File: Select a site txt file, the content should be in this format:
+- Sites TXT File: Provide a .txt file containing URLs:
+    ```
+    https://www.websparks.sg
+    https://www.websparks.sg/about-us
+    ```
+- Destination Folder: Select a folder to save reports.
 
-```
-https://www.websparks.sg
-https://www.websparks.sg/about-us
-```
+***Threshold Reporting:*** The settings here is to facilitate the warning in summary report
 
-[ ] Destination Folder: Select the destination where the report should be exported 
+### Configuration Options:
 
-<br/>
-
-**Threshold Reporting:**
-The settings here is to facilitate the warning in summary report
-
-
-**Lighthouse Setting:**
-
-[ ] Generate Desktop Report - generate report for desktop browser
-
-[ ] Generate Mobile Report - generate report for mobile browser
-
-[ ] Generate Summary Report - generate overall summary report
-
-[ ] Show Warning in Summary Report - generate warning after compared the generated scores with threshold value
+- ✅ Generate Desktop Report
+- ✅ Generate Mobile Report
+- ✅ Generate Summary Report
+- ✅ Show Warnings in Summary (against threshold scores)
 
 
-**Output Report:**
+### Output Report:
 
 ![screen2](/assets/blogs/custom-lighthouse-tool/screen2.png)
 
-List of report for desktop report
+
+**List of report for desktop report**
 
 ![screen3](/assets/blogs/custom-lighthouse-tool/screen3.png)
 
-Sample mobile report
+
+**Sample mobile report**
 
 ![screen4](/assets/blogs/custom-lighthouse-tool/screen4.png)
 
-Sample summary report
+
+**Sample summary report**
 
 ![screen5](/assets/blogs/custom-lighthouse-tool/screen5.png)
 
-## Porposed Tool - CLI
 
-Firstly installed it to global npm package
+## 🔥 Proposed Tool — CLI Version
+
+First, install globally:
 
 ```
-cd ./cli && npm install -g . && npm link
+cd ./cli
+npm install -g .
+npm link
 ```
 
-then, run command below to get help messages.
+Then run:
 
 ```
 run-lighthouse -h
 ```
 
-Example:
+Example Output:
 
 ![screen6](/assets/blogs/custom-lighthouse-tool/screen6.png)
 
+**Output reports** are similar to the desktop app.
 
-Further information: git clone . && read -yourself
 
-Output report same as electron app.
-
-## Tools
+## 📂 Tools and Repositories
 
 - [GitHub - hawjeh/Run-Lighthouse](https://github.com/hawjeh/Run-Lighthouse)
 
-## References
+## 📚 References
 
 - [GitHub - GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse)
 - [GitHub - mikestead/lighthouse-batch](https://github.com/mikestead/lighthouse-batch)

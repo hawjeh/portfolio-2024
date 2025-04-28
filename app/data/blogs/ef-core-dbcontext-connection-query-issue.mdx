@@ -2,51 +2,68 @@
 title: "EF Core DbContext Connection issue"
 slug: "ef-core-dbcontext-connection-query-issue"
 thumbnail: "/assets/blogs/shared/ef_core.png"
-description: "My research - EF Core DbContext Connection / Query Issue"
-keyword: "EF Core, Database, C#"
+description: "Figure out how to handle DbContext threading issues in .NET Core applications using Entity Framework Core."
+keyword: "entity framework core dbcontext threading issue, ef core multiple dbcontext problem, .net core dbcontext best practice, avoid multiple dbcontext operations, ef core parallel query exception"
 category: "net"
 date: "2021-08-20"
 ---
 
-Was working on .NET Core application using Entity Framework Core as ORM to database. The application consists of multiple DbContext, public / authorized RESTful API with JWT token authentication.
+# Handling DbContext Threading Issues in .NET Core with Entity Framework Core
 
-The request & response flow as below:
+While working on a **.NET Core** application using **Entity Framework Core** (EF Core) as ORM, 
+we faced some threading issues due to multiple `DbContext` usage, JWT authentication, and API concurrency.
+
+---
+
+## 📈 Request & Response Flow
 
 ```
-Request –> 
-JWT Middleware to grab user object –> 
-Authorization Filter to stop multiple login -> 
-Touch Controller -> 
-Repository -> 
-Execute Query -> 
+Request → 
+JWT Middleware to grab user object → 
+Authorization Filter to stop multiple logins → 
+Touch Controller → 
+Repository → 
+Execute Query → 
 Response
 ```
 
-## Issue and Solution:
+
+## 🛑 Issue and Solution
+
+### Common Exceptions
+
+**1. Connection Closed Exception**
 
 ```
 An exception occurred while **iterating over** the results of a query for context type. 
 The connection is closed
 ```
 
-Check the through LINQ / Lambda query, make sure that has no second query holds queryable object before current queryable object has execute into a list or released.
+- **Cause**: A queryable object was still in memory while a second query was attempted.
+- **Solution**: Always ensure you materialize (e.g., `.ToList()`, `.FirstOrDefault()`) any queryable object before running another query.
 
+**2. Parallel Operation Exception**
+
+One or more errors occurred. (A second operation started on this context before a previous operation completed. This is usually caused by different threads using the same instance of DbContext.)
+
+- **Cause**: EF Core does not allow multiple parallel operations on the same `DbContext`.
+- **Solution**:
+    - Always `await` asynchronous operations before making another database call.
+    - Do not share the same `DbContext` across threads.
+
+
+## 🛠️ Troubleshooting Tips
+
+- ✅ **Reduce API calls**: Consolidate similar frontend requests to minimize concurrent database usage.
+- ✅ **Await all async calls**: Ensure each query is awaited before proceeding.
+- ✅ **Register DbContext as Transient**:
+```csharp
+  services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Transient);
 ```
-$One or more errors occurred. 
-(A second operation started on this context before a previous operation completed. 
-This is usually caused by **different threads** using the same instance of DbContext.)
-```
+- ✅ Use IServiceScopeFactory: Create a fresh scope for parallel tasks if unavoidable.
 
-As we know EF Core does not support multiple parallel operations being run on the same DbContext instance
 
-A few troubleshoots can carry out:
+## 📚 References
 
-- Reduce frontend API calls by consolidating similar API into a single / fewer endpoints
-- Make sure to await all async calls before continuing to use the context instance.
-- Register DbContext as transient service
-- Using IServiceScopeFactory for each thread
-
-## References
-
-- [DbContext Lifetime, Configuration, and Initialization](https://docs.microsoft.com/en-us/ef/core/dbcontext-configuration/#avoiding-dbcontext-threading-issues)
-- [c# - How to avoid DbContext threading issues](https://stackoverflow.com/questions/58754584/how-to-avoid-dbcontext-threading-issues-caused-by-frequent-httprequests)
+- [DbContext Lifetime, Configuration, and Initialization (Microsoft Docs)](https://docs.microsoft.com/en-us/ef/core/dbcontext-configuration/#avoiding-dbcontext-threading-issues)
+- [StackOverflow - How to avoid DbContext threading issues](https://stackoverflow.com/questions/58754584/how-to-avoid-dbcontext-threading-issues-caused-by-frequent-httprequests)

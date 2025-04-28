@@ -2,42 +2,51 @@
 title: "Sitefinity Schedule Task"
 slug: "sitefinity-schedule-task"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – My In-depth Investigate Schedule Task"
-keyword: ".NET, CMS, Sitefinity"
+description: "This article provides a practical overview of implementing and managing scheduled tasks in Sitefinity CMS, covering task execution flow, rescheduling logic, and database behavior using built-in ScheduledTask mechanics."
+keyword: "Sitefinity, Sitefinity scheduled task, Sitefinity CMS background job, Sitefinity ExecuteTask, Sitefinity ScheduleTask example, Sitefinity recurring job, Sitefinity task execution workflow"
 category: "sitefinity"
 date: "2020-09-20"
 ---
 
-## Intro
+# Introduction
 
-Scheduled tasks in Sitefinity CMS are objects that can execute a predefined set of operation at a particular point in time. 
+Scheduled tasks in **Sitefinity CMS** are components designed to execute predefined operations at a specific point in time.
 
-You can use scheduled task… (read from reference..)
+They are typically used to run background processes, automate repetitive jobs, or schedule time-based logic without direct user interaction.
 
-## Expected Workflow
+---
+
+# Expected Workflow
+
+The following diagram outlines the expected lifecycle of a scheduled task in Sitefinity:
 
 ![workflow](/assets/blogs/sitefinity-schedule-task/workflow.png)
 
-1. Schedule a task during application start
-2. Trigger ExecuteTask()
-3. Run ScheduleTask()
-4. Repeat 2-3
+1. A task is scheduled during application startup.
+2. The `ExecuteTask()` method is triggered when the execution time is reached.
+3. Within `ExecuteTask()`, the task reschedules itself via `ScheduleTask()`.
+4. Steps 2–3 repeat at the defined interval.
+
 
 ## Schedule Task Code
 
-There are two important method,
+There are two core methods involved:
 
-- ExecuteTask() -> It will trigger when date time now = execute_time
+- `ExecuteTask()` → Executes when the current time matches the scheduled execution time.
+- `ScheduleTask()` → Schedules a new task for future execution.
+
+### Execute Task
 
 ![code1](/assets/blogs/sitefinity-schedule-task/code1.png)
 
-- ScheduleTask() -> To schedule new task
+### Schedule Task
 
 ![code2](/assets/blogs/sitefinity-schedule-task/code2.png)
 
-Then we rewrite the code:
 
+Below is the rewritten implementation:
 
+#### Application Schedule Task Hook
 
 ```
 #SampleTask.cs
@@ -82,7 +91,7 @@ public class SampleTask : ScheduledTask
 }
 ```
 
-
+#### Application Startup Hook
 
 ```
 #Global.asax.cs
@@ -99,7 +108,7 @@ private void Bootstrapper_Bootstrapped(object sender, EventArgs e)
 }
 ```
 
-## Schedule Task Table
+#### Schedule Task Table
 
 **dbo.sf_scheduled_tasks**
 
@@ -128,26 +137,30 @@ private void Bootstrapper_Bootstrapped(object sender, EventArgs e)
     </tbody>
 </table>
 
-## Conclusion
 
-Then we try to put debug point at ScheduleTask() method and got conclusion below.
+### Conclusion
 
-**Steps**
+After placing breakpoints within the `ScheduleTask()` method, the following behavior was observed:
 
-Then check ScheduleTask() method,
 
-1. First time scall ScheduleTask(), the existingTask is null
-2. ExecuteTask() triggered
-3. Call ScheduleTask(), existingTask is not null
-4. Set a new execute time –> existingTask.ExecuteTime = executeTime;
-5. call RescheduleNextRun() and SaveChange()
+#### Execution Steps
 
-**Findings:**
-- Notice during the 3) step, the existing task is_running is true.
-- Notice right after 5) step, there will be two records in sf_scheduled_tasks table. one with is_running = true, one with is_running = false
-- About 10 seconds later, the record with is_running = true is gone
+1. The first call to `ScheduleTask()` finds `existingTask` as `null`.
+2. `ExecuteTask()` is triggered when the scheduled time is reached.
+3. Inside `ExecuteTask()`, `ScheduleTask()` is called again—this time `existingTask` is *not* null.
+4. A new execution time is assigned via `existingTask.ExecuteTime = executeTime`.
+5. `RescheduleNextRun()` and `SaveChanges()` are called to persist the update.
 
-Then we got the conclusion on the columns as below:
+
+#### Observations
+
+- At step 3, the `is_running` flag on the current task record becomes `true`.
+- Shortly after step 5, the database shows **two records**:
+  - One with `is_running = true`
+  - One with `is_running = false`
+- Approximately 10 seconds later, the record with `is_running = true` is automatically removed.
+
+This behavior helps clarify the meaning and lifecycle of each column in the scheduled task table.
 
 <table className="table table-bordered">
     <thead>
@@ -180,6 +193,8 @@ Then we got the conclusion on the columns as below:
     </tbody>
 </table>
 
-## References
+---
+
+## 📚 References
 
 - [Sitefinity Schedule Tasks](https://www.progress.com/documentation/sitefinity-cms/for-developers-scheduled-tasks)

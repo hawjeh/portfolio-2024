@@ -2,17 +2,22 @@
 title: "Sitefinity Table Structure"
 slug: "sitefinity-table-structure"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – Some tables linking and short description"
-keyword: "NET, CMS, Sitefinity"
+description: "Understand Sitefinity’s database structure including dynamic modules, content types, media storage, user profiles, roles, permissions, and how to manage orphaned records."
+keyword: "Sitefinity, Sitefinity database structure, Sitefinity CMS database tables, Sitefinity dynamic modules"
 category: "sitefinity"
 date: "2022-01-20"
 ---
 
-## Configuration in database
+# Sitefinity Database Structure: Key Tables and Relationships
+
+We discovered some relationships for key tables in Sitefinity.
+
+
+### Configuration in database
 
 - dbo.sf_xml_config_items
 
-## Dynamic Modules / Content Type
+### Dynamic Modules / Content Type
 
 - (module_name)_(content_type)
 
@@ -20,7 +25,7 @@ date: "2022-01-20"
 
 - sf_dynamic_content
 
-## Images of dynamic content
+### Images of dynamic content
 
 - (module_name)_(content_type) base_id - sf_dynamic_content base_id (system_parent_type)
 
@@ -30,7 +35,7 @@ date: "2022-01-20"
 
 - sf_media_file_links file_id - sf_chunks file_id
 
-## Images / Documents / Files / Videos
+### Images / Documents / Files / Videos
 
 - sf_libraries content_id - sf_media_content parent_id
 
@@ -38,17 +43,17 @@ date: "2022-01-20"
 
 - sf_media_file_links file_id - sf_chunks file_id
 
-## Schedule Tasks
+### Schedule Tasks
 
 - sf_scheduled_tasks
 
-## User & User Profile
+### User & User Profile
 
 - sf_users id - sf_user_profile user_id
 
 - sf_user_profile id - sf_sitefinity_profile id
 
-## User & Roles & Permission
+### User & Roles & Permission
 
 - sf_users id - sf_user_link user_id
 
@@ -56,13 +61,13 @@ date: "2022-01-20"
 
 - sf_roles id - sf_permissions principal_id
 
-## example: Permission on Page
+### example: Permission on Page
 
 - sf_permissions object_id - sf_permissions child_object_id (recursive)
 
 - sf_permissions object_id - sf_page_data page_node_id
 
-## Content Block in a page
+### Content Block in a page
 
 - sf_page_node content_id - sf_object_data page_id
 
@@ -79,6 +84,7 @@ date: "2022-01-20"
 
 - [Sitefinity KB - Remove Orphaned Entries](https://knowledgebase.progress.com/articles/Article/remove-orphaned-entries-from-sf-chunks-table-in-Sitefinity-database)
 
-### Reference
+
+## 📚 References
 
 - [Sitefinity Community - Get Value of Content Blocks in DB](https://community.progress.com/s/article/get-value-of-content-blocks-in-database)

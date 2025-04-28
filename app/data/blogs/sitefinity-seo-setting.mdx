@@ -2,43 +2,72 @@
 title: "Play around with Sitefinity SEO Setting"
 slug: "sitefinity-seo-setting"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity - My custom SEO Setting Journey with OpenGraph"
-keyword: ".NET, CMS, Sitefinity"
+description: "Configure SEO and Open Graph metadata in Sitefinity, enable social sharing image and meta tags"
+keyword: "Sitefinity SEO settings, Sitefinity Open Graph setup, Sitefinity meta tag mapping, Sitefinity CMS SEO best practices, improve Sitefinity page visibility, Sitefinity custom Open Graph field"
 category: "sitefinity"
 date: "2020-06-20"
 ---
 
-My testing Sitefinity version: V11.1
+# Sitefinity SEO and Open Graph Configuration Guide
 
-## Open graph Setting
+This guide walks you through configuring SEO and Open Graph metadata in **Sitefinity CMS** (tested on version **11.1**) to optimize your web content for both search engines and social media sharing.
 
-Setting → Advanced → System → SEO and OpenGraph
+---
 
-- Must enable both SEO and Open Graph Properties
+## Enable Open Graph and SEO Properties
+
+Navigate to:
+
+**Settings → Advanced → System → SEO and OpenGraph**
+
+To allow Sitefinity to generate SEO and Open Graph tags:
+
+- Ensure **SEO** is enabled
+- Ensure **Open Graph Properties** are enabled
+
+This step allows Sitefinity to inject meta tags for improved visibility in search results and on social platforms.
 
 ![opengraph_setting](/assets/blogs/sitefinity-seo-setting/opengraph_setting.png)
 
-## Site Name Setting
+---
 
-Setting → Advanced → Project → DefaultSite
+## Define Your Site Name
 
-- Customize Name for the site
+Navigate to:
+
+**Settings → Advanced → Project → DefaultSite**
+
+Here, you can customize the **Site Name** that will be used in Open Graph metadata (e.g., `og:site_name`). This helps define brand identity when your pages are shared online.
 
 ![default_setting](/assets/blogs/sitefinity-seo-setting/defaultsite_setting.png)
 
-## Page Setting
+---
 
-Pre-requisite: Create a CustomField: Image for social media **(OpenGraphImage)**
+## Configure Page-Level Settings
+
+Before mapping Open Graph fields at the page level:
+
+> ✅ **Pre-requisite**: Create a custom field named **OpenGraphImage** to represent the social sharing image.
+
+Once created, you can assign this image on individual pages to customize the visual preview when shared on platforms like Facebook or LinkedIn.
 
 ![page_setting](/assets/blogs/sitefinity-seo-setting/page_setting.png)
 
-## Result
+---
+
+## Example Output
+
+Below is an example of a resulting page with properly configured Open Graph tags. These tags control how content appears when shared on social media and improve visibility in search engines.
 
 ![result](/assets/blogs/sitefinity-seo-setting/result.png)
 
-## Result Mapping
+---
 
-<table className="table table-bordered">
+## Meta Tag Mapping Reference
+
+The table below shows how Sitefinity properties map to standard SEO and Open Graph meta tags:
+
+<table className="table table-bordered mb-4">
     <thead>
         <tr>
             <th>No</th>
@@ -91,6 +120,6 @@ Pre-requisite: Create a CustomField: Image for social media **(OpenGraphImage)**
 </table>
 
 
-## Result Mapping
+## 📚 Additional Reference
 
-- [Sitefinity - Association of custom fields](https://www.progress.com/documentation/sitefinity-cms/association-of-custom-fields-and-open-graph-meta-properties)
+For more advanced configuration, refer to Sitefinity's official documentation on [Association of custom fields and Open Graph meta properties](https://www.progress.com/documentation/sitefinity-cms/association-of-custom-fields-and-open-graph-meta-properties).

@@ -2,49 +2,98 @@
 title: "App Initialization upon Poll Recycle"
 slug: "app-initialization-upon-poll-recycle"
 thumbnail: "/assets/blogs/shared/iis.png"
-description: "Windows IIS App Initialization upon Poll Recycle"
-keyword: "Windows, Hosting, IIS, Web"
+description: "Learn how to keep your app always running using IIS application pool and site settings. A step-by-step guide to configuring IIS for proactive application initialization before the first user request."
+keyword: "IIS application initialization, preload IIS application, AlwaysRunning app pool configuration, reduce IIS cold start, enable preload IIS site, IIS initializationPage configuration, warm up ASP.NET application IIS, IIS Configuration Editor setup, proactive IIS application load, improve first request time in IIS"
 category: "iis"
 date: "2020-05-20"
 ---
 
-## What we want to achieve?
+# How to Initialize an IIS Application Before the First Visitor Request
 
-To spin up application (initialize) earlier than first visitor
+This guide demonstrates how to configure IIS so that your application initializes automatically — even before the first visitor arrives. 
 
-## App Pool pre-setup
+This helps reduce perceived cold start time by ensuring the app is already running.
 
-**Advanced Setting**
-- Start Mode: AlwaysRunning
-- Idle Time-out (minutes): 0
+
+## What We Want to Achieve
+
+We aim to **spin up (initialize) the application earlier** than the first user request, improving the responsiveness of the site after a recycle or server reboot.
+
+---
+
+
+## Application Pool Configuration
+
+### Advanced Settings
+
+To keep the application running continuously:
+
+- **Start Mode**: `AlwaysRunning`
+- **Idle Time-out (minutes)**: `0`
+
+This ensures the application pool remains active and does not shut down due to inactivity.
 
 ![advancedsetting](/assets/blogs/app-initialization-upon-poll-recycle/image-1.png)
 
-**Recycling Setting**
-- Fixed Interval: (To set at odd timing)
+
+### Recycling Settings
+
+- **Fixed Interval**: Set at **odd hours** (e.g., off-peak times) to avoid affecting user experience.
+
+This schedules app pool recycling at specific intervals while minimizing impact.
 
 ![recycleSetting](/assets/blogs/app-initialization-upon-poll-recycle/image-2.png)
 
-## Website pre-setup
 
-**Advanced Setting**
-- Preload Enabled: True
+## Website Configuration
+
+### Advanced Settings
+
+- **Preload Enabled**: `True`
+
+This setting instructs IIS to proactively load the website when the server starts or the application pool recycles.
 
 ![advancedsetting2](/assets/blogs/app-initialization-upon-poll-recycle/image-3.png)
 
-## Step to configure Application Initialization
 
-1/ Make sure IIS Feature **Application Initialization** is installed in the machine
+## Steps to Configure Application Initialization
+
+### 1. Install the Application Initialization Feature
+
+Ensure that the **Application Initialization** feature is installed on your Windows Server or development machine.
+
+You can install it via **Server Manager > Add Roles and Features** or through PowerShell.
 
 ![appsetting](/assets/blogs/app-initialization-upon-poll-recycle/image-4.png)
 
-2/ Go to your Web site in IIS > Management > Configuration Editor
+
+### 2. Open Configuration Editor in IIS
+
+- In IIS Manager, navigate to your target website.
+- Go to **Management > Configuration Editor**.
+
+This is where the application initialization settings are configured.
 
 ![iis](/assets/blogs/app-initialization-upon-poll-recycle/image-5.png)
 
-3/ Navigate to section: **system.webServer/applicationInitialization** and do setting below
-- (Collection): add a new record
-- hostName: Site URL (demo.local)
-- initializationPage: Path to a page (/home)
-- doAppInitAfterRestart: True
-- remapManagedREquestsTo to a static HTML (Optional)
+
+### 3. Configure the `applicationInitialization` Section
+
+Navigate to: ```system.webServer/applicationInitialization```
+
+And apply the following settings:
+
+- **Collection**: Add a new record
+  - **hostName**: Your site domain (e.g., `demo.local`)
+  - **initializationPage**: Path to the page to trigger app load (e.g., `/home`)
+  - **doAppInitAfterRestart**: `True`
+  - **remapManagedRequestsTo**: (Optional) Path to a static HTML file for placeholder response
+
+This configuration ensures the application initializes after a restart, optionally showing a placeholder during warm-up.
+
+
+## Summary
+
+With the above settings in place, IIS will proactively load and initialize your application. 
+
+This reduces the initial load time for users and creates a smoother experience, especially after app pool recycles or server restarts.

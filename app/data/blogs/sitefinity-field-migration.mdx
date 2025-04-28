@@ -2,93 +2,96 @@
 title: "Sitefinity Field Migration"
 slug: "sitefinity-field-migration"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – My experience to migrate custom fields"
-keyword: "NET, CMS, Sitefinity, C#, Reflection"
+description: "Learn how to migrate Sitefinity field type using a custom widget with C# Reflection"
+keyword: "Sitefinity, C# Reflection, field migration,"
 category: "sitefinity"
 date: "2021-06-20"
 ---
 
+# Sitefinity Field Migration: Fixing Postal Code Type from Number to ShortText
+
 ## Background Story
 
-We have setup a content type with PostalCode in Number type.
+We had originally set up a content type in Sitefinity with `PostalCode` as a **Number** field. While this sounds fine at first, we later learned that:
 
-Number in layman term means 0 ~ 9, however it is different in coding / Sitefinity; it means a decimal type in database column which is not logical to start with 0. 
+- In coding/Sitefinity, a Number field is actually mapped to a `decimal` column in SQL.
+- A decimal field cannot start with `0`, which makes it **unsuitable for Singapore postal codes**, as some begin with `0`.
 
-Therefore, when user create a new content, they could not enter Postal code start with 0 (we later founed out that some area of Singapore postal codes start with zero (0)).
+This caused data entry issues. So, we needed to fix our mistake and allow valid postal codes, including those starting with `0`.
 
-Lastly, we have to find a workaround / alternative to fix our mistake in the beginning.
+---
 
-## Steps to counter this issue
+## Steps to Counter This Issue
 
-1. Firstly, backup the existing content. It is to create a backup for any migration failure and have incident recovery if the plan failed.
+1. **Backup existing content**  
+   - Any schema change carries risk, so backup for disaster recovery.
 
-    - *Why?* It involved database schema changes (update in table columns) and it has risk.
+2. **Create a new `ShortText` field called `PostalCodes`**  
+   - `ShortText` maps to `nvarchar(255)` and supports leading zeros.
 
-2. Create a new field in ShortText type named PostalCodes.
+3. **Rename the old `PostalCode` field to `Postal Code (Old)`**  
+   - To avoid confusion between the old and new fields.
 
-    - *Why?* Sitefinity ShortText is a nvarchar(255) in database, so it will accept value start with 0.
+4. **Run the field migration tool**  
+   - See section below for how.
 
-3. Rename the label of current PostalCode field to Postal Code (Old).
+5. **Verify migrated data**
 
-    - *Why?* To reduce confusion between both Postal Code.
+6. **Rearrange UI components** (dashboard, frontend, forms)  
+   - For some reason, Sitefinity’s field arrangement may break on update.
 
-4. Run the field migration tool.
+7. **Delete old `PostalCode` field** once everything works.
 
-    - *How?* Explain in next section.
-
-5. Check and verify the migrated data
-
-6. Rearrange the dashboard navigation, front-end, listing and new/edit screen.
-
-    - No idea why the content type field arrangement in the front-end view will go off if there is changes.
-
-7. Lastly, delete the old PostalCode.
+---
 
 ## Migration Tool
 
 ![screen1](/assets/blogs/sitefinity-field-migration/screen-1.png)
 
-It is a very simple custom widget that consist of a input text box, a submit button and response message paragraph. 
+We created a simple admin-only widget with:
 
-It is also set to allowed only Administrators to access the function. 
+- A text input (for method name)
+- A submit button
+- A message area for result feedback
 
-To understand the context and make this works, we have study and decided to make use of c# Reflection technology. 
+We used **C# Reflection** to dynamically call migration methods from a generic utility class. Here’s what happens:
 
-The idea is to make use of C# Reflection technology to map the method name in a generic class. Then execute the function matched.
+---
 
-Lets key in some text and press submit, the result scenarios are below:
+### Scenarios
 
-<b>*If the method name is mismatched.*</b>
+**❌ Method name mismatch:**  
+Returns:  
+`“(method name) is an inappropriate method name.”`
 
-- It will return with error message: “(method name) is an inappropriate method name.“. Meaning the method name cannot be found in the class.
+**⚠️ Method exists, but new field not created:**  
+Returns:  
+`“Please setup the new field and run the migration tool again.”`
 
+**✅ Method exists and field is ready:**  
+Returns:  
+A list of migrated content items.
 
-<b>*If the method name is matched. However, you have yet to setup the new field.*</b>
-
-- It will return with error message: “Please setup the new field and run the migration tool again”. Meaning the method name is found but you have not setup the new field.
-
-
-<b>*If the method name is matched.*</b>
-
-- It will return with a list of migrated content type.
-
-TADAAA! Migration will be executed and old PostalCode will be copied to new PostalCode within a few seconds.
+Just type in the method name, hit submit, and boom — old postal codes are copied into the new field!
 
 ## Outcomes
 
-- Reflection technology learnt.
-- Reusable for any other field migration.
+- We learned and applied **Reflection** in real use case
+- Created a **reusable tool** for other field migrations
 
-## Further Enhancement
 
-- Include the migrated the content type, source & destination field as part of the HTTP POST request
-- Invoke the method with content type, source & destination field
+## Further Enhancements
+
+- Allow passing of content type, source field, and destination field via HTTP POST
+- Generalize the migration logic to be fully dynamic
+
 
 ## Code Snippets
 
-- [GitHub Gist](https://gist.github.com/hawjeh/175610ad762f6d7e05bebc753fd9aced)
+- 🔗 [GitHub Gist – Sitefinity PostalCode Migration Tool](https://gist.github.com/hawjeh/175610ad762f6d7e05bebc753fd9aced)
 
-## References
 
-- [Microsoft - Reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection)
-- [Sitefinity KB - Changing the type of a custom field](https://knowledgebase.progress.com/articles/Knowledge/changing-the-type-of-a-custom-field)
+## 📚 References
+
+- [Microsoft Docs – Reflection in C#](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection)
+- [Sitefinity KB – Changing Field Type](https://knowledgebase.progress.com/articles/Knowledge/changing-the-type-of-a-custom-field)

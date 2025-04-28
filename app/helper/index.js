@@ -44,20 +44,4 @@ const generateMetadataHelper = (title, url) => {
   }
 }
 
-const generateMetadataBlogPostHelper = (title, url, description, keyword, thumbnail) => {
-
-  const baseLink = 'https://hawjeh.com';
-
-  let helper = generateMetadataHelper(title, url);
-
-  helper.description = description;
-  helper.keywords = keyword;
-  helper.openGraph.images[0].url = baseLink + thumbnail;
-  helper.openGraph.description = description;
-  helper.twitter.images[0] = baseLink + thumbnail;
-  helper.twitter.description = description;
-
-  return helper;
-}
-
-export { generateMetadataHelper, generateMetadataBlogPostHelper };
+export { generateMetadataHelper };

@@ -2,37 +2,52 @@
 title: "Sitefinity Content Security Policy Setting"
 slug: "sitefinity-csp-setting"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – My experience with Content Security Policy Setting"
-keyword: "NET, CMS, Sitefinity"
+description: "Learn how to configure Content Security Policy (CSP) settings in Sitefinity CMS version 11 and above, along with precautions to avoid breaking the frontend or backend due to misconfigured security rules"
+keyword: "Sitefinity, Sitefinity CSP setting, Sitefinity CMS content security policy, Sitefinity web security settings, Sitefinity CSP header configuration"
 category: "sitefinity"
 date: "2020-12-20"
 ---
 
-## Where to find the setting?
+# Where to Find the Setting?
 
-There is an option to update CSP rule in backend dashboard setting from Sitefinity v11 onwards, under
-- /Sitefinity/Administration/Settings/Basic/WebSecurityBasicSettings
+Starting from **Sitefinity CMS version 11**, you can configure the **Content Security Policy (CSP)** rules directly in the backend dashboard:
+
+- Navigate to:  
+  `/Sitefinity/Administration/Settings/Basic/WebSecurityBasicSettings`
 
 ![setting1](/assets/blogs/sitefinity-csp-setting/setting-1.png)
 
+---
 
-Please **avoid remove** the default CSP rule as it has high chance you will break Sitefinity frontend / backend unwillingly.
+## ⚠️ Important Note
 
-Example front-end broken:
+**Do not remove the default CSP rules.**  
+Altering or removing them without understanding their implications may unintentionally **break both the frontend and backend interfaces** of Sitefinity.
+
+### Example of a broken frontend:
 
 ![screen1](/assets/blogs/sitefinity-csp-setting/screen-1.png)
 
-Example back-end broken:
+### Example of a broken backend:
 
 ![screen2](/assets/blogs/sitefinity-csp-setting/screen-2.png)
 
-## How to fix it?
+---
 
-<a href="https://drive.google.com/file/d/1Kk4TAXyAMZaoMv_F51XXKZZ6ihKeZF2x/view" target="_blank" rel="noopenner opreferrer">Download</a>
+## 🛠️ How to Fix It?
 
-Download this zip and amend the script (to your desired CSP rules).
-Then, execute the script in your database instance.
+If you’ve already made changes and encountered issues, you can restore the CSP rules using a database script.
 
-## References
+- <a href="https://drive.google.com/file/d/1f5h7E9isVYeXELoVLKLx33IWipSKzK4O/view" target="_blank" rel="noopener noreferrer">Download the script</a>
+
+1. Download and extract the ZIP file.
+2. Update the script with your intended CSP settings.
+3. Execute it on your Sitefinity database to apply the corrections.
+
+Alternatively, you can consider to [Creating a separate Web Security module / CSP headers for frontend and backend site](https://community.progress.com/s/article/Security-Creating-a-separate-Web-Security-module-CSP-headers-for-frontend-and-backend-site)
+
+---
+
+## 📚 References
 
 - [Sitefinity KB - CSP HTTP Header](https://knowledgebase.progress.com/articles/Article/content-security-policy-http-header)

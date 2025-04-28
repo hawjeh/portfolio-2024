@@ -2,54 +2,61 @@
 title: "My Code Packaging Tool"
 slug: "code-packaging-tool"
 thumbnail: "/assets/blogs/shared/package.png"
-description: "My mini project - Packaging tool using electron"
-keyword: "Desktop App, ElectronJS, JQuery"
+description: "A cross-platform Electron app that helps developers generate delta code packages from Git commits for deployment"
+keyword: "Desktop App, ElectronJS, Electron git diff extractor, git commit file extractor app, git-based deployment helper"
 category: "tool"
 date: "2021-07-20"
 ---
 
-## Purpose of the app
+# Git Code Packaging Tool (Electron App)
 
-- Quickly pull delta files based on git commit and fetch to destination folder
+## 🚀 Purpose of the App
 
-## Pre-requisite
+A lightweight utility to **quickly pull delta files based on Git commits** and package them into a **destination folder**. Great for developers working in environments requiring only changed files for deployment.
 
-- Git is installed and added to variable path
-- Proper git branching mechanism
-- No rubbish in Git repository
+---
 
-## How it works?
+## ✅ Pre-requisites
 
-1. Run the application
-
-2. Select
-    - Destination Folder: Destination for all delta files
-    - Repository Folder: Source folder of the git repository
-
-3. Git Branches will auto populate to the dropdown selection when Repository Folder is selected.
-
-![screen1](/assets/blogs/code-packaging-tool/screen1.png)
-
-![screen2](/assets/blogs/code-packaging-tool/screen2.png)
-
-4. Click Check Out and it will populate the list of Git Commit from current branch.
-
-![screen3](/assets/blogs/code-packaging-tool/screen3.png)
-
-![screen4](/assets/blogs/code-packaging-tool/screen4.png)
-
-5. Click Generate button and it will fetch the delta files to Destination Folder.
-
-6. The app also saved what you have selected. The next time you open the app, it will present your last selection.
+- Git is installed and added to your environment path
+- You follow proper Git branching practices
+- Your Git repository is clean and well-maintained (no junk files)
 
 
-## Repository / Exe to download
+## ⚙️ How It Works
 
-- [GitHub - hawjeh/PackagingTool](https://github.com/hawjeh/PackagingTool)
-- [App on GoogleDrive](https://drive.google.com/file/d/1cq26fkmkUsXSVqMqIWoiP0TlY3ZbnaJy/view)
+1. **Run the application**
 
-## References
+2. **Select folders**
+    - **Destination Folder**: Where the delta files will be saved
+    - **Repository Folder**: Path to the Git repository
+
+3. **Branches auto-populate** when you select a repository
+
+    ![screen1](/assets/blogs/code-packaging-tool/screen1.png)
+
+    ![screen2](/assets/blogs/code-packaging-tool/screen2.png)
+
+4. Click **Check Out** to see a list of Git commits from the current branch.
+
+    ![screen3](/assets/blogs/code-packaging-tool/screen3.png)
+
+    ![screen4](/assets/blogs/code-packaging-tool/screen4.png)
+
+5. Click **Generate** to fetch delta files (changed files between selected commits) into your destination folder.
+
+6. The app **remembers your last selection**, so it's quicker next time you open it.
+
+
+## 💾 Repository & Downloads
+
+- [GitHub – hawjeh/PackagingTool](https://github.com/hawjeh/PackagingTool)
+- [Download the App (Google Drive)](https://drive.google.com/file/d/1cq26fkmkUsXSVqMqIWoiP0TlY3ZbnaJy/view)
+
+---
+
+## 📚 References
 
 - [ElectronJS](https://www.electronjs.org/)
-- [CPU Monitor App](https://redstapler.co/simple-cpu-monitor-app-electron-tutorial-2020/)
-- [ElectronStore](https://www.npmjs.com/package/electron-store)
+- [Simple CPU Monitor App – Red Stapler](https://redstapler.co/simple-cpu-monitor-app-electron-tutorial-2020/)
+- [Electron Store (NPM)](https://www.npmjs.com/package/electron-store)

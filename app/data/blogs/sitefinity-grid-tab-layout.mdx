@@ -2,28 +2,46 @@
 title: "Sitefinity Grid Tab Layout"
 slug: "sitefinity-grid-tab-layout"
 thumbnail: "/assets/blogs/shared/sitefinity.jpg"
-description: "Sitefinity – My workable reusable Grid Tab Layout"
-keyword: ".NET, CMS, Sitefinity"
+description: "This article demonstrates how to create a flexible tab layout in Sitefinity CMS that supports up to 7 tabs, enabling a clean and expandable design for dynamic content presentation"
+keyword: "Sitefinity, Sitefinity tab layout, Sitefinity CMS tab interface, Sitefinity custom widget tabs, dynamic tab sections Sitefinity"
 category: "sitefinity"
 date: "2020-11-21"
 ---
 
-Overkill Tab Layout:
+# Overkill Tab Layout
 
-1. Support 7 Tabs
-2. Use css class: d-none to hide tab 4 – tab 7 by default
+This layout supports up to **7 tabs** in total. For a streamlined user experience, **tabs 4 through 7** are hidden by default using the Bootstrap utility class `d-none`.
 
-## Widget Editing screen:
+This allows content editors to future-proof the layout with extra tabs while keeping the interface clean and manageable for end users.
+
+---
+
+## Widget Editing Screen
+
+The following view represents the configuration interface within the Sitefinity backend, where content editors can manage the tab layout.
 
 ![screen1](/assets/blogs/sitefinity-grid-tab-layout/screen1.png)
 
-## Editing Screen:
+---
+
+## Editing Screen
+
+In editing mode, content editors have the ability to modify each individual tab, including title and content.
 
 ![screen2](/assets/blogs/sitefinity-grid-tab-layout/screen2.png)
 
-## Actual Screen:
+---
+
+## Actual Screen (Frontend)
+
+The live view of the tab layout. Tabs 1 to 3 are shown by default, while tabs 4 to 7 remain hidden unless revealed intentionally.
 
 ![screen3](/assets/blogs/sitefinity-grid-tab-layout/screen3.png)
 
-## My Sample Code
+---
+
+## Sample Code
+
+You can find a full implementation sample in the GitHub Gist below:
+
 - [GitHub Gist](https://gist.github.com/hawjeh/0a021153fea4a063f3f65b134b9aab75)

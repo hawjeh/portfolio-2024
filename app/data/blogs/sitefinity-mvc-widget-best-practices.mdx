@@ -8,80 +8,110 @@ category: "sitefinity"
 date: "2020-08-20"
 ---
 
-In this sample, I have implemented
-- IContentLocatableView
-- IHasCacheDependency (SubscribeCacheDependency)
-- HandleUnknownAction
+# Sitefinity MVC Widget Best Practices (Tested on Version 11.1)
 
-## ContentBaseController and ContentModelBase 
+This guide outlines key implementation patterns and best practices for building **custom MVC widgets in Sitefinity CMS**, based on a tested example using version **11.1**. 
 
-It has the main functionality for constructing all the out-of-the-box SEO properties, supporting listing and detail pages. When this class is implemented, you will be able to call the **InitializeMetadataDetailsViewBag** method, pass in it the item that is currently being displayed and based on the item and the SEO configurations of the site, Sitefinity will automatically create OG and normal SEO properties.
-Sitefinity GitHub
+The sample includes implementations of `IContentLocatableView`, `IHasCacheDependency`, and `HandleUnknownAction`, which together ensure enhanced SEO, cache control, and graceful routing.
 
-**To verify IContentLocatableView**, we have to 
-- Remove the custom widget
-- Publish page
-- Add the custom widget
-- Publish page
+---
 
-Then go to the content type page, either
+## Core Implementation Overview
 
-1/ 
+### ✅ Interfaces Implemented:
+- `IContentLocatableView`
+- `IHasCacheDependency` (`SubscribeCacheDependency`)
+- `HandleUnknownAction`
+
+
+## 1. `ContentBaseController` and `ContentModelBase`
+
+These foundational classes encapsulate the core logic for generating out-of-the-box SEO properties, supporting both **listing** and **detail** pages.
+
+Once integrated, calling the `InitializeMetadataDetailsViewBag` method—while passing in the content item being displayed—enables Sitefinity to automatically generate Open Graph (OG) tags and standard SEO metadata based on the site’s configuration.
+
+> 📚 Explore the sample implementation: **[Sitefinity GitHub Repository](https://gist.github.com/hawjeh/48cf6c96f2fc734105a188af8dbdaeb0)**
+
+
+### Verifying `IContentLocatableView`
+
+To verify that `IContentLocatableView` is functioning correctly:
+
+1. **Remove** the custom widget from the page
+2. **Publish** the page
+3. **Re-add** the custom widget
+4. **Publish** again
+
+Then, navigate to the related content type page. You should see the location registered properly.
 
 ![step1](/assets/blogs/sitefinity-mvc-widget-best-practices/step1.png)
 
-2/
-
 ![step2](/assets/blogs/sitefinity-mvc-widget-best-practices/step2.png)
 
-## IHasCacheDependency
 
-The implementation of this interface will provide proper cache invalidation for the respective content type, in the custom widget. 
+## 2. `IHasCacheDependency` – Smart Cache Invalidation
 
-When developing your own user or custom widget, to invalidate the cache, you need to implement the appropriate cache dependencies in order. 
+Implementing this interface in your widget allows Sitefinity to correctly **invalidate the cache** when related content changes. 
 
-This way, when you create or modify a content item, the widget cache is invalidated in order to reflect the latest changes in the content. 
+This is especially important for content types like News or Events.
 
-For example, if you place an MVC widget displaying news items on the page. When you change the news content, the cache of the page with the widget is invalidated and the controller action is not called.
+For example, placing an MVC widget that displays **News items** on a page means:
 
-## HandleUnknownAction
+- If a News item is updated,
+- The widget’s cache is automatically invalidated,
+- And fresh content is served immediately without calling the controller unnecessarily.
 
-With this method, the Controller should mark the Url Parameters as resolved, so the system knows that this Url and parameters will be handled and this is not a 404 Not Found.
 
-**To verify HandleUnknownAction**, we have to
+## 3. `HandleUnknownAction` – Graceful Fallback Routing
 
-- Visit the url where the custom widget is installed
-- Go to the path where the custom widget does not support.
+The `HandleUnknownAction` method ensures that unexpected route parameters do not lead to **404 Not Found** errors.
 
-Eg. Install custom widget at About page, have
+Instead, it marks the URL as handled and redirects users to a relevant view.
 
-- Have /index method and HandleUnknownAction only
-- Visit /Detail of About page, it will route to the page specified at HandleUnknownAction
 
-## Idea after implemented recommendation above
+### ✅ To test this:
+1. Install the custom widget on a page (e.g., `/about`)
+2. Ensure your controller includes:
+   - An `/index` method
+   - The `HandleUnknownAction` method
+3. Visit an undefined path like `/about/detail` — the request will be resolved by `HandleUnknownAction`.
 
-When editor publish a page with the custom widget installed. IContentLocatble’s GetLocations will notify Sitefinity to register the URL where the content type will be display to public.
+---
 
-Implementing by IHasCacheDependency / SubscribeCacheDependency() at custom widget’s (controller) code. It will invalidate cache when a new content type is created.
+## Putting It All Together
 
-Create a HandleUnknownAction to route 404 to a meaningful page.
+Once the recommendations are implemented:
 
-## Documentation / References:
+- `IContentLocatableView` will **register public URLs** for the content type upon publishing, ensuring SEO and sitemap alignment.
+- `IHasCacheDependency` (via `SubscribeCacheDependency()`) will **automatically invalidate cache** when new items are created or edited.
+- `HandleUnknownAction` will provide **graceful fallback routing**, improving UX and error handling.
 
-- [Sitefinity KB - Best practies when implementing custom mvc widgets](https://knowledgebase.progress.com/articles/Article/Best-practices-when-implementing-custom-MVC-Widgets)
-- [Sitefinity - Register content location with your custom widgets](https://www.progress.com/documentation/sitefinity-cms/for-developers-register-content-location-with-your-custom-widgets)
-- [Sitefinity - Implement cache dependencies](https://www.progress.com/documentation/sitefinity-cms/implement-cache-dependencies)
-- [Sitefinity KB - How to implement icontentlocatableview for custom widgets](https://knowledgebase.progress.com/articles/Article/how-to-implement-icontentlocatableview-for-custom-widgets)
 
-## Recommendation
-The recommended solution is extending the view of content type generated
-(auto generated when a new custom module is created).
-By extending the view, all Sitefinity best practices are inherited by default.
-eg. (Refer to bootstrap / boockstrap4 folder)
+## References & Official Docs
+
+- [Best Practices for Custom MVC Widgets (Sitefinity KB)](https://knowledgebase.progress.com/articles/Article/Best-practices-when-implementing-custom-MVC-Widgets)
+- [Register Content Location for Custom Widgets](https://www.progress.com/documentation/sitefinity-cms/for-developers-register-content-location-with-your-custom-widgets)
+- [Implement Cache Dependencies](https://www.progress.com/documentation/sitefinity-cms/implement-cache-dependencies)
+- [How to Implement `IContentLocatableView`](https://knowledgebase.progress.com/articles/Article/how-to-implement-icontentlocatableview-for-custom-widgets)
+
+
+### 📌 Recommendation
+
+Extend the **auto-generated views** of your content type module (e.g., `ImageGallery`) to inherit best practices by default. 
+
+This aligns your widget with Sitefinity's architectural standards.
+
+**Example:**
+
+``` 
 /ImageGallery
-  /List.MyGallery.cshtml
-  /Detail.MyGallery.cshtml
+/List.MyGallery.cshtml
+/Detail.MyGallery.cshtml
+```
 
-## My Sample Code
+This approach ensures SEO metadata, content routing, and cache behavior work out of the box.
 
-- [GitHub Gist - hawjeh/sitefinity-mvc-widget-best-practice](https://gist.github.com/hawjeh/48cf6c96f2fc734105a188af8dbdaeb0)
+
+## 🔗 Sample Code
+
+- GitHub Gist: [hawjeh/sitefinity-mvc-widget-best-practice](https://gist.github.com/hawjeh/48cf6c96f2fc734105a188af8dbdaeb0)
