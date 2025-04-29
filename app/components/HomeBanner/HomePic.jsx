@@ -1,12 +1,15 @@
+import Image from 'next/image'
 import Cartoon from '../../assets/imgs/cartoon.webp'
 
 export default function HomePic({ style }) {
     return (
-        <img
+        <Image
             src={Cartoon.src}
             className={style}
             alt="Haw Jeh Picture"
-            loading="lazy"
+            width={450}
+            height={500}
+            priority={true}
         />
     )
 }
