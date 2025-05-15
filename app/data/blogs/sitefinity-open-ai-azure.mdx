@@ -130,6 +130,34 @@ You can also view the translation status by navigating to **/Sitefinity/Administ
 
 ![Translation Status](/assets/blogs/sitefinity-open-ai-azure/screen-10.png)
 
+## 🔄 Glossary Context
+
+For glossary (in term of phrase and sentence), we are able to use Custom Translator + Azure AI Translator.
+
+What we have tried:
+
+1. First, upload a phrase dictionary set in excel.
+
+   The custom translator dashboard can see the excel content we have uploaded.
+
+   ![Phrase Dictionary](/assets/blogs/sitefinity-open-ai-azure/screen-11.png)
+
+2. Then submit to train the model and deploy it (to deploy need to set Translator AI pricing tier from S0 to S1 or upper tier).
+
+   ![Model Training](/assets/blogs/sitefinity-open-ai-azure/screen-12.png)
+
+3. You will have to confirm it is working. In here, we do API testing via Postman to confirm the custom translation works.
+
+   ![API Testing](/assets/blogs/sitefinity-open-ai-azure/screen-13.png)
+
+4. Then, configure in Sitefinity. Add in the `category=<guid>` in the queryString setting.
+
+   ![Sitefinity Configuration](/assets/blogs/sitefinity-open-ai-azure/screen-14.png)
+
+5. Last, try to send a translation, and it works!
+
+   ![Sitefinity Translation](/assets/blogs/sitefinity-open-ai-azure/screen-15.png)
+
 
 ## 📚 References
 
@@ -137,6 +165,9 @@ You can also view the translation status by navigating to **/Sitefinity/Administ
 - [Sitefinity - Integrate with AI Service - API Version and Model](https://www.progress.com/documentation/sitefinity-cms/integrate-ai-services#azure-openai-api-versions-and-ai-models)
 - [Sitefinity - Unable to work with openai plugin](https://community.progress.com/s/article/unable-to-work-with-openai-plug-in)
 - [Sitefinity - Microsoft Machine Translator Connector](https://www.progress.com/documentation/sitefinity-cms/microsoft-machine-translator-connector)
+- [Microsoft - Custom Translator](https://learn.microsoft.com/en-us/azure/ai-services/translator/custom-translator/overview)
+- [Medium - Guide to Azure Custom Translator](https://medium.com/@ankitkumarjha0407/a-guide-to-azure-custom-translator-with-real-life-examples-dictionary-set-c51faf33afcb)
+
 
 ## 📦 Code Repository
 
