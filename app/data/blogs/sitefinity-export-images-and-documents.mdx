@@ -1,0 +1,139 @@
+---
+title: "Sitefinity export images and documents"
+slug: "sitefinity-export-images-and-documents"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "To export uploaded images and documents from Sitefinity instance."
+keyword: "Sitefinity, Sitefinity Images, Sitefinity Documents, Sitefinity assets"
+category: "sitefinity"
+date: "2025-12-20"
+---
+
+## 🚩 Problem Statement
+
+The client wants to export images and documents for achieval purpose.
+
+We have the database in local to perform archive task.
+
+We have gone through the Sitefinity KB 
+
+- [Download all images](https://community.progress.com/s/article/how-to-download-all-the-images-from-sitefinity-libraries)
+- [Execute Code in WebForm](https://community.progress.com/s/article/Execute-code-provided-by-sitefinity-support-in-a-web-form)
+
+It is basically using the OOTB Sitefinity API to query the files and save in local storage.
+
+---
+
+## 💡 Solution
+
+1. Use the sample package from [Execute Code in WebForm](https://community.progress.com/s/article/Execute-code-provided-by-sitefinity-support-in-a-web-form).
+
+2. Follow the step to include the files in Sitefinity project.
+
+3. Use the code from [Download all images](https://community.progress.com/s/article/how-to-download-all-the-images-from-sitefinity-libraries) in the aspx.cs file.
+
+4. Run the Sitefinity instance and ensure you have the admin login to the Sitefinity backend dashboard
+
+5. To avoid DB connection close, make sure you download them by chunk. In my case, I ensure the ordering by ```.OrderBy(x => x.LastModified)``` and then did a 500 chunk basis ```.skip(500).take(500)```.
+
+6. Futhermore, you can do the same for uploaded documents, by using ```.GetDocuments()``` method.
+
+7. If unsure the user have rights to access the file, wrap the code with ```SystemManager.RunWithElevatedPrivilege``` to elevate the query priviledge.
+
+8. Also, please make sure the image / document url is correct. My case was routing to production url with http, it keeps throw error until I have to replace it with localhost.
+
+---
+
+## 🔗 My Sample Code
+
+Reusing the sample package from [Execute Code in WebForm](https://community.progress.com/s/article/Execute-code-provided-by-sitefinity-support-in-a-web-form).
+
+```
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using Telerik.Sitefinity.Abstractions;
+using Telerik.Sitefinity.GenericContent.Model;
+using Telerik.Sitefinity.Modules.Libraries;
+using Telerik.Sitefinity.Services;
+
+
+namespace SitefinityWebApp
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        private string UpdateUrl(string url)
+        {
+            if (url.StartsWith("https://www.xxx.com/"))
+            {
+                return url.Replace("https://www.xxx.com/", "http://localhost/");
+            }
+
+            if (url.StartsWith("http://www.xxx.com/"))
+            {
+                return url.Replace("http://www.xxx.com/", "http://localhost/");
+            }
+
+            return url;
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            var skipValue = 0; // incremental manually
+            var take = 500;
+            var errorList = new List<string>();
+            var rootFolder = @"c:\ImagesFolder\";
+
+            SystemManager.RunWithElevatedPrivilege(p =>
+            {
+                LibrariesManager librariesManager = LibrariesManager.GetManager();
+                // Use GetDocuments() for documents
+                var allImages = librariesManager.GetImages().Where(i => i.Status == ContentLifecycleStatus.Master).OrderBy(x => x.LastModified);
+                // var totalImages = allImages.Count();
+                var takeImages = allImages.Skip(skipValue).Take(500);
+                foreach (var image in takeImages)
+                {
+                    var imageUrl = image.Url;
+                    try
+                    {
+                        if (imageUrl != null)
+                        {
+                            var imgTitle = image.Title;
+                            var imgExt = image.Extension;
+                            var localFilename = rootFolder + imgTitle + imgExt;
+
+                            int counter = 1;
+                            while (File.Exists(localFilename))
+                            {
+                                localFilename = Path.Combine(
+                                    rootFolder,
+                                    $"{imgTitle}({counter}){imgExt}"
+                                );
+                                counter++;
+                            }
+
+                            using (WebClient client = new WebClient())
+                            {
+                                imageUrl = UpdateUrl(imageUrl);
+                                var uri = new Uri(imageUrl);
+                                client.DownloadFile(uri, localFilename);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        errorList.Add(UpdateUrl(imageUrl));
+                        Log.Write("Download Error => " + ex.Message + " " + imageUrl);
+                    }
+                }
+            });
+
+            if (errorList.Count > 0)
+            {
+                Log.Write(string.Join("\r\n", errorList).ToString());
+            }
+        }
+    }
+}
+```
