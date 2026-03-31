@@ -1,18 +1,23 @@
 'use client';
 
-import { useCallback } from "react";
-import Particles from "react-particles";
-import { loadSlim } from "tsparticles-slim";
+import { useEffect, useState } from "react";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 
 export default function LinkParticles() {
-    const particlesInit = useCallback(async engine => {
-        await loadSlim(engine);
+    const [init, setInit] = useState(false);
+
+    useEffect(() => {
+        initParticlesEngine(async (engine) => {
+            await loadSlim(engine);
+        }).then(() => {
+            setInit(true);
+        });
     }, []);
 
     return (
-        <Particles
+        init && <Particles
             id="tsparticles"
-            init={particlesInit}
             options={{
                 background: {
                     color: {

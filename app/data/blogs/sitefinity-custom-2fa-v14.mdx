@@ -1,0 +1,67 @@
+---
+title: "Sitefinity Custom 2FA Authentication v14+"
+slug: "sitefinity-custom-2fa-v14"
+thumbnail: "/assets/blogs/shared/sitefinity.jpg"
+description: "Secure your Sitefinity CMS login using custom two-factor authentication (2FA). This step-by-step guide walks you through creating a new user field, configuring token authentication, and integrating QR code-based login with Authenticator apps"
+keyword: "Sitefinity, Sitefinity two factor authentication, Sitefinity 2FA setup, Sitefinity custom login"
+category: "sitefinity"
+date: "2026-03-20"
+---
+
+## 💡 Revamp the older implementation
+
+1. The previous [custom 2fa](https://hawjeh.com/blogs/sitefinity-custom-2fa) we did is outdated as Sitefinity evolved
+2. Intercept the ILoginCompletedEvent and using cookie to determine enter the 2fa screen
+3. Using ASP.NET ```Application_PostAuthenticateRequest``` to ensure no escape from the validate screen
+
+---
+
+## ✅ Steps
+
+### 1. Add a Custom Field to User Profile
+
+Go to:
+
+` /Sitefinity/Administration/ProfileTypes -> Basic Profile `
+
+Add 2 custom fields – `Enable2Fa` and `AuthCode` (ShortText) in the user profile.
+
+The AuthCode can set as a hidden field.
+
+![screen1](/assets/blogs/sitefinity-custom-2fa-v14/screen-1.png)
+
+
+### 2. Create a validate 2fa screen
+
+Using the Custom Validate 2Fa widget
+
+### 3. Update an Exiting User
+
+- Set Enable2Fa is true and save 
+- An email with QR Code will be receive
+- Set up the Authenticator app on your mobile
+
+![screen2](/assets/blogs/sitefinity-custom-2fa-v14/screen-2.png)
+
+### 4. Test Login 
+
+Go to `/Sitefinity`, it will route you to the validate screen after enter correct username & password
+
+![screen3](/assets/blogs/sitefinity-custom-2fa-v14/screen-3.png)
+
+
+### 🔗 The Solution Code Snippets:
+
+Refers to [my v14 branch](https://github.com/hawjeh/Sitefinity2fa/tree/v14)
+
+## 📌 Summary:
+
+- Created 2 custom fields: Enable2Fa (Yes/No) and AuthCode (ShortText) for 2fa login
+- User receive email with QR Code for Google / Microsoft Authenticator
+- Tested login with Sitefinity v14.4
+
+
+## 📚 References
+
+- [Haw Jeh - Sitefinity Custom 2FA](https://hawjeh.com/blogs/sitefinity-custom-2fa)
+- [Sitefinity - Profile Events](https://www.progress.com/documentation/sitefinity-cms/for-developers-profile-events)

@@ -22,9 +22,9 @@ export default function ResumeIntro() {
           <h1 className={nameClass}>Haw Jeh</h1>
           <h2>Solution <span className="text-red">Wizard</span> 🚀</h2>
           <p>
-            Haw Jeh has unrelenting passion for all things tech. <br />
-            He leaves no stone unturned to deliver the best services and solutions.
-            <br />
+            Spearheaded project initiatives, fostering collaboration among cross-functional teams. 
+            He practiced agile methodologies to enhance productivity and streamline workflows.
+            His leadership ensured timely project delivery while maintaining high-quality standards, resulting in a significant boost in team performance and morale.<br/>
             He have been honoured as Progress Sitefinity Champions <a className='text-link' href="https://www.progress.com/blogs/welcoming-progress-sitefinity-champions-2024">2024</a> | <a className='text-link' href="https://www.progress.com/blogs/welcoming-progress-sitefinity-champions-2025">2025</a>
           </p>
         </div>
